@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Organigrama — Casa Yuma</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#FAF9F6;--surface:#FFFFFF;--surface2:#F4F2EE;
+  --border:rgba(0,0,0,0.09);--border-strong:rgba(0,0,0,0.18);
+  --text:#1A1916;--text2:#6B6860;--text3:#A09D96;
+  --green:#3B5A3A;--green-light:#C8D8A2;
+  --r:8px;--rlg:12px;--line:rgba(0,0,0,0.15);
+}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+header{background:var(--surface);border-bottom:0.5px solid var(--border);padding:16px 28px;display:flex;align-items:center;gap:14px;position:sticky;top:0;z-index:50}
+.logo-mark{width:36px;height:36px;background:var(--green);border-radius:8px;display:flex;align-items:center;justify-content:center}
+.logo-mark svg{width:20px;height:20px;fill:none;stroke:var(--green-light);stroke-width:1.5}
+.hdr-title{font-size:16px;font-weight:500}
+.hdr-sub{font-size:12px;color:var(--text2);margin-top:1px}
+.hdr-right{margin-left:auto;display:flex;align-items:center;gap:10px}
+.search-box{font-family:'DM Sans',sans-serif;font-size:13px;padding:6px 12px;border-radius:20px;border:0.5px solid var(--border-strong);background:var(--bg);color:var(--text);outline:none;width:200px;transition:border-color .15s}
+.search-box:focus{border-color:var(--green)}
+.search-box::placeholder{color:var(--text3)}
+.hint{font-size:11px;color:var(--text3);white-space:nowrap}
+main{padding:24px 28px;overflow-x:auto}
+.stats{display:flex;gap:10px;margin-bottom:24px;flex-wrap:wrap}
+.stat{background:var(--surface);border:0.5px solid var(--border);border-radius:var(--r);padding:11px 16px;min-width:140px}
+.stat-n{font-size:22px;font-weight:500}
+.stat-l{font-size:12px;color:var(--text2);margin-top:2px}
+.filters{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:24px}
+.fbtn{font-family:'DM Sans',sans-serif;font-size:12px;padding:5px 14px;border-radius:20px;border:0.5px solid var(--border-strong);background:transparent;color:var(--text2);cursor:pointer;transition:all .15s}
+.fbtn:hover{background:var(--surface2);color:var(--text)}
+.fbtn.active{background:var(--green);color:var(--green-light);border-color:var(--green)}
+.tree-wrap{min-width:960px}
+
+/* Draggable dept sections */
+.dept-section{margin-bottom:36px;transition:opacity .15s}
+.dept-section.dragging{opacity:.4;cursor:grabbing}
+.dept-section.drag-over{outline:2px dashed var(--green);outline-offset:6px;border-radius:var(--r)}
+.dept-label{font-size:11px;font-weight:500;letter-spacing:.07em;text-transform:uppercase;color:var(--text3);margin-bottom:18px;display:flex;align-items:center;gap:8px;cursor:grab;user-select:none}
+.dept-label:active{cursor:grabbing}
+.dept-label::after{content:'';flex:1;height:0.5px;background:var(--border)}
+.dept-dot{width:10px;height:10px;border-radius:3px;flex-shrink:0}
+.drag-handle{font-size:14px;color:var(--text3);margin-right:2px;cursor:grab}
+.dept-roots{display:flex;gap:32px;flex-wrap:wrap;align-items:flex-start}
+
+/* Branch & node */
+.branch{display:flex;flex-direction:column;align-items:center;position:relative}
+.branch-children{display:flex;gap:10px;position:relative;justify-content:center}
+.node{display:flex;flex-direction:column;align-items:center;padding:8px 8px 10px;background:var(--surface);border:0.5px solid var(--border);border-radius:var(--rlg);cursor:pointer;transition:all .15s;width:108px;flex-shrink:0;position:relative}
+.node:hover{border-color:var(--border-strong);box-shadow:0 2px 8px rgba(0,0,0,.07);transform:translateY(-1px)}
+.node.dimmed{opacity:.18;pointer-events:none}
+.node.highlighted{border-color:var(--green);outline:1px solid var(--green)}
+.node.vacante{border-style:dashed;opacity:.45;cursor:default}
+.node.vacante:hover{transform:none;box-shadow:none}
+.node-avatar{width:50px;height:50px;border-radius:50%;overflow:hidden;margin-bottom:7px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:500}
+.node-avatar img{width:100%;height:100%;object-fit:cover;border-radius:50%}
+.node-name{font-size:11px;font-weight:500;text-align:center;line-height:1.3;margin-bottom:2px}
+.node-role{font-size:10px;color:var(--text2);text-align:center;line-height:1.3}
+.node-nick{font-size:9px;color:var(--text3);text-align:center;margin-top:2px}
+.conn-v{width:1px;background:var(--line);margin:0 auto}
+.conn-h{height:1px;background:var(--line);position:absolute;top:0}
+.conn-tick{width:1px;background:var(--line);position:absolute;top:0}
+
+/* Modal */
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.28);z-index:200;align-items:center;justify-content:center;padding:20px}
+.overlay.open{display:flex}
+.modal{background:var(--surface);border:0.5px solid var(--border);border-radius:var(--rlg);padding:20px;width:290px;max-width:100%;position:relative}
+.modal-x{position:absolute;top:12px;right:12px;background:none;border:none;cursor:pointer;color:var(--text2);font-size:20px;line-height:1}
+.m-avatar{width:54px;height:54px;border-radius:50%;overflow:hidden;margin-bottom:10px;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:500}
+.m-name{font-size:15px;font-weight:500;line-height:1.3}
+.m-role{font-size:13px;color:var(--text2);margin:3px 0 14px}
+.m-table{width:100%;font-size:12px;border-collapse:collapse}
+.m-table td{padding:5px 0;border-bottom:0.5px solid var(--border);vertical-align:top}
+.m-table tr:last-child td{border:none}
+.m-table td:first-child{color:var(--text2);width:90px}
+.hidden{display:none!important}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo-mark">
+    <svg viewBox="0 0 20 20"><path d="M10 2 L18 8 L18 18 L2 18 L2 8 Z" stroke-linejoin="round"/><rect x="7" y="12" width="6" height="6"/></svg>
+  </div>
+  <div>
+    <div class="hdr-title">Casa Yuma</div>
+    <div class="hdr-sub">Organigrama de Personal</div>
+  </div>
+  <div class="hdr-right">
+    <span class="hint">&#9776; Arrastra las áreas para reordenar</span>
+    <input class="search-box" type="text" placeholder="Buscar persona o puesto&hellip;" id="search"/>
+  </div>
+</header>
+<main>
+  <div class="stats" id="stats"></div>
+  <div class="filters">
+    <button class="fbtn active" onclick="filterDept('all',this)">Todos</button>
+    <button class="fbtn" onclick="filterDept('Administración',this)">Administración</button>
+    <button class="fbtn" onclick="filterDept('F&B',this)">Alimentos &amp; Bebidas</button>
+    <button class="fbtn" onclick="filterDept('Mantenimiento',this)">Mantenimiento</button>
+    <button class="fbtn" onclick="filterDept('Ama de llaves',this)">Housekeeping</button>
+    <button class="fbtn" onclick="filterDept('Recepción',this)">Recepción</button>
+  </div>
+  <div class="tree-wrap" id="tree"></div>
+</main>
+<div class="overlay" id="overlay" onclick="closeModal(event)">
+  <div class="modal">
+    <button class="modal-x" onclick="closeModal()">&#x2715;</button>
+    <div id="modal-body"></div>
+  </div>
+</div>
+<script>
+const DEPT_CFG = {
+  "Administración":{color:"#1D9E75",light:"#E1F5EE",text:"#085041"},
+  "F&B":           {color:"#BA7517",light:"#FAEEDA",text:"#412402"},
+  "Mantenimiento": {color:"#185FA5",light:"#E6F1FB",text:"#042C53"},
+  "Ama de llaves": {color:"#993556",light:"#FBEAF0",text:"#4B1528"},
+  "Recepción":{color:"#534AB7",light:"#EEEDFE",text:"#26215C"},
+};
+const DEPT_NAMES = {
+  "Administración":"Administración",
+  "F&B":"Alimentos & Bebidas",
+  "Mantenimiento":"Mantenimiento & Seguridad",
+  "Ama de llaves":"Housekeeping / Ama de Llaves",
+  "Recepción":"Recepción & Servicios",
+};
+let DEPTS = ["Administración","F&B","Mantenimiento","Ama de llaves","Recepción"];
+
+const PEOPLE = [
+  {id:1,  name:"Manuel Arturo Otazo Aponte",          short:"Manuel Otazo",         role:"Gerente General",              dept:"Administración",email:"manuotazo@gmail.com",                    bday:"14/08/1990",jefe:null},
+  {id:2,  name:"Amairani Jared Rojas Alvarado",        short:"Amairani Rojas",       role:"Gerente Administrativo",       dept:"Administración",email:"mayjar1231@gmail.com",                   bday:"28/11/1995",jefe:1},
+  {id:3,  name:"Roberto Arturo Cruz Zarate",           short:"Roberto Cruz",         role:"Gerente Administrativo",       dept:"Administración",email:"robertok9.cruz@gmail.com",               bday:"22/08/1994",jefe:1},
+  {id:4,  name:"VACANTE",                              short:"Vacante",              role:"Gerente de Compras",           dept:"Administración",email:"",bday:"",jefe:1,vacante:true},
+  {id:5,  name:"Horacio Muñoz Martínez",    short:"Horacio Muñoz",   role:"Coord. Ventas y Eventos",      dept:"Administración",email:"horaciomumtz@gmail.com",                 bday:"20/09/1991",jefe:1},
+  {id:6,  name:"Alejandro Uriostegui Hernández", short:"Alejandro Uriostegui", role:"Dir. Alimentos y Bebidas",     dept:"F&B",           email:"15alexxuh@gmail.com",                    bday:"09/02/1998",jefe:null},
+  {id:7,  name:"Ricardo Ojeda Montuy",                 short:"Ricardo Ojeda",        role:"Gerente de A&B",               dept:"F&B",           email:"ricardomontuy@gmail.com",                bday:"27/02/1995",jefe:6},
+  {id:8,  name:"VACANTE",                              short:"Vacante",              role:"Aux. Admin A&B",               dept:"F&B",           email:"",bday:"",jefe:6,vacante:true},
+  {id:9,  name:"Ernesto Hernandez Ortiz",              short:"Ernesto Hernández",role:"Capitán",               dept:"F&B",           email:"ernesto.riquelme_10@hotmail.fr",         bday:"14/06/1986",jefe:7},
+  {id:10, name:"Scarlet Libertad Rios Gutierrez",      short:"Scarlet Ríos",    role:"Mesera",                       dept:"F&B",           email:"scarletrivers@hotmail.com",              bday:"29/10/1991",jefe:9},
+  {id:11, name:"Emmanuel Santa María Santiago",   short:"Emmanuel Santa María",role:"Mesero",                   dept:"F&B",           email:"emmanuelsantamaria66@gmail.com",         bday:"06/06/1991",jefe:9},
+  {id:12, name:"Heriberto Orozco Ramíres",        short:"Heriberto Orozco",     role:"Mesero",                       dept:"F&B",           email:"horaorozco1@gmail.com",                  bday:"16/03/1986",jefe:9},
+  {id:13, name:"VACANTE",                              short:"Vacante",              role:"Mesero",                       dept:"F&B",           email:"",bday:"",jefe:9,vacante:true},
+  {id:14, name:"Julio Cesar Ramos",                    short:"Julio Ramos",          role:"Mesero",                       dept:"F&B",           email:"ramosjuliocesar158@gmail.com",           bday:"16/03/1977",jefe:9},
+  {id:15, name:"Elda Cruz Ortiz",                      short:"Elda Cruz",            role:"Bartender",                    dept:"F&B",           email:"cruzelda242@gmail.com",                  bday:"04/08/1999",jefe:7},
+  {id:16, name:"Luis Enrique Mota Vega",               short:"Luis Mota",            role:"Bartender",                    dept:"F&B",           email:"lmotavega@gmail.com",                    bday:"16/07/1993",jefe:7},
+  {id:17, name:"VACANTE",                              short:"Vacante",              role:"Bartender",                    dept:"F&B",           email:"",bday:"",jefe:7,vacante:true},
+  {id:18, name:"VACANTE",                              short:"Vacante",              role:"Pool Concierge",               dept:"F&B",           email:"",bday:"",jefe:7,vacante:true},
+  {id:19, name:"Plácido Maurilio García Pérez",short:"Maurilio García",role:"Encargado de Turno",     dept:"F&B",           email:"mauriliogarciaperez429@gmail.com",       bday:"05/10/1983",jefe:6},
+  {id:20, name:"Miriam Lopez Sanchez",                 short:"Miriam López",    role:"Encargada de Turno",           dept:"F&B",           email:"millitoychef@icloud.com",                bday:"04/02/1981",jefe:6},
+  {id:21, name:"María del Rosario García Salvador",short:"Rosario García",role:"Cocinera",                 dept:"F&B",           email:"mariadelrosariosalvador7@gmail.com",     bday:"07/10/2004",jefe:19},
+  {id:22, name:"Alma Belem Rodriguez Mandujano",       short:"Alma Rodríguez",  role:"Cocinera",                     dept:"F&B",           email:"",                                       bday:"",          jefe:19},
+  {id:23, name:"Jaime Martínez Gómez",      short:"Jaime Martínez",  role:"Cocinero",                     dept:"F&B",           email:"jaimensn2006@gmail.com",                 bday:"23/06/2006",jefe:20},
+  {id:24, name:"Manuel Olivera Contreras",             short:"Manuel Olivera",       role:"Cocinero",                     dept:"F&B",           email:"",                                       bday:"",          jefe:20},
+  {id:25, name:"Candelaria Sánchez Lorenzo",      short:"Candelaria Sánchez",role:"Lavaloza",                   dept:"F&B",           email:"candelariasanchezlorenzo@gmail.com",     bday:"01/02/1988",jefe:19},
+  {id:26, name:"Angela Francisco Vargas",              short:"Angela Francisco",     role:"Lavaloza",                     dept:"F&B",           email:"",                                       bday:"30/06/1976",jefe:19},
+  {id:27, name:"Nissa Navani Sanchez Jimenez",         short:"Nissa Sánchez",   role:"Lavaloza",                     dept:"F&B",           email:"",                                       bday:"",          jefe:19},
+  {id:28, name:"Egbert Cruz García",              short:"Egbert Cruz",          role:"Gerente de Mantenimiento",     dept:"Mantenimiento", email:"egbertcg@gmail.com",                     bday:"09/12/1990",jefe:null},
+  {id:29, name:"Yair Gamaliel Hernandez Santiago",     short:"Yair Hernández",  role:"Aux. de Mantenimiento",        dept:"Mantenimiento", email:"yairgamaliel79@icloud.com",              bday:"10/02/1997",jefe:28},
+  {id:30, name:"Gerardo Tereso Ruiz",                  short:"Gerardo Tereso",       role:"Aux. de Mantenimiento",        dept:"Mantenimiento", email:"gerardo_tereso01@hotmail.com",           bday:"03/12/1984",jefe:28,nickname:"Pichi"},
+  {id:31, name:"Pedro Luis Cortes Martinez",           short:"Pedro Cortés",    role:"Jardinero",                    dept:"Mantenimiento", email:"",                                       bday:"28/04/2002",jefe:28},
+  {id:44, name:"Antonino Hernández Cruz",         short:"Antonino Hernández",role:"Seguridad",                  dept:"Mantenimiento", email:"",                                       bday:"10/05/1962",jefe:28},
+  {id:32, name:"Neri Angelina Contreras Pacheco",      short:"Neri Contreras",       role:"Ama de Llaves",                dept:"Ama de llaves", email:"contreraspacheco0112@gmail.com",         bday:"01/12/1986",jefe:null},
+  {id:33, name:"Karen Estrella Ventura Ruíz",     short:"Karen Ventura",        role:"Camarista",                    dept:"Ama de llaves", email:"karenventura51344@gmail.com",            bday:"29/09/2004",jefe:32},
+  {id:34, name:"Margarita Díaz Canseco",          short:"Margarita Díaz",  role:"Camarista",                    dept:"Ama de llaves", email:"acuariodiazcanseco26@gmail.com",         bday:"26/01/1998",jefe:32},
+  {id:35, name:"Angela Reyes Hernández",          short:"Angela Reyes",         role:"Camarista",                    dept:"Ama de llaves", email:"a9541298937@gmail.com",                  bday:"26/10/1999",jefe:32},
+  {id:36, name:"Modesta Luna Hernández",          short:"Modesta Luna",         role:"Áreas Públicas",     dept:"Ama de llaves", email:"lunamode692@gmail.com",                  bday:"14/09/1997",jefe:32},
+  {id:37, name:"Italia Ortiz Dias",                    short:"Italia Ortiz",         role:"Áreas Públicas",     dept:"Ama de llaves", email:"ortizitalia94@gmail.com",                bday:"09/10/2002",jefe:32},
+  {id:38, name:"Karen Itzel Santiago Rios",            short:"Karen Santiago",       role:"Áreas Públicas",     dept:"Ama de llaves", email:"",                                       bday:"",          jefe:32},
+  {id:39, name:"Aida Carrillo Patiño",            short:"Aida Carrillo",        role:"Lead House Manager",           dept:"Recepción",email:"aid4ka@icloud.com",                      bday:"07/02/1988",jefe:null},
+  {id:40, name:"Omar Emiliano de la Tejera Zamorano",  short:"Omar de la Tejera",    role:"House Manager",                dept:"Recepción",email:"delatejera1706@gmail.com",               bday:"17/06/1992",jefe:39},
+  {id:41, name:"Rodolfo Ramirez Perez",                short:"Rodolfo Ramírez", role:"House Manager",                dept:"Recepción",email:"Rodolfo.rmz.pz@gmail.com",              bday:"20/02/2002",jefe:39},
+  {id:42, name:"Arleth Paola Anicacio Antunez",        short:"Arleth Anicacio",      role:"House Manager",                dept:"Recepción",email:"",                                       bday:"24/10/2001",jefe:39},
+  {id:43, name:"Jesus Israel Castillo Hernández", short:"Jesús Castillo",  role:"Auditor",                      dept:"Recepción",email:"castillohernandezjesusisrael@gmail.com", bday:"11/03/1985",jefe:39},
+  {id:45, name:"Rosalba Pacheco Ramos",                short:"Rosalba Pacheco",      role:"Masajista",                    dept:"Recepción",email:"prosalba0901@gmail.com",                 bday:"01/09/1987",jefe:39},
+  {id:46, name:"Abraham Leonardo Arteaga Garcia",      short:"Abraham Arteaga",      role:"Masajista",                    dept:"Recepción",email:"",                                       bday:"07/08/1989",jefe:39},
+];
+
+function initials(n){
+  if(n==="VACANTE")return"?";
+  const p=n.trim().split(" ");
+  return(p[0][0]+(p[1]?p[1][0]:"")).toUpperCase();
+}
+
+function makeAvatar(p,size=50){
+  const cfg=DEPT_CFG[p.dept];
+  const el=document.createElement("div");
+  el.className="node-avatar";
+  el.style.cssText=`width:${size}px;height:${size}px;background:${p.vacante?"#E8E6E0":cfg.light};color:${p.vacante?"#999":cfg.text}`;
+  if(!p.vacante){
+    const img=document.createElement("img");
+    img.src=`fotos/${p.id}.jpg`; img.alt=p.short; img.style.display="none";
+    img.onload=()=>{ el.textContent=""; img.style.display="block"; el.style.background="none"; };
+    el.appendChild(img);
+  }
+  el.appendChild(document.createTextNode(initials(p.name)));
+  return el;
+}
+
+function makeNode(p){
+  const el=document.createElement("div");
+  el.className="node"+(p.vacante?" vacante":"");
+  el.dataset.id=p.id; el.dataset.dept=p.dept;
+  el.dataset.name=(p.name+" "+p.role+(p.nickname?" "+p.nickname:"")).toLowerCase();
+  if(!p.vacante) el.onclick=()=>openModal(p.id);
+  el.appendChild(makeAvatar(p));
+  const nm=document.createElement("div"); nm.className="node-name"; nm.textContent=p.short; el.appendChild(nm);
+  const rl=document.createElement("div"); rl.className="node-role"; rl.textContent=p.role; el.appendChild(rl);
+  if(p.nickname){ const nk=document.createElement("div"); nk.className="node-nick"; nk.textContent=`"${p.nickname}"`; el.appendChild(nk); }
+  return el;
+}
+
+function buildBranch(person,all){
+  const children=all.filter(p=>p.jefe===person.id);
+  const wrap=document.createElement("div"); wrap.className="branch";
+  wrap.appendChild(makeNode(person));
+  if(!children.length) return wrap;
+  const stem=document.createElement("div"); stem.className="conn-v"; stem.style.height="20px"; wrap.appendChild(stem);
+  const row=document.createElement("div"); row.className="branch-children";
+  children.forEach(c=>row.appendChild(buildBranch(c,all)));
+  wrap.appendChild(row);
+  return wrap;
+}
+
+function drawLines(){
+  document.querySelectorAll(".branch-children").forEach(row=>{
+    const branches=[...row.children].filter(el=>el.classList.contains("branch"));
+    if(branches.length<2) return;
+    const rr=row.getBoundingClientRect();
+    const f=branches[0].querySelector(".node").getBoundingClientRect();
+    const l=branches[branches.length-1].querySelector(".node").getBoundingClientRect();
+    const left=f.left+f.width/2-rr.left, right=l.left+l.width/2-rr.left;
+    let hbar=row.querySelector(":scope>.conn-h");
+    if(!hbar){hbar=document.createElement("div");hbar.className="conn-h";row.insertBefore(hbar,row.firstChild);}
+    hbar.style.cssText=`position:absolute;top:0;left:${left}px;width:${right-left}px;height:1px;background:var(--line)`;
+    branches.forEach(b=>{
+      const nr=b.querySelector(".node").getBoundingClientRect();
+      const cx=nr.left+nr.width/2-rr.left;
+      let tick=b.querySelector(":scope>.conn-tick");
+      if(!tick){tick=document.createElement("div");tick.className="conn-tick";b.insertBefore(tick,b.firstChild);}
+      tick.style.cssText=`position:absolute;left:${cx}px;top:0;width:1px;height:18px;background:var(--line);transform:translateX(-50%)`;
+    });
+  });
+}
+
+function renderDept(dept){
+  const people=PEOPLE.filter(p=>p.dept===dept);
+  const roots=people.filter(p=>!p.jefe||!people.find(x=>x.id===p.jefe));
+  const cfg=DEPT_CFG[dept];
+  const sec=document.createElement("div");
+  sec.className="dept-section"; sec.dataset.dept=dept;
+  sec.draggable=true;
+  sec.addEventListener("dragstart",onDragStart);
+  sec.addEventListener("dragover",onDragOver);
+  sec.addEventListener("dragleave",onDragLeave);
+  sec.addEventListener("drop",onDrop);
+  sec.addEventListener("dragend",onDragEnd);
+  const lbl=document.createElement("div"); lbl.className="dept-label"; lbl.style.color=cfg.color;
+  const handle=document.createElement("span"); handle.className="drag-handle"; handle.textContent="⠿";
+  const dot=document.createElement("span"); dot.className="dept-dot"; dot.style.background=cfg.color;
+  lbl.appendChild(handle); lbl.appendChild(dot);
+  lbl.appendChild(document.createTextNode(DEPT_NAMES[dept]));
+  sec.appendChild(lbl);
+  const rw=document.createElement("div"); rw.className="dept-roots";
+  roots.forEach(r=>rw.appendChild(buildBranch(r,people)));
+  sec.appendChild(rw);
+  return sec;
+}
+
+function renderAll(){
+  const tree=document.getElementById("tree"); tree.innerHTML="";
+  DEPTS.forEach(d=>tree.appendChild(renderDept(d)));
+  requestAnimationFrame(()=>requestAnimationFrame(drawLines));
+}
+
+function renderStats(){
+  const a=PEOPLE.filter(p=>!p.vacante).length, v=PEOPLE.filter(p=>p.vacante).length;
+  const fab=PEOPLE.filter(p=>p.dept==="F&B"&&!p.vacante).length;
+  const rooms=PEOPLE.filter(p=>(p.dept==="Recepción"||p.dept==="Ama de llaves")&&!p.vacante).length;
+  document.getElementById("stats").innerHTML=`
+    <div class="stat"><div class="stat-n">${a}</div><div class="stat-l">Colaboradores activos</div></div>
+    <div class="stat"><div class="stat-n">${v}</div><div class="stat-l">Vacantes abiertas</div></div>
+    <div class="stat"><div class="stat-n">${fab}</div><div class="stat-l">Equipo A&amp;B</div></div>
+    <div class="stat"><div class="stat-n">${rooms}</div><div class="stat-l">Rooms &amp; Recepción</div></div>`;
+}
+
+function filterDept(dept,btn){
+  document.querySelectorAll(".fbtn").forEach(b=>b.classList.remove("active")); btn.classList.add("active");
+  document.querySelectorAll(".dept-section").forEach(s=>s.classList.toggle("hidden",dept!=="all"&&s.dataset.dept!==dept));
+}
+
+document.getElementById("search").addEventListener("input",function(){
+  const q=this.value.toLowerCase().trim();
+  document.querySelectorAll(".node").forEach(n=>{
+    const m=!q||n.dataset.name.includes(q);
+    n.classList.toggle("dimmed",!m&&!!q); n.classList.toggle("highlighted",m&&!!q);
+  });
+});
+
+// Drag & drop for dept sections
+let dragSrc=null;
+function onDragStart(e){dragSrc=this;this.classList.add("dragging");e.dataTransfer.effectAllowed="move";}
+function onDragOver(e){e.preventDefault();e.dataTransfer.dropEffect="move";if(this!==dragSrc)this.classList.add("drag-over");}
+function onDragLeave(){this.classList.remove("drag-over");}
+function onDrop(e){
+  e.preventDefault(); this.classList.remove("drag-over");
+  if(this===dragSrc) return;
+  const tree=document.getElementById("tree");
+  const sections=[...tree.querySelectorAll(".dept-section")];
+  const srcIdx=sections.indexOf(dragSrc), tgtIdx=sections.indexOf(this);
+  if(srcIdx<tgtIdx) tree.insertBefore(dragSrc,this.nextSibling);
+  else tree.insertBefore(dragSrc,this);
+  // update DEPTS order
+  DEPTS=([...tree.querySelectorAll(".dept-section")]).map(s=>s.dataset.dept);
+  requestAnimationFrame(drawLines);
+}
+function onDragEnd(){
+  document.querySelectorAll(".dept-section").forEach(s=>{s.classList.remove("dragging","drag-over");});
+  dragSrc=null;
+}
+
+function openModal(id){
+  const p=PEOPLE.find(x=>x.id===id); if(!p||p.vacante) return;
+  const cfg=DEPT_CFG[p.dept];
+  const jefe=p.jefe?PEOPLE.find(x=>x.id===p.jefe):null;
+  const av=`<div class="m-avatar" style="background:${cfg.light};color:${cfg.text}">${initials(p.name)}</div>`;
+  document.getElementById("modal-body").innerHTML=`${av}
+    <div class="m-name">${p.name}${p.nickname?` <span style="font-weight:400;color:#999">"${p.nickname}"</span>`:""}</div>
+    <div class="m-role">${p.role} &middot; ${DEPT_NAMES[p.dept]}</div>
+    <table class="m-table">
+      ${p.email?`<tr><td>Email</td><td>${p.email}</td></tr>`:""}
+      ${p.bday?`<tr><td>Cumpleaños</td><td>${p.bday}</td></tr>`:""}
+      ${jefe?`<tr><td>Reporta a</td><td>${jefe.short}</td></tr>`:""}
+    </table>`;
+  document.getElementById("overlay").classList.add("open");
+}
+
+function closeModal(e){
+  if(!e||e.target===document.getElementById("overlay")||e.currentTarget?.classList?.contains("modal-x"))
+    document.getElementById("overlay").classList.remove("open");
+}
+
+window.addEventListener("resize",()=>requestAnimationFrame(drawLines));
+renderStats();
+renderAll();
+</script>
+</body>
+</html>
