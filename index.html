@@ -20,11 +20,10 @@ header{background:var(--surface);border-bottom:0.5px solid var(--border);padding
 .logo-mark svg{width:20px;height:20px;fill:none;stroke:var(--green-light);stroke-width:1.5}
 .hdr-title{font-size:16px;font-weight:500}
 .hdr-sub{font-size:12px;color:var(--text2);margin-top:1px}
-.hdr-right{margin-left:auto;display:flex;align-items:center;gap:10px}
+.hdr-right{margin-left:auto}
 .search-box{font-family:'DM Sans',sans-serif;font-size:13px;padding:6px 12px;border-radius:20px;border:0.5px solid var(--border-strong);background:var(--bg);color:var(--text);outline:none;width:200px;transition:border-color .15s}
 .search-box:focus{border-color:var(--green)}
 .search-box::placeholder{color:var(--text3)}
-.hint{font-size:11px;color:var(--text3);white-space:nowrap}
 main{padding:24px 28px;overflow-x:auto}
 .stats{display:flex;gap:10px;margin-bottom:24px;flex-wrap:wrap}
 .stat{background:var(--surface);border:0.5px solid var(--border);border-radius:var(--r);padding:11px 16px;min-width:140px}
@@ -35,26 +34,18 @@ main{padding:24px 28px;overflow-x:auto}
 .fbtn:hover{background:var(--surface2);color:var(--text)}
 .fbtn.active{background:var(--green);color:var(--green-light);border-color:var(--green)}
 .tree-wrap{min-width:960px}
-
-/* Draggable dept sections */
-.dept-section{margin-bottom:36px;transition:opacity .15s}
-.dept-section.dragging{opacity:.4;cursor:grabbing}
-.dept-section.drag-over{outline:2px dashed var(--green);outline-offset:6px;border-radius:var(--r)}
-.dept-label{font-size:11px;font-weight:500;letter-spacing:.07em;text-transform:uppercase;color:var(--text3);margin-bottom:18px;display:flex;align-items:center;gap:8px;cursor:grab;user-select:none}
-.dept-label:active{cursor:grabbing}
+.dept-section{margin-bottom:36px}
+.dept-label{font-size:11px;font-weight:500;letter-spacing:.07em;text-transform:uppercase;color:var(--text3);margin-bottom:18px;display:flex;align-items:center;gap:8px}
 .dept-label::after{content:'';flex:1;height:0.5px;background:var(--border)}
 .dept-dot{width:10px;height:10px;border-radius:3px;flex-shrink:0}
-.drag-handle{font-size:14px;color:var(--text3);margin-right:2px;cursor:grab}
 .dept-roots{display:flex;gap:32px;flex-wrap:wrap;align-items:flex-start}
-
-/* Branch & node */
 .branch{display:flex;flex-direction:column;align-items:center;position:relative}
 .branch-children{display:flex;gap:10px;position:relative;justify-content:center}
 .node{display:flex;flex-direction:column;align-items:center;padding:8px 8px 10px;background:var(--surface);border:0.5px solid var(--border);border-radius:var(--rlg);cursor:pointer;transition:all .15s;width:108px;flex-shrink:0;position:relative}
 .node:hover{border-color:var(--border-strong);box-shadow:0 2px 8px rgba(0,0,0,.07);transform:translateY(-1px)}
 .node.dimmed{opacity:.18;pointer-events:none}
 .node.highlighted{border-color:var(--green);outline:1px solid var(--green)}
-.node.vacante{border-style:dashed;opacity:.45;cursor:default}
+.node.vacante{border-style:dashed;opacity:.5;cursor:default}
 .node.vacante:hover{transform:none;box-shadow:none}
 .node-avatar{width:50px;height:50px;border-radius:50%;overflow:hidden;margin-bottom:7px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:500}
 .node-avatar img{width:100%;height:100%;object-fit:cover;border-radius:50%}
@@ -64,8 +55,6 @@ main{padding:24px 28px;overflow-x:auto}
 .conn-v{width:1px;background:var(--line);margin:0 auto}
 .conn-h{height:1px;background:var(--line);position:absolute;top:0}
 .conn-tick{width:1px;background:var(--line);position:absolute;top:0}
-
-/* Modal */
 .overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.28);z-index:200;align-items:center;justify-content:center;padding:20px}
 .overlay.open{display:flex}
 .modal{background:var(--surface);border:0.5px solid var(--border);border-radius:var(--rlg);padding:20px;width:290px;max-width:100%;position:relative}
@@ -90,7 +79,6 @@ main{padding:24px 28px;overflow-x:auto}
     <div class="hdr-sub">Organigrama de Personal</div>
   </div>
   <div class="hdr-right">
-    <span class="hint">&#9776; Arrastra las áreas para reordenar</span>
     <input class="search-box" type="text" placeholder="Buscar persona o puesto&hellip;" id="search"/>
   </div>
 </header>
@@ -127,48 +115,68 @@ const DEPT_NAMES = {
   "Ama de llaves":"Housekeeping / Ama de Llaves",
   "Recepción":"Recepción & Servicios",
 };
-let DEPTS = ["Administración","F&B","Mantenimiento","Ama de llaves","Recepción"];
+const DEPTS = ["Administración","F&B","Mantenimiento","Ama de llaves","Recepción"];
 
 const PEOPLE = [
+  // ADMINISTRACIÓN — sin Amairani
   {id:1,  name:"Manuel Arturo Otazo Aponte",          short:"Manuel Otazo",         role:"Gerente General",              dept:"Administración",email:"manuotazo@gmail.com",                    bday:"14/08/1990",jefe:null},
-  {id:2,  name:"Amairani Jared Rojas Alvarado",        short:"Amairani Rojas",       role:"Gerente Administrativo",       dept:"Administración",email:"mayjar1231@gmail.com",                   bday:"28/11/1995",jefe:1},
   {id:3,  name:"Roberto Arturo Cruz Zarate",           short:"Roberto Cruz",         role:"Gerente Administrativo",       dept:"Administración",email:"robertok9.cruz@gmail.com",               bday:"22/08/1994",jefe:1},
   {id:4,  name:"VACANTE",                              short:"Vacante",              role:"Gerente de Compras",           dept:"Administración",email:"",bday:"",jefe:1,vacante:true},
   {id:5,  name:"Horacio Muñoz Martínez",    short:"Horacio Muñoz",   role:"Coord. Ventas y Eventos",      dept:"Administración",email:"horaciomumtz@gmail.com",                 bday:"20/09/1991",jefe:1},
-  {id:6,  name:"Alejandro Uriostegui Hernández", short:"Alejandro Uriostegui", role:"Dir. Alimentos y Bebidas",     dept:"F&B",           email:"15alexxuh@gmail.com",                    bday:"09/02/1998",jefe:null},
-  {id:7,  name:"Ricardo Ojeda Montuy",                 short:"Ricardo Ojeda",        role:"Gerente de A&B",               dept:"F&B",           email:"ricardomontuy@gmail.com",                bday:"27/02/1995",jefe:6},
-  {id:8,  name:"VACANTE",                              short:"Vacante",              role:"Aux. Admin A&B",               dept:"F&B",           email:"",bday:"",jefe:6,vacante:true},
-  {id:9,  name:"Ernesto Hernandez Ortiz",              short:"Ernesto Hernández",role:"Capitán",               dept:"F&B",           email:"ernesto.riquelme_10@hotmail.fr",         bday:"14/06/1986",jefe:7},
-  {id:10, name:"Scarlet Libertad Rios Gutierrez",      short:"Scarlet Ríos",    role:"Mesera",                       dept:"F&B",           email:"scarletrivers@hotmail.com",              bday:"29/10/1991",jefe:9},
-  {id:11, name:"Emmanuel Santa María Santiago",   short:"Emmanuel Santa María",role:"Mesero",                   dept:"F&B",           email:"emmanuelsantamaria66@gmail.com",         bday:"06/06/1991",jefe:9},
-  {id:12, name:"Heriberto Orozco Ramíres",        short:"Heriberto Orozco",     role:"Mesero",                       dept:"F&B",           email:"horaorozco1@gmail.com",                  bday:"16/03/1986",jefe:9},
-  {id:13, name:"VACANTE",                              short:"Vacante",              role:"Mesero",                       dept:"F&B",           email:"",bday:"",jefe:9,vacante:true},
-  {id:14, name:"Julio Cesar Ramos",                    short:"Julio Ramos",          role:"Mesero",                       dept:"F&B",           email:"ramosjuliocesar158@gmail.com",           bday:"16/03/1977",jefe:9},
-  {id:15, name:"Elda Cruz Ortiz",                      short:"Elda Cruz",            role:"Bartender",                    dept:"F&B",           email:"cruzelda242@gmail.com",                  bday:"04/08/1999",jefe:7},
-  {id:16, name:"Luis Enrique Mota Vega",               short:"Luis Mota",            role:"Bartender",                    dept:"F&B",           email:"lmotavega@gmail.com",                    bday:"16/07/1993",jefe:7},
-  {id:17, name:"VACANTE",                              short:"Vacante",              role:"Bartender",                    dept:"F&B",           email:"",bday:"",jefe:7,vacante:true},
-  {id:18, name:"VACANTE",                              short:"Vacante",              role:"Pool Concierge",               dept:"F&B",           email:"",bday:"",jefe:7,vacante:true},
-  {id:19, name:"Plácido Maurilio García Pérez",short:"Maurilio García",role:"Encargado de Turno",     dept:"F&B",           email:"mauriliogarciaperez429@gmail.com",       bday:"05/10/1983",jefe:6},
-  {id:20, name:"Miriam Lopez Sanchez",                 short:"Miriam López",    role:"Encargada de Turno",           dept:"F&B",           email:"millitoychef@icloud.com",                bday:"04/02/1981",jefe:6},
-  {id:21, name:"María del Rosario García Salvador",short:"Rosario García",role:"Cocinera",                 dept:"F&B",           email:"mariadelrosariosalvador7@gmail.com",     bday:"07/10/2004",jefe:19},
-  {id:22, name:"Alma Belem Rodriguez Mandujano",       short:"Alma Rodríguez",  role:"Cocinera",                     dept:"F&B",           email:"",                                       bday:"",          jefe:19},
-  {id:23, name:"Jaime Martínez Gómez",      short:"Jaime Martínez",  role:"Cocinero",                     dept:"F&B",           email:"jaimensn2006@gmail.com",                 bday:"23/06/2006",jefe:20},
-  {id:24, name:"Manuel Olivera Contreras",             short:"Manuel Olivera",       role:"Cocinero",                     dept:"F&B",           email:"",                                       bday:"",          jefe:20},
-  {id:25, name:"Candelaria Sánchez Lorenzo",      short:"Candelaria Sánchez",role:"Lavaloza",                   dept:"F&B",           email:"candelariasanchezlorenzo@gmail.com",     bday:"01/02/1988",jefe:19},
-  {id:26, name:"Angela Francisco Vargas",              short:"Angela Francisco",     role:"Lavaloza",                     dept:"F&B",           email:"",                                       bday:"30/06/1976",jefe:19},
-  {id:27, name:"Nissa Navani Sanchez Jimenez",         short:"Nissa Sánchez",   role:"Lavaloza",                     dept:"F&B",           email:"",                                       bday:"",          jefe:19},
-  {id:28, name:"Egbert Cruz García",              short:"Egbert Cruz",          role:"Gerente de Mantenimiento",     dept:"Mantenimiento", email:"egbertcg@gmail.com",                     bday:"09/12/1990",jefe:null},
-  {id:29, name:"Yair Gamaliel Hernandez Santiago",     short:"Yair Hernández",  role:"Aux. de Mantenimiento",        dept:"Mantenimiento", email:"yairgamaliel79@icloud.com",              bday:"10/02/1997",jefe:28},
-  {id:30, name:"Gerardo Tereso Ruiz",                  short:"Gerardo Tereso",       role:"Aux. de Mantenimiento",        dept:"Mantenimiento", email:"gerardo_tereso01@hotmail.com",           bday:"03/12/1984",jefe:28,nickname:"Pichi"},
-  {id:31, name:"Pedro Luis Cortes Martinez",           short:"Pedro Cortés",    role:"Jardinero",                    dept:"Mantenimiento", email:"",                                       bday:"28/04/2002",jefe:28},
-  {id:44, name:"Antonino Hernández Cruz",         short:"Antonino Hernández",role:"Seguridad",                  dept:"Mantenimiento", email:"",                                       bday:"10/05/1962",jefe:28},
-  {id:32, name:"Neri Angelina Contreras Pacheco",      short:"Neri Contreras",       role:"Ama de Llaves",                dept:"Ama de llaves", email:"contreraspacheco0112@gmail.com",         bday:"01/12/1986",jefe:null},
-  {id:33, name:"Karen Estrella Ventura Ruíz",     short:"Karen Ventura",        role:"Camarista",                    dept:"Ama de llaves", email:"karenventura51344@gmail.com",            bday:"29/09/2004",jefe:32},
-  {id:34, name:"Margarita Díaz Canseco",          short:"Margarita Díaz",  role:"Camarista",                    dept:"Ama de llaves", email:"acuariodiazcanseco26@gmail.com",         bday:"26/01/1998",jefe:32},
-  {id:35, name:"Angela Reyes Hernández",          short:"Angela Reyes",         role:"Camarista",                    dept:"Ama de llaves", email:"a9541298937@gmail.com",                  bday:"26/10/1999",jefe:32},
-  {id:36, name:"Modesta Luna Hernández",          short:"Modesta Luna",         role:"Áreas Públicas",     dept:"Ama de llaves", email:"lunamode692@gmail.com",                  bday:"14/09/1997",jefe:32},
-  {id:37, name:"Italia Ortiz Dias",                    short:"Italia Ortiz",         role:"Áreas Públicas",     dept:"Ama de llaves", email:"ortizitalia94@gmail.com",                bday:"09/10/2002",jefe:32},
-  {id:38, name:"Karen Itzel Santiago Rios",            short:"Karen Santiago",       role:"Áreas Públicas",     dept:"Ama de llaves", email:"",                                       bday:"",          jefe:32},
+
+  // F&B
+  // Estructura cocina:
+  //   Alejandro (Dir A&B)
+  //     Ricardo (Gerente A&B)
+  //       Ernesto (Capitán) → meseros/bartenders
+  //     VACANTE Executive Chef
+  //       Miriam (Sous Chef)
+  //         Alberto TBD (Encargado de Turno)
+  //         Maurilio (Encargado de Turno)
+  //           cocineros/lavalozas bajo Maurilio
+  {id:6,  name:"Alejandro Uriostegui Hernández", short:"Alejandro Uriostegui", role:"Dir. Alimentos y Bebidas",     dept:"F&B",email:"15alexxuh@gmail.com",                    bday:"09/02/1998",jefe:null},
+  {id:7,  name:"Ricardo Ojeda Montuy",                 short:"Ricardo Ojeda",        role:"Gerente de A&B",               dept:"F&B",email:"ricardomontuy@gmail.com",                bday:"27/02/1995",jefe:6},
+  {id:8,  name:"VACANTE",                              short:"Vacante",              role:"Aux. Admin A&B",               dept:"F&B",email:"",bday:"",jefe:6,vacante:true},
+  {id:9,  name:"Ernesto Hernandez Ortiz",              short:"Ernesto Hernández",role:"Capitán",               dept:"F&B",email:"ernesto.riquelme_10@hotmail.fr",         bday:"14/06/1986",jefe:7},
+  {id:10, name:"Scarlet Libertad Rios Gutierrez",      short:"Scarlet Ríos",    role:"Mesera",                       dept:"F&B",email:"scarletrivers@hotmail.com",              bday:"29/10/1991",jefe:9},
+  {id:11, name:"Emmanuel Santa María Santiago",   short:"Emmanuel Santa María",role:"Mesero",                   dept:"F&B",email:"emmanuelsantamaria66@gmail.com",         bday:"06/06/1991",jefe:9},
+  {id:12, name:"Heriberto Orozco Ramíres",        short:"Heriberto Orozco",     role:"Mesero",                       dept:"F&B",email:"horaorozco1@gmail.com",                  bday:"16/03/1986",jefe:9},
+  {id:13, name:"VACANTE",                              short:"Vacante",              role:"Mesero",                       dept:"F&B",email:"",bday:"",jefe:9,vacante:true},
+  {id:14, name:"Julio Cesar Ramos",                    short:"Julio Ramos",          role:"Mesero",                       dept:"F&B",email:"ramosjuliocesar158@gmail.com",           bday:"16/03/1977",jefe:9},
+  {id:15, name:"Elda Cruz Ortiz",                      short:"Elda Cruz",            role:"Bartender",                    dept:"F&B",email:"cruzelda242@gmail.com",                  bday:"04/08/1999",jefe:7},
+  {id:16, name:"Luis Enrique Mota Vega",               short:"Luis Mota",            role:"Bartender",                    dept:"F&B",email:"lmotavega@gmail.com",                    bday:"16/07/1993",jefe:7},
+  {id:17, name:"VACANTE",                              short:"Vacante",              role:"Bartender",                    dept:"F&B",email:"",bday:"",jefe:7,vacante:true},
+  {id:18, name:"VACANTE",                              short:"Vacante",              role:"Pool Concierge",               dept:"F&B",email:"",bday:"",jefe:7,vacante:true},
+  // Cocina branch
+  {id:50, name:"VACANTE",                              short:"Vacante",              role:"Executive Chef",               dept:"F&B",email:"",bday:"",jefe:6,vacante:true},
+  {id:20, name:"Miriam Lopez Sanchez",                 short:"Miriam López",    role:"Sous Chef",                    dept:"F&B",email:"millitoychef@icloud.com",                bday:"04/02/1981",jefe:50},
+  {id:51, name:"Alberto TBD",                          short:"Alberto TBD",          role:"Encargado de Turno",           dept:"F&B",email:"",bday:"",jefe:20,vacante:true},
+  {id:19, name:"Plácido Maurilio García Pérez",short:"Maurilio García",role:"Encargado de Turno",     dept:"F&B",email:"mauriliogarciaperez429@gmail.com",       bday:"05/10/1983",jefe:20},
+  {id:21, name:"Mar00eda del Rosario Garc00eda Salvador",short:"Rosario Garc00eda",role:"Cocinera",dept:"F&B",email:"mariadelrosariosalvador7@gmail.com",bday:"07/10/2004",jefe:51},
+  {id:22, name:"Alma Belem Rodriguez Mandujano",       short:"Alma Rodríguez",  role:"Cocinera",                     dept:"F&B",email:"",                                       bday:"",          jefe:51},
+  {id:23, name:"Jaime Martínez Gómez",      short:"Jaime Martínez",  role:"Cocinero",                     dept:"F&B",email:"jaimensn2006@gmail.com",                 bday:"23/06/2006",jefe:51},
+  {id:24, name:"Manuel Olivera Contreras",             short:"Manuel Olivera",       role:"Cocinero",                     dept:"F&B",email:"",                                       bday:"",          jefe:19},
+  {id:25, name:"Candelaria Sánchez Lorenzo",      short:"Candelaria Sánchez",role:"Lavaloza",                   dept:"F&B",email:"candelariasanchezlorenzo@gmail.com",     bday:"01/02/1988",jefe:19},
+  {id:26, name:"Angela Francisco Vargas",              short:"Angela Francisco",     role:"Lavaloza",                     dept:"F&B",email:"",                                       bday:"30/06/1976",jefe:51},
+  {id:27, name:"Nissa Navani Sanchez Jimenez",         short:"Nissa Sánchez",   role:"Lavaloza",                     dept:"F&B",email:"",                                       bday:"",          jefe:19},
+
+  // MANTENIMIENTO
+  {id:28, name:"Egbert Cruz García",              short:"Egbert Cruz",          role:"Gerente de Mantenimiento",     dept:"Mantenimiento",email:"egbertcg@gmail.com",                     bday:"09/12/1990",jefe:null},
+  {id:29, name:"Yair Gamaliel Hernandez Santiago",     short:"Yair Hernández",  role:"Aux. de Mantenimiento",        dept:"Mantenimiento",email:"yairgamaliel79@icloud.com",              bday:"10/02/1997",jefe:28},
+  {id:30, name:"Gerardo Tereso Ruiz",                  short:"Gerardo Tereso",       role:"Aux. de Mantenimiento",        dept:"Mantenimiento",email:"gerardo_tereso01@hotmail.com",           bday:"03/12/1984",jefe:28,nickname:"Pichi"},
+  {id:31, name:"Pedro Luis Cortes Martinez",           short:"Pedro Cortés",    role:"Jardinero",                    dept:"Mantenimiento",email:"",                                       bday:"28/04/2002",jefe:28},
+  {id:44, name:"Antonino Hernández Cruz",         short:"Antonino Hernández",role:"Seguridad",                  dept:"Mantenimiento",email:"",                                       bday:"10/05/1962",jefe:28},
+
+  // AMA DE LLAVES
+  {id:32, name:"Neri Angelina Contreras Pacheco",      short:"Neri Contreras",       role:"Ama de Llaves",                dept:"Ama de llaves",email:"contreraspacheco0112@gmail.com",         bday:"01/12/1986",jefe:null},
+  {id:33, name:"Karen Estrella Ventura Ruíz",     short:"Karen Ventura",        role:"Camarista",                    dept:"Ama de llaves",email:"karenventura51344@gmail.com",            bday:"29/09/2004",jefe:32},
+  {id:34, name:"Margarita Díaz Canseco",          short:"Margarita Díaz",  role:"Camarista",                    dept:"Ama de llaves",email:"acuariodiazcanseco26@gmail.com",         bday:"26/01/1998",jefe:32},
+  {id:35, name:"Angela Reyes Hernández",          short:"Angela Reyes",         role:"Camarista",                    dept:"Ama de llaves",email:"a9541298937@gmail.com",                  bday:"26/10/1999",jefe:32},
+  {id:36, name:"Modesta Luna Hernández",          short:"Modesta Luna",         role:"Áreas Públicas",     dept:"Ama de llaves",email:"lunamode692@gmail.com",                  bday:"14/09/1997",jefe:32},
+  {id:37, name:"Italia Ortiz Dias",                    short:"Italia Ortiz",         role:"Áreas Públicas",     dept:"Ama de llaves",email:"ortizitalia94@gmail.com",                bday:"09/10/2002",jefe:32},
+  {id:38, name:"Karen Itzel Santiago Rios",            short:"Karen Santiago",       role:"Áreas Públicas",     dept:"Ama de llaves",email:"",                                       bday:"",          jefe:32},
+
+  // RECEPCIÓN
   {id:39, name:"Aida Carrillo Patiño",            short:"Aida Carrillo",        role:"Lead House Manager",           dept:"Recepción",email:"aid4ka@icloud.com",                      bday:"07/02/1988",jefe:null},
   {id:40, name:"Omar Emiliano de la Tejera Zamorano",  short:"Omar de la Tejera",    role:"House Manager",                dept:"Recepción",email:"delatejera1706@gmail.com",               bday:"17/06/1992",jefe:39},
   {id:41, name:"Rodolfo Ramirez Perez",                short:"Rodolfo Ramírez", role:"House Manager",                dept:"Recepción",email:"Rodolfo.rmz.pz@gmail.com",              bday:"20/02/2002",jefe:39},
@@ -179,7 +187,7 @@ const PEOPLE = [
 ];
 
 function initials(n){
-  if(n==="VACANTE")return"?";
+  if(n==="VACANTE"||n==="Alberto TBD")return"?";
   const p=n.trim().split(" ");
   return(p[0][0]+(p[1]?p[1][0]:"")).toUpperCase();
 }
@@ -249,19 +257,10 @@ function renderDept(dept){
   const people=PEOPLE.filter(p=>p.dept===dept);
   const roots=people.filter(p=>!p.jefe||!people.find(x=>x.id===p.jefe));
   const cfg=DEPT_CFG[dept];
-  const sec=document.createElement("div");
-  sec.className="dept-section"; sec.dataset.dept=dept;
-  sec.draggable=true;
-  sec.addEventListener("dragstart",onDragStart);
-  sec.addEventListener("dragover",onDragOver);
-  sec.addEventListener("dragleave",onDragLeave);
-  sec.addEventListener("drop",onDrop);
-  sec.addEventListener("dragend",onDragEnd);
+  const sec=document.createElement("div"); sec.className="dept-section"; sec.dataset.dept=dept;
   const lbl=document.createElement("div"); lbl.className="dept-label"; lbl.style.color=cfg.color;
-  const handle=document.createElement("span"); handle.className="drag-handle"; handle.textContent="⠿";
   const dot=document.createElement("span"); dot.className="dept-dot"; dot.style.background=cfg.color;
-  lbl.appendChild(handle); lbl.appendChild(dot);
-  lbl.appendChild(document.createTextNode(DEPT_NAMES[dept]));
+  lbl.appendChild(dot); lbl.appendChild(document.createTextNode(DEPT_NAMES[dept]));
   sec.appendChild(lbl);
   const rw=document.createElement("div"); rw.className="dept-roots";
   roots.forEach(r=>rw.appendChild(buildBranch(r,people)));
@@ -298,28 +297,6 @@ document.getElementById("search").addEventListener("input",function(){
     n.classList.toggle("dimmed",!m&&!!q); n.classList.toggle("highlighted",m&&!!q);
   });
 });
-
-// Drag & drop for dept sections
-let dragSrc=null;
-function onDragStart(e){dragSrc=this;this.classList.add("dragging");e.dataTransfer.effectAllowed="move";}
-function onDragOver(e){e.preventDefault();e.dataTransfer.dropEffect="move";if(this!==dragSrc)this.classList.add("drag-over");}
-function onDragLeave(){this.classList.remove("drag-over");}
-function onDrop(e){
-  e.preventDefault(); this.classList.remove("drag-over");
-  if(this===dragSrc) return;
-  const tree=document.getElementById("tree");
-  const sections=[...tree.querySelectorAll(".dept-section")];
-  const srcIdx=sections.indexOf(dragSrc), tgtIdx=sections.indexOf(this);
-  if(srcIdx<tgtIdx) tree.insertBefore(dragSrc,this.nextSibling);
-  else tree.insertBefore(dragSrc,this);
-  // update DEPTS order
-  DEPTS=([...tree.querySelectorAll(".dept-section")]).map(s=>s.dataset.dept);
-  requestAnimationFrame(drawLines);
-}
-function onDragEnd(){
-  document.querySelectorAll(".dept-section").forEach(s=>{s.classList.remove("dragging","drag-over");});
-  dragSrc=null;
-}
 
 function openModal(id){
   const p=PEOPLE.find(x=>x.id===id); if(!p||p.vacante) return;
