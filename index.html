@@ -134,7 +134,7 @@ const PEOPLE = [
   //         Alberto TBD (Encargado de Turno)
   //         Maurilio (Encargado de Turno)
   //           cocineros/lavalozas bajo Maurilio
-  {id:6,  name:"Alejandro Uriostegui Hernández", short:"Alejandro Uriostegui", role:"Dir. Alimentos y Bebidas",     dept:"F&B",email:"15alexxuh@gmail.com",                    bday:"09/02/1998",jefe:null},
+  {id:6,  name:"Alejandro Uriostegui Hernández", short:"Alejandro Uriostegui", role:"Dir. Alimentos y Bebidas",     dept:"F&B",email:"15alexxuh@gmail.com",                    bday:"09/02/1998",jefe:1},
   {id:7,  name:"Ricardo Ojeda Montuy",                 short:"Ricardo Ojeda",        role:"Gerente de A&B",               dept:"F&B",email:"ricardomontuy@gmail.com",                bday:"27/02/1995",jefe:6},
   {id:8,  name:"VACANTE",                              short:"Vacante",              role:"Aux. Admin A&B",               dept:"F&B",email:"",bday:"",jefe:6,vacante:true},
   {id:9,  name:"Ernesto Hernandez Ortiz",              short:"Ernesto Hernández",role:"Capitán",               dept:"F&B",email:"ernesto.riquelme_10@hotmail.fr",         bday:"14/06/1986",jefe:7},
@@ -143,16 +143,17 @@ const PEOPLE = [
   {id:12, name:"Heriberto Orozco Ramíres",        short:"Heriberto Orozco",     role:"Mesero",                       dept:"F&B",email:"horaorozco1@gmail.com",                  bday:"16/03/1986",jefe:9},
   {id:13, name:"VACANTE",                              short:"Vacante",              role:"Mesero",                       dept:"F&B",email:"",bday:"",jefe:9,vacante:true},
   {id:14, name:"Julio Cesar Ramos",                    short:"Julio Ramos",          role:"Mesero",                       dept:"F&B",email:"ramosjuliocesar158@gmail.com",           bday:"16/03/1977",jefe:9},
-  {id:15, name:"Elda Cruz Ortiz",                      short:"Elda Cruz",            role:"Bartender",                    dept:"F&B",email:"cruzelda242@gmail.com",                  bday:"04/08/1999",jefe:7},
-  {id:16, name:"Luis Enrique Mota Vega",               short:"Luis Mota",            role:"Bartender",                    dept:"F&B",email:"lmotavega@gmail.com",                    bday:"16/07/1993",jefe:7},
-  {id:17, name:"VACANTE",                              short:"Vacante",              role:"Bartender",                    dept:"F&B",email:"",bday:"",jefe:7,vacante:true},
+  {id:52, name:"VACANTE",                              short:"Vacante",              role:"Jefe de Barra",                dept:"F&B",           email:"",bday:"",jefe:7,vacante:true},
+  {id:15, name:"Elda Cruz Ortiz",                      short:"Elda Cruz",            role:"Bartender",                    dept:"F&B",email:"cruzelda242@gmail.com",                  bday:"04/08/1999",jefe:52},
+  {id:16, name:"Luis Enrique Mota Vega",               short:"Luis Mota",            role:"Bartender",                    dept:"F&B",email:"lmotavega@gmail.com",                    bday:"16/07/1993",jefe:52},
+  {id:17, name:"VACANTE",                              short:"Vacante",              role:"Bartender",                    dept:"F&B",email:"",bday:"",jefe:52,vacante:true},
   {id:18, name:"VACANTE",                              short:"Vacante",              role:"Pool Concierge",               dept:"F&B",email:"",bday:"",jefe:7,vacante:true},
   // Cocina branch
   {id:50, name:"VACANTE",                              short:"Vacante",              role:"Executive Chef",               dept:"F&B",email:"",bday:"",jefe:6,vacante:true},
   {id:20, name:"Miriam Lopez Sanchez",                 short:"Miriam López",    role:"Sous Chef",                    dept:"F&B",email:"millitoychef@icloud.com",                bday:"04/02/1981",jefe:50},
-  {id:51, name:"Alberto TBD",                          short:"Alberto TBD",          role:"Encargado de Turno",           dept:"F&B",email:"",bday:"",jefe:20,vacante:true},
+  {id:51, name:"VACANTE",                          short:"Vacante",              role:"Encargado de Turno",           dept:"F&B",email:"",bday:"",jefe:20,vacante:true},
   {id:19, name:"Plácido Maurilio García Pérez",short:"Maurilio García",role:"Encargado de Turno",     dept:"F&B",email:"mauriliogarciaperez429@gmail.com",       bday:"05/10/1983",jefe:20},
-  {id:21, name:"Mar00eda del Rosario Garc00eda Salvador",short:"Rosario Garc00eda",role:"Cocinera",dept:"F&B",email:"mariadelrosariosalvador7@gmail.com",bday:"07/10/2004",jefe:51},
+  {id:21, name:"María del Rosario García Salvador",short:"Rosario García",role:"Cocinera",dept:"F&B",email:"mariadelrosariosalvador7@gmail.com",bday:"07/10/2004",jefe:51},
   {id:22, name:"Alma Belem Rodriguez Mandujano",       short:"Alma Rodríguez",  role:"Cocinera",                     dept:"F&B",email:"",                                       bday:"",          jefe:51},
   {id:23, name:"Jaime Martínez Gómez",      short:"Jaime Martínez",  role:"Cocinero",                     dept:"F&B",email:"jaimensn2006@gmail.com",                 bday:"23/06/2006",jefe:51},
   {id:24, name:"Manuel Olivera Contreras",             short:"Manuel Olivera",       role:"Cocinero",                     dept:"F&B",email:"",                                       bday:"",          jefe:19},
@@ -161,14 +162,14 @@ const PEOPLE = [
   {id:27, name:"Nissa Navani Sanchez Jimenez",         short:"Nissa Sánchez",   role:"Lavaloza",                     dept:"F&B",email:"",                                       bday:"",          jefe:19},
 
   // MANTENIMIENTO
-  {id:28, name:"Egbert Cruz García",              short:"Egbert Cruz",          role:"Gerente de Mantenimiento",     dept:"Mantenimiento",email:"egbertcg@gmail.com",                     bday:"09/12/1990",jefe:null},
+  {id:28, name:"Egbert Cruz García",              short:"Egbert Cruz",          role:"Gerente de Mantenimiento",     dept:"Mantenimiento",email:"egbertcg@gmail.com",                     bday:"09/12/1990",jefe:1},
   {id:29, name:"Yair Gamaliel Hernandez Santiago",     short:"Yair Hernández",  role:"Aux. de Mantenimiento",        dept:"Mantenimiento",email:"yairgamaliel79@icloud.com",              bday:"10/02/1997",jefe:28},
   {id:30, name:"Gerardo Tereso Ruiz",                  short:"Gerardo Tereso",       role:"Aux. de Mantenimiento",        dept:"Mantenimiento",email:"gerardo_tereso01@hotmail.com",           bday:"03/12/1984",jefe:28,nickname:"Pichi"},
   {id:31, name:"Pedro Luis Cortes Martinez",           short:"Pedro Cortés",    role:"Jardinero",                    dept:"Mantenimiento",email:"",                                       bday:"28/04/2002",jefe:28},
   {id:44, name:"Antonino Hernández Cruz",         short:"Antonino Hernández",role:"Seguridad",                  dept:"Mantenimiento",email:"",                                       bday:"10/05/1962",jefe:28},
 
   // AMA DE LLAVES
-  {id:32, name:"Neri Angelina Contreras Pacheco",      short:"Neri Contreras",       role:"Ama de Llaves",                dept:"Ama de llaves",email:"contreraspacheco0112@gmail.com",         bday:"01/12/1986",jefe:null},
+  {id:32, name:"Neri Angelina Contreras Pacheco",      short:"Neri Contreras",       role:"Ama de Llaves",                dept:"Ama de llaves",email:"contreraspacheco0112@gmail.com",         bday:"01/12/1986",jefe:1},
   {id:33, name:"Karen Estrella Ventura Ruíz",     short:"Karen Ventura",        role:"Camarista",                    dept:"Ama de llaves",email:"karenventura51344@gmail.com",            bday:"29/09/2004",jefe:32},
   {id:34, name:"Margarita Díaz Canseco",          short:"Margarita Díaz",  role:"Camarista",                    dept:"Ama de llaves",email:"acuariodiazcanseco26@gmail.com",         bday:"26/01/1998",jefe:32},
   {id:35, name:"Angela Reyes Hernández",          short:"Angela Reyes",         role:"Camarista",                    dept:"Ama de llaves",email:"a9541298937@gmail.com",                  bday:"26/10/1999",jefe:32},
@@ -177,17 +178,21 @@ const PEOPLE = [
   {id:38, name:"Karen Itzel Santiago Rios",            short:"Karen Santiago",       role:"Áreas Públicas",     dept:"Ama de llaves",email:"",                                       bday:"",          jefe:32},
 
   // RECEPCIÓN
-  {id:39, name:"Aida Carrillo Patiño",            short:"Aida Carrillo",        role:"Lead House Manager",           dept:"Recepción",email:"aid4ka@icloud.com",                      bday:"07/02/1988",jefe:null},
+  {id:39, name:"Aida Carrillo Patiño",            short:"Aida Carrillo",        role:"Lead House Manager",           dept:"Recepción",email:"aid4ka@icloud.com",                      bday:"07/02/1988",jefe:1},
   {id:40, name:"Omar Emiliano de la Tejera Zamorano",  short:"Omar de la Tejera",    role:"House Manager",                dept:"Recepción",email:"delatejera1706@gmail.com",               bday:"17/06/1992",jefe:39},
   {id:41, name:"Rodolfo Ramirez Perez",                short:"Rodolfo Ramírez", role:"House Manager",                dept:"Recepción",email:"Rodolfo.rmz.pz@gmail.com",              bday:"20/02/2002",jefe:39},
   {id:42, name:"Arleth Paola Anicacio Antunez",        short:"Arleth Anicacio",      role:"House Manager",                dept:"Recepción",email:"",                                       bday:"24/10/2001",jefe:39},
+  {id:47, name:"Lou Meyer",                            short:"Lou Meyer",            role:"Practicante",                  dept:"Recepci\u00f3n",email:"",bday:"",jefe:39},
+  {id:48, name:"Victoria V\u00e9chambre",              short:"Victoria V\u00e9chambre",role:"Practicante",                 dept:"Recepci\u00f3n",email:"",bday:"",jefe:39},
   {id:43, name:"Jesus Israel Castillo Hernández", short:"Jesús Castillo",  role:"Auditor",                      dept:"Recepción",email:"castillohernandezjesusisrael@gmail.com", bday:"11/03/1985",jefe:39},
   {id:45, name:"Rosalba Pacheco Ramos",                short:"Rosalba Pacheco",      role:"Masajista",                    dept:"Recepción",email:"prosalba0901@gmail.com",                 bday:"01/09/1987",jefe:39},
-  {id:46, name:"Abraham Leonardo Arteaga Garcia",      short:"Abraham Arteaga",      role:"Masajista",                    dept:"Recepción",email:"",                                       bday:"07/08/1989",jefe:39},
+  {id:46, name:"Abraham Leonardo Arteaga Garcia",      short:"Abraham Arteaga",      role:"Masajista",                    dept:"Recepción",email:"",                                       bday:"07/08/1989",jefe:39}
+  {id:47, name:"Lou Meyer",                               short:"Lou Meyer",            role:"Practicante",                  dept:"Recepci\u00f3n",email:"",bday:"",jefe:39},
+  {id:48, name:"Victoria V\u00e9chambre",                short:"Victoria V\u00e9chambre",role:"Practicante",               dept:"Recepci\u00f3n",email:"",bday:"",jefe:39},,
 ];
 
 function initials(n){
-  if(n==="VACANTE"||n==="Alberto TBD")return"?";
+  if(n==="VACANTE"||n==="VACANTE")return"?";
   const p=n.trim().split(" ");
   return(p[0][0]+(p[1]?p[1][0]:"")).toUpperCase();
 }
