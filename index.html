@@ -316,15 +316,21 @@ function renderAll() {
 }
 
 function renderStats() {
-  var a = P.filter(function(p) { return !p.vac; }).length;
-  var v = P.filter(function(p) { return p.vac; }).length;
-  var fab = P.filter(function(p) { return p.dept === "F&B" && !p.vac; }).length;
-  var rooms = P.filter(function(p) { return (p.dept === "Recepción" || p.dept === "Ama de llaves") && !p.vac; }).length;
+  var a    = P.filter(function(p) { return !p.vac; }).length;
+  var v    = P.filter(function(p) { return p.vac; }).length;
+  var adm  = P.filter(function(p) { return p.dept === "Administración" && !p.vac; }).length;
+  var fab  = P.filter(function(p) { return p.dept === "F&B" && !p.vac; }).length;
+  var mant = P.filter(function(p) { return p.dept === "Mantenimiento" && !p.vac; }).length;
+  var hk   = P.filter(function(p) { return p.dept === "Ama de llaves" && !p.vac; }).length;
+  var rec  = P.filter(function(p) { return p.dept === "Recepción" && !p.vac; }).length;
   document.getElementById("stats").innerHTML =
-    '<div class="stat"><div class="stat-n">' + a + '</div><div class="stat-l">Colaboradores activos</div></div>' +
-    '<div class="stat"><div class="stat-n">' + v + '</div><div class="stat-l">Vacantes abiertas</div></div>' +
-    '<div class="stat"><div class="stat-n">' + fab + '</div><div class="stat-l">Equipo A&B</div></div>' +
-    '<div class="stat"><div class="stat-n">' + rooms + '</div><div class="stat-l">Rooms & Recepción</div></div>';
+    '<div class="stat"><div class="stat-n">' + a    + '</div><div class="stat-l">Total colaboradores</div></div>' +
+    '<div class="stat"><div class="stat-n">' + v    + '</div><div class="stat-l">Vacantes abiertas</div></div>' +
+    '<div class="stat"><div class="stat-n">' + adm  + '</div><div class="stat-l">Administración</div></div>' +
+    '<div class="stat"><div class="stat-n">' + fab  + '</div><div class="stat-l">Alimentos & Bebidas</div></div>' +
+    '<div class="stat"><div class="stat-n">' + mant + '</div><div class="stat-l">Mantenimiento</div></div>' +
+    '<div class="stat"><div class="stat-n">' + hk   + '</div><div class="stat-l">Housekeeping</div></div>' +
+    '<div class="stat"><div class="stat-n">' + rec  + '</div><div class="stat-l">Recepción</div></div>';
 }
 
 function renderFilters() {
