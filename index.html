@@ -75,9 +75,34 @@ main{padding:24px 28px;overflow-x:auto}
 .upload-btn.uploading{opacity:.6;pointer-events:none}
 .upload-status{font-size:11px;color:var(--text3);text-align:center;margin-top:8px;min-height:16px}
 .hidden{display:none!important}
+
+#lock-screen{position:fixed;inset:0;background:#FAF9F6;z-index:999;display:flex;align-items:center;justify-content:center}
+.lock-box{background:#fff;border:0.5px solid rgba(0,0,0,0.1);border-radius:16px;padding:36px 32px;width:300px;text-align:center}
+.lock-logo{width:48px;height:48px;background:#3B5A3A;border-radius:12px;display:flex;align-items:center;justify-content:center;margin:0 auto 16px}
+.lock-logo svg{width:26px;height:26px;fill:none;stroke:#C8D8A2;stroke-width:1.5}
+.lock-title{font-size:18px;font-weight:500;margin-bottom:4px}
+.lock-sub{font-size:13px;color:#6B6860;margin-bottom:24px}
+.lock-input{width:100%;font-family:'DM Sans',sans-serif;font-size:22px;letter-spacing:8px;text-align:center;padding:10px;border:0.5px solid rgba(0,0,0,0.2);border-radius:8px;outline:none;background:#FAF9F6;color:#1A1916}
+.lock-input:focus{border-color:#3B5A3A}
+.lock-btn{margin-top:14px;width:100%;font-family:'DM Sans',sans-serif;font-size:14px;padding:10px;background:#3B5A3A;color:#C8D8A2;border:none;border-radius:8px;cursor:pointer;transition:opacity .15s}
+.lock-btn:hover{opacity:.85}
+.lock-error{font-size:12px;color:#993556;margin-top:10px;min-height:18px}
+
 </style>
 </head>
 <body>
+
+<div id="lock-screen">
+  <div class="lock-box">
+    <div class="lock-logo"><svg viewBox="0 0 20 20"><path d="M10 2L18 8V18H2V8Z" stroke-linejoin="round"/><rect x="7" y="12" width="6" height="6"/></svg></div>
+    <div class="lock-title">Casa Yuma</div>
+    <div class="lock-sub">Organigrama de Personal</div>
+    <input class="lock-input" type="password" id="pin-input" maxlength="10" placeholder="••••" autocomplete="off"/>
+    <button class="lock-btn" onclick="checkPin()">Ingresar</button>
+    <div class="lock-error" id="lock-error"></div>
+  </div>
+</div>
+
 <header>
   <div class="logo"><svg viewBox="0 0 20 20"><path d="M10 2L18 8V18H2V8Z" stroke-linejoin="round"/><rect x="7" y="12" width="6" height="6"/></svg></div>
   <div class="hdr-text"><div class="title">Casa Yuma</div><div class="sub">Organigrama de Personal</div></div>
@@ -492,6 +517,44 @@ document.getElementById("mclose").onclick = function() {
   document.getElementById("overlay").classList.remove("open"); currentModalId = null;
 };
 window.addEventListener("resize", function() { requestAnimationFrame(drawLines); });
+
+
+var PIN_HASH = "8c41f91584580db5832d489858acd624fe578c3f55ab5093c385e2e13998303c";
+var pinAttempts = 0;
+
+async function sha256(str) {
+  var buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(str));
+  return Array.from(new Uint8Array(buf)).map(function(b){return b.toString(16).padStart(2,"0")}).join("");
+}
+
+async function checkPin() {
+  if (pinAttempts >= 5) {
+    document.getElementById("lock-error").textContent = "Demasiados intentos. Recarga la página.";
+    return;
+  }
+  var val = document.getElementById("pin-input").value;
+  var hash = await sha256(val);
+  if (hash === PIN_HASH) {
+    document.getElementById("lock-screen").style.display = "none";
+    sessionStorage.setItem("cy_auth","1");
+  } else {
+    pinAttempts++;
+    document.getElementById("lock-error").textContent = "PIN incorrecto (" + (5 - pinAttempts) + " intentos restantes)";
+    document.getElementById("pin-input").value = "";
+    document.getElementById("pin-input").focus();
+  }
+}
+
+document.addEventListener("DOMContentLoaded", function() {
+  if (sessionStorage.getItem("cy_auth") === "1") {
+    document.getElementById("lock-screen").style.display = "none";
+  }
+  var input = document.getElementById("pin-input");
+  if (input) {
+    input.addEventListener("keydown", function(e) { if (e.key === "Enter") checkPin(); });
+    input.focus();
+  }
+});
 
 // Init
 renderStats();
