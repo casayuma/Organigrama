@@ -150,12 +150,13 @@ var DEPTS = ["Administración","F&B","Mantenimiento","Ama de llaves","Recepción
 var P = [
   // ADMINISTRACIÓN
   {id:57, name:"Tim de Belloy",                       short:"Tim de Belloy",         role:"Fundador",                    dept:"Administración", email:"",                                       bday:"",           jefe:0},
-  {id:1,  name:"Manuel Arturo Otazo Aponte",         short:"Manuel Otazo",          role:"Gerente General",             dept:"Administración", email:"manuotazo@gmail.com",                    bday:"14/08/1990", jefe:0},
-  {id:3,  name:"Roberto Arturo Cruz Zarate",          short:"Roberto Cruz",          role:"Gerente Administrativo",      dept:"Administración", email:"robertok9.cruz@gmail.com",               bday:"22/08/1994", jefe:1},
-  {id:4,  name:"Rainer Ramírez",                      short:"Rainer Ramírez",        role:"Encargado de Compras",        dept:"Administración", email:"",                                       bday:"",           jefe:1},
-  {id:5,  name:"Horacio Muñoz Martínez",              short:"Horacio Muñoz",         role:"Coord. Ventas y Eventos",     dept:"Administración", email:"horaciomumtz@gmail.com",                 bday:"20/09/1991", jefe:1},
+  {id:1,  name:"Manuel Arturo Otazo Aponte",         short:"Manuel Otazo",          role:"Director General",             dept:"Administración", email:"manuotazo@gmail.com",                    bday:"14/08/1990", jefe:0},
+  {id:58, name:"Jorge Guillén",                        short:"Jorge Guillén",         role:"Gerente General",             dept:"Administración", email:"",                                       bday:"",           jefe:1},
+  {id:3,  name:"Roberto Arturo Cruz Zarate",          short:"Roberto Cruz",          role:"Gerente Administrativo",      dept:"Administración", email:"robertok9.cruz@gmail.com",               bday:"22/08/1994", jefe:58},
+  {id:4,  name:"Rainer Ramírez",                      short:"Rainer Ramírez",        role:"Encargado de Compras",        dept:"Administración", email:"",                                       bday:"",           jefe:58},
+  {id:5,  name:"Horacio Muñoz Martínez",              short:"Horacio Muñoz",         role:"Coord. Ventas y Eventos",     dept:"Administración", email:"horaciomumtz@gmail.com",                 bday:"20/09/1991", jefe:58},
   // F&B — salón
-  {id:6,  name:"Alejandro Uriostegui Hernández",      short:"Alejandro Uriostegui",  role:"Dir. Alimentos y Bebidas",    dept:"F&B",            email:"15alexxuh@gmail.com",                    bday:"09/02/1998", jefe:1},
+  {id:6,  name:"Alejandro Uriostegui Hernández",      short:"Alejandro Uriostegui",  role:"Dir. Alimentos y Bebidas",    dept:"F&B",            email:"15alexxuh@gmail.com",                    bday:"09/02/1998", jefe:58},
   {id:7,  name:"Ricardo Ojeda Montuy",                short:"Ricardo Ojeda",         role:"Gerente de A&B",              dept:"F&B",            email:"ricardomontuy@gmail.com",                bday:"27/02/1995", jefe:6},
   {id:9,  name:"Ernesto Hernandez Ortiz",             short:"Ernesto Hernández",     role:"Capitán",                     dept:"F&B",            email:"ernesto.riquelme_10@hotmail.fr",         bday:"14/06/1986", jefe:7},
   {id:10, name:"Scarlet Libertad Rios Gutierrez",     short:"Scarlet Ríos",          role:"Mesera",                      dept:"F&B",            email:"scarletrivers@hotmail.com",              bday:"29/10/1991", jefe:9},
@@ -184,7 +185,7 @@ var P = [
   {id:25, name:"Candelaria Sánchez Lorenzo",          short:"Candelaria Sánchez",    role:"Lavaloza",                    dept:"F&B",            email:"candelariasanchezlorenzo@gmail.com",     bday:"01/02/1988", jefe:19},
   {id:27, name:"Nissa Navani Sanchez Jimenez",        short:"Nissa Sánchez",         role:"Lavaloza",                    dept:"F&B",            email:"",                                       bday:"",           jefe:19},
   // MANTENIMIENTO
-  {id:28, name:"Egbert Cruz García",                  short:"Egbert Cruz",           role:"Gerente de Mantenimiento",    dept:"Mantenimiento",  email:"egbertcg@gmail.com",                     bday:"09/12/1990", jefe:1},
+  {id:28, name:"Egbert Cruz García",                  short:"Egbert Cruz",           role:"Gerente de Mantenimiento",    dept:"Mantenimiento",  email:"egbertcg@gmail.com",                     bday:"09/12/1990", jefe:58},
   {id:29, name:"VACANTE",                             short:"Vacante",               role:"Aux. de Mantenimiento",       dept:"Mantenimiento",  email:"", bday:"", jefe:28, vac:1},
   {id:30, name:"Gerardo Tereso Ruiz",                 short:"Gerardo Tereso",        role:"Aux. de Mantenimiento",       dept:"Mantenimiento",  email:"gerardo_tereso01@hotmail.com",           bday:"03/12/1984", jefe:28, nick:"Pichi"},
   {id:31, name:"Pedro Luis Cortes Martinez",          short:"Pedro Cortés",          role:"Jardinero",                   dept:"Mantenimiento",  email:"",                                       bday:"28/04/2002", jefe:28},
@@ -192,7 +193,7 @@ var P = [
   {id:53, name:"VACANTE",                             short:"Vacante",               role:"Seguridad",                   dept:"Mantenimiento",  email:"", bday:"", jefe:28, vac:1},
   {id:54, name:"Aldo Toscano Moreno",                 short:"Aldo Toscano",          role:"Aux. de Mantenimiento",       dept:"Mantenimiento",  email:"",                                       bday:"",           jefe:28},
   // AMA DE LLAVES
-  {id:32, name:"Neri Angelina Contreras Pacheco",     short:"Neri Contreras",        role:"Ama de Llaves",               dept:"Ama de llaves",  email:"contreraspacheco0112@gmail.com",         bday:"01/12/1986", jefe:1},
+  {id:32, name:"Neri Angelina Contreras Pacheco",     short:"Neri Contreras",        role:"Ama de Llaves",               dept:"Ama de llaves",  email:"contreraspacheco0112@gmail.com",         bday:"01/12/1986", jefe:58},
   {id:33, name:"Karen Estrella Ventura Ruíz",         short:"Karen Ventura",         role:"Camarista",                   dept:"Ama de llaves",  email:"karenventura51344@gmail.com",            bday:"29/09/2004", jefe:34},
   {id:34, name:"Margarita Díaz Canseco",              short:"Margarita Díaz",        role:"Supervisora",                 dept:"Ama de llaves",  email:"acuariodiazcanseco26@gmail.com",         bday:"26/01/1998", jefe:32},
   {id:35, name:"VACANTE",                             short:"Vacante",               role:"Camarista",                   dept:"Ama de llaves",  email:"", bday:"", jefe:34, vac:1},
@@ -200,7 +201,7 @@ var P = [
   {id:37, name:"Italia Ortiz Dias",                   short:"Italia Ortiz",          role:"Áreas Públicas",              dept:"Ama de llaves",  email:"ortizitalia94@gmail.com",                bday:"09/10/2002", jefe:34},
   {id:38, name:"Karen Itzel Santiago Rios",           short:"Karen Santiago",        role:"Áreas Públicas",              dept:"Ama de llaves",  email:"",                                       bday:"",           jefe:34},
   // RECEPCIÓN
-  {id:39, name:"Aida Carrillo Patiño",                short:"Aida Carrillo",         role:"Lead House Manager",          dept:"Recepción",      email:"aid4ka@icloud.com",                      bday:"07/02/1988", jefe:1},
+  {id:39, name:"Aida Carrillo Patiño",                short:"Aida Carrillo",         role:"Lead House Manager",          dept:"Recepción",      email:"aid4ka@icloud.com",                      bday:"07/02/1988", jefe:58},
   {id:40, name:"Omar Emiliano de la Tejera Zamorano", short:"Omar de la Tejera",     role:"House Manager",               dept:"Recepción",      email:"delatejera1706@gmail.com",               bday:"17/06/1992", jefe:39},
   {id:41, name:"Rodolfo Ramirez Perez",               short:"Rodolfo Ramírez",       role:"House Manager",               dept:"Recepción",      email:"Rodolfo.rmz.pz@gmail.com",              bday:"20/02/2002", jefe:39},
   {id:42, name:"Arleth Paola Anicacio Antunez",       short:"Arleth Anicacio",       role:"House Manager",               dept:"Recepción",      email:"",                                       bday:"24/10/2001", jefe:39},
