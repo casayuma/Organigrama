@@ -76,8 +76,8 @@ main{padding:24px 28px;overflow-x:auto}
 .upload-status{font-size:11px;color:var(--text3);text-align:center;margin-top:8px;min-height:16px}
 .hidden{display:none!important}
 
-#lock-screen{position:fixed;inset:0;background:#FAF9F6;z-index:999;display:flex;align-items:center;justify-content:center}
-.lock-box{background:#fff;border:0.5px solid rgba(0,0,0,0.1);border-radius:16px;padding:36px 32px;width:300px;text-align:center}
+#lock-screen{position:fixed;inset:0;background:#FAF9F6;z-index:999;display:flex;align-items:flex-start;justify-content:center;overflow-y:auto;padding:60px 20px 40px}
+.lock-box{background:#fff;border:0.5px solid rgba(0,0,0,0.1);border-radius:16px;padding:36px 32px;width:100%;max-width:320px;text-align:center}
 .lock-logo{width:48px;height:48px;background:#3B5A3A;border-radius:12px;display:flex;align-items:center;justify-content:center;margin:0 auto 16px}
 .lock-logo svg{width:26px;height:26px;fill:none;stroke:#C8D8A2;stroke-width:1.5}
 .lock-title{font-size:18px;font-weight:500;margin-bottom:4px}
@@ -97,8 +97,8 @@ main{padding:24px 28px;overflow-x:auto}
     <div class="lock-logo"><svg viewBox="0 0 20 20"><path d="M10 2L18 8V18H2V8Z" stroke-linejoin="round"/><rect x="7" y="12" width="6" height="6"/></svg></div>
     <div class="lock-title">Casa Yuma</div>
     <div class="lock-sub">Organigrama de Personal</div>
-    <input class="lock-input" type="password" id="pin-input" maxlength="10" placeholder="••••" autocomplete="off"/>
-    <button class="lock-btn" onclick="checkPin()">Ingresar</button>
+    <input class="lock-input" type="password" id="pin-input" maxlength="10" placeholder="••••" autocomplete="off" inputmode="numeric" pattern="[0-9]*"/>
+    <button class="lock-btn" type="button" onclick="checkPin()" ontouchend="event.preventDefault();checkPin()">Ingresar</button>
     <div class="lock-error" id="lock-error"></div>
   </div>
 </div>
@@ -188,10 +188,10 @@ var P = [
   {id:28, name:"Egbert Cruz García",                  short:"Egbert Cruz",           role:"Gerente de Mantenimiento",    dept:"Mantenimiento",  email:"egbertcg@gmail.com",                     bday:"09/12/1990", jefe:58},
   {id:29, name:"Pedro Velázquez",                     short:"Pedro Velázquez",       role:"Seguridad",                   dept:"Mantenimiento",  email:"",                                       bday:"",           jefe:28},
   {id:30, name:"Gerardo Tereso Ruiz",                 short:"Gerardo Tereso",        role:"Aux. de Mantenimiento",       dept:"Mantenimiento",  email:"gerardo_tereso01@hotmail.com",           bday:"03/12/1984", jefe:28, nick:"Pichi"},
-  {id:31, name:"Pedro Luis Cortes Martinez",          short:"Pedro Cortés",          role:"Aux. de Mantenimiento",       dept:"Mantenimiento",  email:"",                                       bday:"28/04/2002", jefe:28},
+  {id:31, name:"VACANTE",                             short:"Vacante",               role:"Aux. de Mantenimiento",       dept:"Mantenimiento",  email:"", bday:"", jefe:28, vac:1},
   {id:44, name:"Antonino Hernández Cruz",             short:"Antonino Hernández",    role:"Seguridad",                   dept:"Mantenimiento",  email:"",                                       bday:"10/05/1962", jefe:28},
   {id:53, name:"VACANTE",                             short:"Vacante",               role:"Jardinero",                   dept:"Mantenimiento",  email:"", bday:"", jefe:28, vac:1},
-  {id:54, name:"Aldo Toscano Moreno",                 short:"Aldo Toscano",          role:"Aux. de Mantenimiento",       dept:"Mantenimiento",  email:"",                                       bday:"",           jefe:28},
+  {id:54, name:"VACANTE",                             short:"Vacante",               role:"Aux. de Mantenimiento",       dept:"Mantenimiento",  email:"", bday:"", jefe:28, vac:1},
   // AMA DE LLAVES
   {id:32, name:"Neri Angelina Contreras Pacheco",     short:"Neri Contreras",        role:"Ama de Llaves",               dept:"Ama de llaves",  email:"contreraspacheco0112@gmail.com",         bday:"01/12/1986", jefe:58},
   {id:33, name:"Karen Estrella Ventura Ruíz",         short:"Karen Ventura",         role:"Camarista",                   dept:"Ama de llaves",  email:"karenventura51344@gmail.com",            bday:"29/09/2004", jefe:34},
@@ -533,7 +533,8 @@ async function checkPin() {
     document.getElementById("lock-error").textContent = "Demasiados intentos. Recarga la página.";
     return;
   }
-  var val = document.getElementById("pin-input").value;
+  var val = document.getElementById("pin-input").value.trim();
+  if (!val) return;
   var hash = await sha256(val);
   if (hash === PIN_HASH) {
     document.getElementById("lock-screen").style.display = "none";
@@ -553,6 +554,7 @@ document.addEventListener("DOMContentLoaded", function() {
   var input = document.getElementById("pin-input");
   if (input) {
     input.addEventListener("keydown", function(e) { if (e.key === "Enter") checkPin(); });
+    input.addEventListener("keyup", function(e) { if (e.key === "Enter" || e.keyCode === 13) checkPin(); });
     input.focus();
   }
 });
