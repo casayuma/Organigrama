@@ -15,6 +15,21 @@
   --line:rgba(0,0,0,0.13);
 }
 body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+
+/* LOCK */
+#lock-screen{position:fixed;inset:0;background:#FAF9F6;z-index:999;display:flex;align-items:flex-start;justify-content:center;overflow-y:auto;padding:60px 20px 40px}
+.lock-box{background:#fff;border:0.5px solid rgba(0,0,0,0.1);border-radius:16px;padding:36px 32px;width:100%;max-width:320px;text-align:center}
+.lock-logo{width:48px;height:48px;background:#3B5A3A;border-radius:12px;display:flex;align-items:center;justify-content:center;margin:0 auto 16px}
+.lock-logo svg{width:26px;height:26px;fill:none;stroke:#C8D8A2;stroke-width:1.5}
+.lock-title{font-size:18px;font-weight:500;margin-bottom:4px}
+.lock-sub{font-size:13px;color:#6B6860;margin-bottom:24px}
+.lock-input{width:100%;font-family:'DM Sans',sans-serif;font-size:22px;letter-spacing:8px;text-align:center;padding:10px;border:0.5px solid rgba(0,0,0,0.2);border-radius:8px;outline:none;background:#FAF9F6;color:#1A1916}
+.lock-input:focus{border-color:#3B5A3A}
+.lock-btn{margin-top:14px;width:100%;font-family:'DM Sans',sans-serif;font-size:14px;padding:10px;background:#3B5A3A;color:#C8D8A2;border:none;border-radius:8px;cursor:pointer;transition:opacity .15s}
+.lock-btn:hover{opacity:.85}
+.lock-error{font-size:12px;color:#993556;margin-top:10px;min-height:18px}
+
+/* HEADER */
 header{background:var(--surface);border-bottom:0.5px solid var(--border);padding:16px 28px;display:flex;align-items:center;gap:14px;position:sticky;top:0;z-index:50}
 .logo{width:36px;height:36px;background:var(--green);border-radius:8px;display:flex;align-items:center;justify-content:center}
 .logo svg{width:20px;height:20px;fill:none;stroke:var(--green-light);stroke-width:1.5}
@@ -23,9 +38,10 @@ header{background:var(--surface);border-bottom:0.5px solid var(--border);padding
 .search{margin-left:auto;font-family:'DM Sans',sans-serif;font-size:13px;padding:6px 14px;border-radius:20px;border:0.5px solid var(--border-strong);background:var(--bg);color:var(--text);outline:none;width:220px}
 .search:focus{border-color:var(--green)}
 .search::placeholder{color:var(--text3)}
+
 main{padding:24px 28px;overflow-x:auto}
 .stats{display:flex;gap:10px;margin-bottom:22px;flex-wrap:wrap}
-.stat{background:var(--surface);border:0.5px solid var(--border);border-radius:8px;padding:10px 16px;min-width:140px}
+.stat{background:var(--surface);border:0.5px solid var(--border);border-radius:8px;padding:10px 16px;min-width:130px}
 .stat-n{font-size:22px;font-weight:500}
 .stat-l{font-size:12px;color:var(--text2);margin-top:2px}
 .filters{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:24px}
@@ -54,15 +70,16 @@ main{padding:24px 28px;overflow-x:auto}
 .vline{width:1px;background:var(--line);margin:0 auto}
 .hline{height:1px;background:var(--line);position:absolute;top:0;pointer-events:none}
 .tick{width:1px;background:var(--line);position:absolute;top:0;pointer-events:none}
-/* Modal */
+
+/* MODAL */
 .overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.28);z-index:200;align-items:center;justify-content:center;padding:20px}
 .overlay.open{display:flex}
 .modal{background:var(--surface);border:0.5px solid var(--border);border-radius:12px;padding:20px;width:300px;max-width:100%;position:relative}
 .mx{position:absolute;top:12px;right:12px;background:none;border:none;cursor:pointer;color:var(--text2);font-size:20px;line-height:1}
 .mav{width:72px;height:72px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:500;margin-bottom:10px;overflow:hidden;flex-shrink:0;cursor:pointer;position:relative}
-.mav:hover .mav-overlay{opacity:1}
-.mav-overlay{position:absolute;inset:0;background:rgba(0,0,0,.45);display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .2s;border-radius:50%}
-.mav-overlay svg{width:22px;height:22px;fill:none;stroke:#fff;stroke-width:1.8}
+.mav:hover .mav-ov{opacity:1}
+.mav-ov{position:absolute;inset:0;background:rgba(0,0,0,.45);display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .2s;border-radius:50%}
+.mav-ov svg{width:22px;height:22px;fill:none;stroke:#fff;stroke-width:1.8}
 .mav img{width:100%;height:100%;object-fit:cover}
 .mname{font-size:15px;font-weight:500;line-height:1.3}
 .mrole{font-size:13px;color:var(--text2);margin:3px 0 14px}
@@ -70,24 +87,11 @@ main{padding:24px 28px;overflow-x:auto}
 .mtable td{padding:5px 0;border-bottom:0.5px solid var(--border);vertical-align:top}
 .mtable tr:last-child td{border:none}
 .mtable td:first-child{color:var(--text2);width:90px}
-.upload-btn{margin-top:14px;width:100%;font-family:'DM Sans',sans-serif;font-size:12px;padding:8px;border-radius:8px;border:0.5px solid var(--border-strong);background:transparent;color:var(--text2);cursor:pointer;transition:all .15s;display:flex;align-items:center;justify-content:center;gap:6px}
-.upload-btn:hover{background:var(--surface2);color:var(--text)}
-.upload-btn.uploading{opacity:.6;pointer-events:none}
+.upload-btn{margin-top:14px;width:100%;font-family:'DM Sans',sans-serif;font-size:12px;padding:8px;border-radius:8px;border:0.5px solid var(--border-strong);background:transparent;color:var(--text2);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px}
+.upload-btn:hover{background:var(--surface2)}
 .upload-status{font-size:11px;color:var(--text3);text-align:center;margin-top:8px;min-height:16px}
+.loading-bar{text-align:center;padding:40px;color:var(--text3);font-size:13px}
 .hidden{display:none!important}
-
-#lock-screen{position:fixed;inset:0;background:#FAF9F6;z-index:999;display:flex;align-items:flex-start;justify-content:center;overflow-y:auto;padding:60px 20px 40px}
-.lock-box{background:#fff;border:0.5px solid rgba(0,0,0,0.1);border-radius:16px;padding:36px 32px;width:100%;max-width:320px;text-align:center}
-.lock-logo{width:48px;height:48px;background:#3B5A3A;border-radius:12px;display:flex;align-items:center;justify-content:center;margin:0 auto 16px}
-.lock-logo svg{width:26px;height:26px;fill:none;stroke:#C8D8A2;stroke-width:1.5}
-.lock-title{font-size:18px;font-weight:500;margin-bottom:4px}
-.lock-sub{font-size:13px;color:#6B6860;margin-bottom:24px}
-.lock-input{width:100%;font-family:'DM Sans',sans-serif;font-size:22px;letter-spacing:8px;text-align:center;padding:10px;border:0.5px solid rgba(0,0,0,0.2);border-radius:8px;outline:none;background:#FAF9F6;color:#1A1916}
-.lock-input:focus{border-color:#3B5A3A}
-.lock-btn{margin-top:14px;width:100%;font-family:'DM Sans',sans-serif;font-size:14px;padding:10px;background:#3B5A3A;color:#C8D8A2;border:none;border-radius:8px;cursor:pointer;transition:opacity .15s}
-.lock-btn:hover{opacity:.85}
-.lock-error{font-size:12px;color:#993556;margin-top:10px;min-height:18px}
-
 </style>
 </head>
 <body>
@@ -111,8 +115,9 @@ main{padding:24px 28px;overflow-x:auto}
 <main>
   <div class="stats" id="stats"></div>
   <div class="filters" id="filters"></div>
-  <div id="tree"></div>
+  <div id="tree"><div class="loading-bar">Cargando organigrama…</div></div>
 </main>
+
 <div class="overlay" id="overlay">
   <div class="modal">
     <button class="mx" id="mclose">&#x2715;</button>
@@ -121,7 +126,6 @@ main{padding:24px 28px;overflow-x:auto}
 </div>
 <input type="file" id="file-input" accept="image/*" style="display:none"/>
 
-<!-- Firebase SDKs -->
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import { getStorage, ref, uploadBytes, getDownloadURL, listAll } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-storage.js";
@@ -134,405 +138,97 @@ const firebaseConfig = {
   messagingSenderId: "1002857058465",
   appId: "1:1002857058465:web:eb3502204d71ae9bf0e0e0"
 };
-
 const app = initializeApp(firebaseConfig);
 const storage = getStorage(app);
 
-var CFG = {
+// ─── CONFIG ────────────────────────────────────────────────────────────────
+const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQZGDlaAd5PdWgA45TIMjkMXtPNRC3Bo2Eip_ZleIxiTtcabUB1liz8FAZzS0PDAojrqduPDRMPRCF-/pub?output=csv";
+const PIN_HASH = "db3e138c0d569a2285ca15a2cb42322ecfaf81831a972cff071fb40c62a7ffa0";
+
+// ─── HIERARCHY (hardcoded, jefe = clave del superior) ──────────────────────
+// clave -> { jefe, dept, apodo, short }
+const META = {
+  "TIM":   { jefe: null, dept: "Administración", apodo: "", short: "Tim de Belloy",    name: "Tim de Belloy",    role: "Fundador" },
+  "CY001": { jefe: null, dept: "Administración", apodo: "", short: "Manuel Otazo",     role: "Managing Director" },
+  "CY064": { jefe: "CY001", dept: "Administración", apodo: "", short: "Jorge Guillén",  role: "General Manager" },
+  "CY060": { jefe: "CY064", dept: "Administración", apodo: "Rainer" },
+  "CY005": { jefe: "CY064", dept: "Administración" },
+  // F&B
+  "CY006": { jefe: "CY064", dept: "F&B" },
+  "CY007": { jefe: "CY006", dept: "F&B" },
+  // Salón
+  "CY009": { jefe: "CY007", dept: "F&B", name: "VACANTE", role: "Capitán", short: "Vacante", vac: true },
+  "CY011": { jefe: "CY009", dept: "F&B" },
+  "CY012": { jefe: "CY009", dept: "F&B" },
+  "CY065": { jefe: "CY009", dept: "F&B" },
+  "CY066": { jefe: "CY009", dept: "F&B" },
+  "VMES":  { jefe: "CY009", dept: "F&B", name: "VACANTE", role: "Mesero", short: "Vacante", vac: true },
+  "VMES2": { jefe: "CY009", dept: "F&B", name: "VACANTE", role: "Mesero", short: "Vacante", vac: true },
+  // Barra
+  "CY068": { jefe: "CY007", dept: "F&B" },
+  "CY016": { jefe: "CY068", dept: "F&B" },
+  "CY063": { jefe: "CY068", dept: "F&B" },
+  "VBAR":  { jefe: "CY068", dept: "F&B", name: "VACANTE", role: "Bartender", short: "Vacante", vac: true },
+  "VPOOL": { jefe: "CY007", dept: "F&B", name: "VACANTE", role: "Pool Concierge", short: "Vacante", vac: true },
+  // Cocina
+  "CY062": { jefe: "CY006", dept: "F&B" },
+  "CY019": { jefe: "CY062", dept: "F&B" },
+  "CY018": { jefe: "CY019", dept: "F&B", apodo: "Maurilio" },
+  "CY020": { jefe: "CY018", dept: "F&B", apodo: "Sharon" },
+  "CY021": { jefe: "CY018", dept: "F&B" },
+  "CY022": { jefe: "CY018", dept: "F&B" },
+  "CY069": { jefe: "CY018", dept: "F&B" },
+  "CY023": { jefe: "CY018", dept: "F&B" },
+  "CY044": { jefe: "CY018", dept: "F&B" },
+  "CY45":  { jefe: "CY018", dept: "F&B" },
+  // Mantenimiento
+  "CY025": { jefe: "CY064", dept: "Mantenimiento" },
+  "CY027": { jefe: "CY025", dept: "Mantenimiento", apodo: "Pichi" },
+  "CY040": { jefe: "CY025", dept: "Mantenimiento" },
+  "CY067": { jefe: "CY025", dept: "Mantenimiento" },
+  "VMANT1":{ jefe: "CY025", dept: "Mantenimiento", name: "VACANTE", role: "Aux. de Mantenimiento", short: "Vacante", vac: true },
+  "VMANT2":{ jefe: "CY025", dept: "Mantenimiento", name: "VACANTE", role: "Aux. de Mantenimiento", short: "Vacante", vac: true },
+  "VJARD": { jefe: "CY025", dept: "Mantenimiento", name: "VACANTE", role: "Jardinero", short: "Vacante", vac: true },
+  // Ama de llaves
+  "CY029": { jefe: "CY064", dept: "Ama de llaves" },
+  "CY031": { jefe: "CY029", dept: "Ama de llaves" },
+  "CY030": { jefe: "CY031", dept: "Ama de llaves" },
+  "VCAM":  { jefe: "CY031", dept: "Ama de llaves", name: "VACANTE", role: "Camarista", short: "Vacante", vac: true },
+  "CY033": { jefe: "CY031", dept: "Ama de llaves" },
+  "CY046": { jefe: "CY031", dept: "Ama de llaves" },
+  "CY058": { jefe: "CY031", dept: "Ama de llaves" },
+  // Recepción
+  "CY035": { jefe: "CY064", dept: "Recepción" },
+  "CY037": { jefe: "CY035", dept: "Recepción", apodo: "Emiliano" },
+  "CY038": { jefe: "CY035", dept: "Recepción" },
+  "CY057": { jefe: "CY035", dept: "Recepción", apodo: "Paola" },
+  "CY039": { jefe: "CY035", dept: "Recepción" },
+  "CY041": { jefe: "CY035", dept: "Recepción" },
+  "CY050": { jefe: "CY035", dept: "Recepción" },
+  "CY051": { jefe: "CY035", dept: "Recepción", name: "Emma Søndergård", short: "Emma Søndergård", role: "Practicante" },
+};
+
+const DEPT_CFG = {
   "Administración": {color:"#1D9E75",light:"#E1F5EE",text:"#085041",label:"Administración"},
   "F&B":            {color:"#BA7517",light:"#FAEEDA",text:"#412402",label:"Alimentos & Bebidas"},
   "Mantenimiento":  {color:"#185FA5",light:"#E6F1FB",text:"#042C53",label:"Mantenimiento & Seguridad"},
   "Ama de llaves":  {color:"#993556",light:"#FBEAF0",text:"#4B1528",label:"Housekeeping / Ama de Llaves"},
-  "Recepción":      {color:"#534AB7",light:"#EEEDFE",text:"#26215C",label:"Recepción & Servicios"}
+  "Recepción":      {color:"#534AB7",light:"#EEEDFE",text:"#26215C",label:"Recepción & Servicios"},
 };
-var DEPTS = ["Administración","F&B","Mantenimiento","Ama de llaves","Recepción"];
+const DEPTS = ["Administración","F&B","Mantenimiento","Ama de llaves","Recepción"];
 
-var P = [
-  // ADMINISTRACIÓN
-  {id:57, name:"Tim de Belloy",                       short:"Tim de Belloy",         role:"Fundador",                    dept:"Administración", email:"",                                       bday:"",           jefe:0},
-  {id:1,  name:"Manuel Arturo Otazo Aponte",         short:"Manuel Otazo",          role:"Managing Director",             dept:"Administración", email:"manuotazo@gmail.com",                    bday:"14/08/1990", jefe:0},
-  {id:58, name:"Jorge Guillén",                        short:"Jorge Guillén",         role:"General Manager",             dept:"Administración", email:"",                                       bday:"",           jefe:1},
-  {id:3,  name:"Roberto Arturo Cruz Zarate",          short:"Roberto Cruz",          role:"Gerente Administrativo",      dept:"Administración", email:"robertok9.cruz@gmail.com",               bday:"22/08/1994", jefe:58},
-  {id:4,  name:"Rainer Ramírez",                      short:"Rainer Ramírez",        role:"Encargado de Compras",        dept:"Administración", email:"",                                       bday:"",           jefe:58},
-  {id:5,  name:"Horacio Muñoz Martínez",              short:"Horacio Muñoz",         role:"Coord. Ventas y Eventos",     dept:"Administración", email:"horaciomumtz@gmail.com",                 bday:"20/09/1991", jefe:58},
-  // F&B — salón
-  {id:6,  name:"Alejandro Uriostegui Hernández",      short:"Alejandro Uriostegui",  role:"Dir. Alimentos y Bebidas",    dept:"F&B",            email:"15alexxuh@gmail.com",                    bday:"09/02/1998", jefe:58},
-  {id:7,  name:"Ricardo Ojeda Montuy",                short:"Ricardo Ojeda",         role:"Gerente de A&B",              dept:"F&B",            email:"ricardomontuy@gmail.com",                bday:"27/02/1995", jefe:6},
-  {id:9,  name:"Ernesto Hernandez Ortiz",             short:"Ernesto Hernández",     role:"Capitán",                     dept:"F&B",            email:"ernesto.riquelme_10@hotmail.fr",         bday:"14/06/1986", jefe:7},
-  {id:10, name:"Scarlet Libertad Rios Gutierrez",     short:"Scarlet Ríos",          role:"Mesera",                      dept:"F&B",            email:"scarletrivers@hotmail.com",              bday:"29/10/1991", jefe:9},
-  {id:11, name:"Emmanuel Santa María Santiago",       short:"Emmanuel Santa María",  role:"Mesero",                      dept:"F&B",            email:"emmanuelsantamaria66@gmail.com",         bday:"06/06/1991", jefe:9},
-  {id:12, name:"Heriberto Orozco Ramíres",            short:"Heriberto Orozco",      role:"Mesero",                      dept:"F&B",            email:"horaorozco1@gmail.com",                  bday:"16/03/1986", jefe:9},
-  {id:55, name:"Marco Spezzia",                       short:"Marco Spezzia",         role:"Mesero",                      dept:"F&B",            email:"",                                       bday:"",           jefe:9},
-  {id:13, name:"Christian Naranjo",                   short:"Christian Naranjo",     role:"Mesero",                      dept:"F&B",            email:"",                                       bday:"",           jefe:9},
-  {id:14, name:"Julio Cesar Ramos",                   short:"Julio Ramos",           role:"Mesero",                      dept:"F&B",            email:"ramosjuliocesar158@gmail.com",           bday:"16/03/1977", jefe:9},
-  // Barra
-  {id:52, name:"VACANTE",                             short:"Vacante",               role:"Jefe de Barra",               dept:"F&B",            email:"", bday:"", jefe:7, vac:1},
-  {id:15, name:"Elda Cruz Ortiz",                     short:"Elda Cruz",             role:"Bartender",                   dept:"F&B",            email:"cruzelda242@gmail.com",                  bday:"04/08/1999", jefe:52},
-  {id:16, name:"Luis Enrique Mota Vega",              short:"Luis Mota",             role:"Bartender",                   dept:"F&B",            email:"lmotavega@gmail.com",                    bday:"16/07/1993", jefe:52},
-  {id:17, name:"VACANTE",                             short:"Vacante",               role:"Bartender",                   dept:"F&B",            email:"", bday:"", jefe:52, vac:1},
-  {id:56, name:"Salvador Carrillo",                    short:"Salvador Carrillo",     role:"Bartender",                   dept:"F&B",            email:"",                                       bday:"",           jefe:52},
-  {id:18, name:"VACANTE",                             short:"Vacante",               role:"Pool Concierge",              dept:"F&B",            email:"", bday:"", jefe:7, vac:1},
-  // Cocina
-  {id:50, name:"Lizette López",                       short:"Lizette López",         role:"Executive Chef",              dept:"F&B",            email:"",                                       bday:"",           jefe:6},
-  {id:20, name:"Miriam Lopez Sanchez",                short:"Miriam López",          role:"Sous Chef",                   dept:"F&B",            email:"millitoychef@icloud.com",                bday:"04/02/1981", jefe:50},
-  {id:51, name:"VACANTE",                             short:"Vacante",               role:"Encargado de Turno",          dept:"F&B",            email:"", bday:"", jefe:20, vac:1},
-  {id:21, name:"María del Rosario García Salvador",   short:"Sharon García",         role:"Cocinera",                    dept:"F&B",            email:"mariadelrosariosalvador7@gmail.com",     bday:"07/10/2004", jefe:51, nick:"Sharon"},
-  {id:22, name:"Alma Belem Rodriguez Mandujano",      short:"Alma Rodríguez",        role:"Cocinera",                    dept:"F&B",            email:"",                                       bday:"",           jefe:51},
-  {id:23, name:"Jaime Martínez Gómez",                short:"Jaime Martínez",        role:"Cocinero",                    dept:"F&B",            email:"jaimensn2006@gmail.com",                 bday:"23/06/2006", jefe:51},
-  {id:26, name:"Angela Francisco Vargas",             short:"Angela Francisco",      role:"Lavaloza",                    dept:"F&B",            email:"",                                       bday:"30/06/1976", jefe:51},
-  {id:19, name:"Plácido Maurilio García Pérez",       short:"Maurilio García",       role:"Encargado de Turno",          dept:"F&B",            email:"mauriliogarciaperez429@gmail.com",       bday:"05/10/1983", jefe:20},
-  {id:24, name:"Manuel Olivera Contreras",            short:"Manuel Olivera",        role:"Cocinero",                    dept:"F&B",            email:"",                                       bday:"",           jefe:19},
-  {id:25, name:"Candelaria Sánchez Lorenzo",          short:"Candelaria Sánchez",    role:"Lavaloza",                    dept:"F&B",            email:"candelariasanchezlorenzo@gmail.com",     bday:"01/02/1988", jefe:19},
-  {id:27, name:"Nissa Navani Sanchez Jimenez",        short:"Nissa Sánchez",         role:"Lavaloza",                    dept:"F&B",            email:"",                                       bday:"",           jefe:19},
-  // MANTENIMIENTO
-  {id:28, name:"Egbert Cruz García",                  short:"Egbert Cruz",           role:"Gerente de Mantenimiento",    dept:"Mantenimiento",  email:"egbertcg@gmail.com",                     bday:"09/12/1990", jefe:58},
-  {id:29, name:"Pedro Velázquez",                     short:"Pedro Velázquez",       role:"Seguridad",                   dept:"Mantenimiento",  email:"",                                       bday:"",           jefe:28},
-  {id:30, name:"Gerardo Tereso Ruiz",                 short:"Gerardo Tereso",        role:"Aux. de Mantenimiento",       dept:"Mantenimiento",  email:"gerardo_tereso01@hotmail.com",           bday:"03/12/1984", jefe:28, nick:"Pichi"},
-  {id:31, name:"VACANTE",                             short:"Vacante",               role:"Aux. de Mantenimiento",       dept:"Mantenimiento",  email:"", bday:"", jefe:28, vac:1},
-  {id:44, name:"Antonino Hernández Cruz",             short:"Antonino Hernández",    role:"Seguridad",                   dept:"Mantenimiento",  email:"",                                       bday:"10/05/1962", jefe:28},
-  {id:53, name:"VACANTE",                             short:"Vacante",               role:"Jardinero",                   dept:"Mantenimiento",  email:"", bday:"", jefe:28, vac:1},
-  {id:54, name:"VACANTE",                             short:"Vacante",               role:"Aux. de Mantenimiento",       dept:"Mantenimiento",  email:"", bday:"", jefe:28, vac:1},
-  // AMA DE LLAVES
-  {id:32, name:"Neri Angelina Contreras Pacheco",     short:"Neri Contreras",        role:"Ama de Llaves",               dept:"Ama de llaves",  email:"contreraspacheco0112@gmail.com",         bday:"01/12/1986", jefe:58},
-  {id:33, name:"Karen Estrella Ventura Ruíz",         short:"Karen Ventura",         role:"Camarista",                   dept:"Ama de llaves",  email:"karenventura51344@gmail.com",            bday:"29/09/2004", jefe:34},
-  {id:34, name:"Margarita Díaz Canseco",              short:"Margarita Díaz",        role:"Supervisora",                 dept:"Ama de llaves",  email:"acuariodiazcanseco26@gmail.com",         bday:"26/01/1998", jefe:32},
-  {id:35, name:"VACANTE",                             short:"Vacante",               role:"Camarista",                   dept:"Ama de llaves",  email:"", bday:"", jefe:34, vac:1},
-  {id:36, name:"Modesta Luna Hernández",              short:"Modesta Luna",          role:"Áreas Públicas",              dept:"Ama de llaves",  email:"lunamode692@gmail.com",                  bday:"14/09/1997", jefe:34},
-  {id:37, name:"Italia Ortiz Dias",                   short:"Italia Ortiz",          role:"Áreas Públicas",              dept:"Ama de llaves",  email:"ortizitalia94@gmail.com",                bday:"09/10/2002", jefe:34},
-  {id:38, name:"Karen Itzel Santiago Rios",           short:"Karen Santiago",        role:"Áreas Públicas",              dept:"Ama de llaves",  email:"",                                       bday:"",           jefe:34},
-  // RECEPCIÓN
-  {id:39, name:"Aida Carrillo Patiño",                short:"Aida Carrillo",         role:"Lead House Manager",          dept:"Recepción",      email:"aid4ka@icloud.com",                      bday:"07/02/1988", jefe:58},
-  {id:40, name:"Omar Emiliano de la Tejera Zamorano", short:"Emiliano de la Tejera", role:"House Manager",               dept:"Recepción",      email:"delatejera1706@gmail.com",               bday:"17/06/1992", jefe:39},
-  {id:41, name:"Rodolfo Ramirez Perez",               short:"Rodolfo Ramírez",       role:"House Manager",               dept:"Recepción",      email:"Rodolfo.rmz.pz@gmail.com",              bday:"20/02/2002", jefe:39},
-  {id:42, name:"Arleth Paola Anicacio Antunez",       short:"Paola Anicacio",        role:"House Manager",               dept:"Recepción",      email:"",                                       bday:"24/10/2001", jefe:39},
-  {id:43, name:"Jesus Israel Castillo Hernández",     short:"Jesús Castillo",        role:"Auditor",                     dept:"Recepción",      email:"castillohernandezjesusisrael@gmail.com", bday:"11/03/1985", jefe:39},
-  {id:45, name:"Rosalba Pacheco Ramos",               short:"Rosalba Pacheco",       role:"Masajista",                   dept:"Recepción",      email:"prosalba0901@gmail.com",                 bday:"01/09/1987", jefe:39},
-  {id:46, name:"Abraham Leonardo Arteaga Garcia",     short:"Abraham Arteaga",       role:"Masajista",                   dept:"Recepción",      email:"",                                       bday:"07/08/1989", jefe:39},
-  {id:47, name:"Emma Søndergård",                     short:"Emma Søndergård",       role:"Practicante",                 dept:"Recepción",      email:"",                                       bday:"",           jefe:39}
-];
-
-// Cache de URLs de fotos
+var P = [];
 var photoCache = {};
 var currentModalId = null;
-
-// Cargar todas las fotos existentes de Firebase al inicio
-async function loadAllPhotos() {
-  try {
-    var photosRef = ref(storage, "fotos/");
-    var result = await listAll(photosRef);
-    var promises = result.items.map(async function(itemRef) {
-      var url = await getDownloadURL(itemRef);
-      var name = itemRef.name.replace(".jpg","").replace(".png","").replace(".jpeg","");
-      photoCache[name] = url;
-    });
-    await Promise.all(promises);
-    refreshAvatars();
-  } catch(e) {
-    console.log("No photos yet or error loading:", e);
-  }
-}
-
-function refreshAvatars() {
-  P.forEach(function(p) {
-    if (photoCache[String(p.id)]) {
-      var avEl = document.querySelector('.av[data-id="' + p.id + '"]');
-      if (avEl) {
-        avEl.style.background = "none";
-        avEl.innerHTML = '<img src="' + photoCache[String(p.id)] + '" alt="' + p.short + '">';
-      }
-    }
-  });
-}
-
-function initials(n) {
-  if (!n || n === "VACANTE") return "?";
-  var parts = n.trim().split(" ");
-  return (parts[0][0] + (parts[1] ? parts[1][0] : "")).toUpperCase();
-}
-
-function makeAv(p, size) {
-  size = size || 50;
-  var cfg = CFG[p.dept];
-  var el = document.createElement("div");
-  el.className = "av";
-  el.dataset.id = p.id;
-  el.style.width = size + "px";
-  el.style.height = size + "px";
-  if (photoCache[String(p.id)]) {
-    el.style.background = "none";
-    el.innerHTML = '<img src="' + photoCache[String(p.id)] + '" alt="' + p.short + '">';
-  } else {
-    el.style.background = p.vac ? "#E8E6E0" : cfg.light;
-    el.style.color = p.vac ? "#999" : cfg.text;
-    el.textContent = initials(p.name);
-  }
-  return el;
-}
-
-function makeNode(p) {
-  var el = document.createElement("div");
-  el.className = "node" + (p.vac ? " vac" : "");
-  el.dataset.id = p.id;
-  el.dataset.dept = p.dept;
-  el.dataset.q = (p.name + " " + p.role + (p.nick ? " " + p.nick : "")).toLowerCase();
-  if (!p.vac) el.onclick = function() { openModal(p.id); };
-  el.appendChild(makeAv(p));
-  var nn = document.createElement("div"); nn.className = "nn"; nn.textContent = p.short; el.appendChild(nn);
-  var nr = document.createElement("div"); nr.className = "nr"; nr.textContent = p.role; el.appendChild(nr);
-  if (p.nick) { var nk = document.createElement("div"); nk.className = "nk"; nk.textContent = '"' + p.nick + '"'; el.appendChild(nk); }
-  return el;
-}
-
-function buildBranch(person, all) {
-  var children = all.filter(function(x) { return x.jefe === person.id; });
-  var wrap = document.createElement("div"); wrap.className = "branch";
-  wrap.appendChild(makeNode(person));
-  if (!children.length) return wrap;
-  var stem = document.createElement("div"); stem.className = "vline"; stem.style.height = "20px"; wrap.appendChild(stem);
-  var row = document.createElement("div"); row.className = "bchildren";
-  children.forEach(function(c) { row.appendChild(buildBranch(c, all)); });
-  wrap.appendChild(row);
-  return wrap;
-}
-
-function drawLines() {
-  document.querySelectorAll(".bchildren").forEach(function(row) {
-    var branches = Array.from(row.children).filter(function(el) { return el.classList.contains("branch"); });
-    if (branches.length < 2) return;
-    var rr = row.getBoundingClientRect();
-    var fn = branches[0].querySelector(".node");
-    var ln = branches[branches.length - 1].querySelector(".node");
-    if (!fn || !ln) return;
-    var fr = fn.getBoundingClientRect();
-    var lr = ln.getBoundingClientRect();
-    var left = fr.left + fr.width / 2 - rr.left;
-    var right = lr.left + lr.width / 2 - rr.left;
-    var hbar = row.querySelector(":scope > .hline");
-    if (!hbar) { hbar = document.createElement("div"); hbar.className = "hline"; row.insertBefore(hbar, row.firstChild); }
-    hbar.style.left = left + "px"; hbar.style.width = (right - left) + "px";
-    branches.forEach(function(b) {
-      var nd = b.querySelector(".node"); if (!nd) return;
-      var nr2 = nd.getBoundingClientRect();
-      var cx = nr2.left + nr2.width / 2 - rr.left;
-      var tick = b.querySelector(":scope > .tick");
-      if (!tick) { tick = document.createElement("div"); tick.className = "tick"; b.insertBefore(tick, b.firstChild); }
-      tick.style.left = cx + "px"; tick.style.height = "18px"; tick.style.transform = "translateX(-50%)";
-    });
-  });
-}
-
-function renderDept(dept) {
-  var people = P.filter(function(p) { return p.dept === dept; });
-  var cfg = CFG[dept];
-  var sec = document.createElement("div"); sec.className = "dsec"; sec.dataset.dept = dept;
-  var lbl = document.createElement("div"); lbl.className = "dlabel"; lbl.style.color = cfg.color;
-  var dot = document.createElement("span"); dot.className = "ddot"; dot.style.background = cfg.color;
-  lbl.appendChild(dot); lbl.appendChild(document.createTextNode(cfg.label));
-  sec.appendChild(lbl);
-  var roots = people.filter(function(p) { return !p.jefe || !people.find(function(x) { return x.id === p.jefe; }); });
-  // Special case: if Administración has Tim(57) and Manuel(1) as co-roots,
-  // show them side-by-side in a paired top row, with only Manuel's subtree below
-  var tim = roots.find(function(r) { return r.id === 57; });
-  var manuel = roots.find(function(r) { return r.id === 1; });
-  if (tim && manuel) {
-    // Paired top row
-    var topRow = document.createElement("div");
-    topRow.style.cssText = "display:flex;gap:12px;justify-content:flex-start;align-items:flex-start;margin-bottom:0";
-    topRow.appendChild(makeNode(tim));
-    // Manuel's full branch
-    topRow.appendChild(buildBranch(manuel, people));
-    sec.appendChild(topRow);
-    // Other roots (if any)
-    var others = roots.filter(function(r) { return r.id !== 57 && r.id !== 1; });
-    if (others.length) {
-      var rw = document.createElement("div"); rw.className = "droots";
-      others.forEach(function(r) { rw.appendChild(buildBranch(r, people)); });
-      sec.appendChild(rw);
-    }
-  } else {
-    var rw = document.createElement("div"); rw.className = "droots";
-    roots.forEach(function(r) { rw.appendChild(buildBranch(r, people)); });
-    sec.appendChild(rw);
-  }
-  return sec;
-}
-
-function renderAll() {
-  var tree = document.getElementById("tree"); tree.innerHTML = "";
-  DEPTS.forEach(function(d) { tree.appendChild(renderDept(d)); });
-  requestAnimationFrame(function() { requestAnimationFrame(drawLines); });
-}
-
-function renderStats() {
-  var a    = P.filter(function(p) { return !p.vac; }).length;
-  var v    = P.filter(function(p) { return p.vac; }).length;
-  var adm  = P.filter(function(p) { return p.dept === "Administración" && !p.vac; }).length;
-  var fab  = P.filter(function(p) { return p.dept === "F&B" && !p.vac; }).length;
-  var mant = P.filter(function(p) { return p.dept === "Mantenimiento" && !p.vac; }).length;
-  var hk   = P.filter(function(p) { return p.dept === "Ama de llaves" && !p.vac; }).length;
-  var rec  = P.filter(function(p) { return p.dept === "Recepción" && !p.vac; }).length;
-  document.getElementById("stats").innerHTML =
-    '<div class="stat"><div class="stat-n">' + a    + '</div><div class="stat-l">Total colaboradores</div></div>' +
-    '<div class="stat"><div class="stat-n">' + v    + '</div><div class="stat-l">Vacantes abiertas</div></div>' +
-    '<div class="stat"><div class="stat-n">' + adm  + '</div><div class="stat-l">Administración</div></div>' +
-    '<div class="stat"><div class="stat-n">' + fab  + '</div><div class="stat-l">Alimentos & Bebidas</div></div>' +
-    '<div class="stat"><div class="stat-n">' + mant + '</div><div class="stat-l">Mantenimiento</div></div>' +
-    '<div class="stat"><div class="stat-n">' + hk   + '</div><div class="stat-l">Housekeeping</div></div>' +
-    '<div class="stat"><div class="stat-n">' + rec  + '</div><div class="stat-l">Recepción</div></div>';
-}
-
-function renderFilters() {
-  var labels = {"Administración":"Administración","F&B":"Alimentos & Bebidas","Mantenimiento":"Mantenimiento","Ama de llaves":"Housekeeping","Recepción":"Recepción"};
-  var html = '<button class="fbtn active" data-dept="all">Todos</button>';
-  DEPTS.forEach(function(d) { html += '<button class="fbtn" data-dept="' + d + '">' + labels[d] + '</button>'; });
-  document.getElementById("filters").innerHTML = html;
-  document.querySelectorAll(".fbtn").forEach(function(btn) {
-    btn.onclick = function() {
-      document.querySelectorAll(".fbtn").forEach(function(b) { b.classList.remove("active"); });
-      btn.classList.add("active");
-      var dept = btn.dataset.dept;
-      document.querySelectorAll(".dsec").forEach(function(s) {
-        s.classList.toggle("hidden", dept !== "all" && s.dataset.dept !== dept);
-      });
-    };
-  });
-}
-
-function openModal(id) {
-  var p = P.find(function(x) { return x.id === id; });
-  if (!p || p.vac) return;
-  currentModalId = id;
-  var cfg = CFG[p.dept];
-  var jefe = p.jefe ? P.find(function(x) { return x.id === p.jefe; }) : null;
-  var rows = "";
-  if (p.email) rows += "<tr><td>Email</td><td>" + p.email + "</td></tr>";
-  if (p.bday) rows += "<tr><td>Cumpleaños</td><td>" + p.bday + "</td></tr>";
-  if (jefe) rows += "<tr><td>Reporta a</td><td>" + jefe.short + "</td></tr>";
-
-  var photoUrl = photoCache[String(p.id)];
-  var avInner = photoUrl
-    ? '<img src="' + photoUrl + '" alt="' + p.short + '">'
-    : initials(p.name);
-  var avBg = photoUrl ? "none" : cfg.light;
-  var avColor = cfg.text;
-
-  document.getElementById("mbody").innerHTML =
-    '<div style="display:flex;align-items:center;gap:14px;margin-bottom:12px">' +
-      '<div class="mav" id="modal-av" style="background:' + avBg + ';color:' + avColor + '" onclick="triggerUpload()">' +
-        avInner +
-        '<div class="mav-overlay"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg></div>' +
-      '</div>' +
-      '<div><div class="mname">' + p.name + (p.nick ? ' <span style="font-weight:400;color:#999">"' + p.nick + '"</span>' : "") + '</div>' +
-      '<div class="mrole">' + p.role + ' · ' + cfg.label + '</div></div>' +
-    '</div>' +
-    '<table class="mtable"><tbody>' + rows + '</tbody></table>' +
-    '<button class="upload-btn" onclick="triggerUpload()" id="upload-btn">' +
-      '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>' +
-      'Subir mi foto' +
-    '</button>' +
-    '<div class="upload-status" id="upload-status"></div>';
-
-  document.getElementById("overlay").classList.add("open");
-}
-
-window.triggerUpload = function() {
-  document.getElementById("file-input").click();
-};
-
-document.getElementById("file-input").addEventListener("change", async function(e) {
-  var file = e.target.files[0];
-  if (!file || !currentModalId) return;
-  var btn = document.getElementById("upload-btn");
-  var status = document.getElementById("upload-status");
-  if (!btn || !status) return;
-
-  btn.classList.add("uploading");
-  btn.textContent = "Subiendo…";
-  status.textContent = "";
-
-  try {
-    // Compress/resize before upload
-    var compressed = await compressImage(file, 400);
-    var storageRef = ref(storage, "fotos/" + currentModalId + ".jpg");
-    await uploadBytes(storageRef, compressed);
-    var url = await getDownloadURL(storageRef);
-    photoCache[String(currentModalId)] = url;
-
-    // Update modal avatar
-    var mavEl = document.getElementById("modal-av");
-    if (mavEl) {
-      mavEl.style.background = "none";
-      mavEl.innerHTML = '<img src="' + url + '" alt="foto"><div class="mav-overlay"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg></div>';
-    }
-    // Update node avatar in tree
-    var nodeAv = document.querySelector('.av[data-id="' + currentModalId + '"]');
-    if (nodeAv) {
-      nodeAv.style.background = "none";
-      nodeAv.innerHTML = '<img src="' + url + '" alt="foto">';
-    }
-    btn.textContent = "✓ Foto actualizada";
-    btn.classList.remove("uploading");
-    status.textContent = "Visible para todo el equipo";
-  } catch(err) {
-    btn.classList.remove("uploading");
-    btn.textContent = "Subir mi foto";
-    status.textContent = "Error al subir. Intenta de nuevo.";
-    console.error(err);
-  }
-  e.target.value = "";
-});
-
-async function compressImage(file, maxSize) {
-  return new Promise(function(resolve) {
-    var reader = new FileReader();
-    reader.onload = function(e) {
-      var img = new Image();
-      img.onload = function() {
-        var canvas = document.createElement("canvas");
-        var ratio = Math.min(maxSize / img.width, maxSize / img.height, 1);
-        canvas.width = img.width * ratio;
-        canvas.height = img.height * ratio;
-        var ctx = canvas.getContext("2d");
-        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-        canvas.toBlob(function(blob) { resolve(blob); }, "image/jpeg", 0.85);
-      };
-      img.src = e.target.result;
-    };
-    reader.readAsDataURL(file);
-  });
-}
-
-document.getElementById("search").addEventListener("input", function() {
-  var q = this.value.toLowerCase().trim();
-  document.querySelectorAll(".node").forEach(function(n) {
-    var m = !q || n.dataset.q.includes(q);
-    n.classList.toggle("dim", !m && !!q);
-    n.classList.toggle("hl", m && !!q);
-  });
-});
-
-document.getElementById("overlay").onclick = function(e) {
-  if (e.target === this) { this.classList.remove("open"); currentModalId = null; }
-};
-document.getElementById("mclose").onclick = function() {
-  document.getElementById("overlay").classList.remove("open"); currentModalId = null;
-};
-window.addEventListener("resize", function() { requestAnimationFrame(drawLines); });
-
-
-var PIN_HASH = "8c41f91584580db5832d489858acd624fe578c3f55ab5093c385e2e13998303c";
 var pinAttempts = 0;
 
+// ─── PIN ───────────────────────────────────────────────────────────────────
 async function sha256(str) {
   var buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(str));
-  return Array.from(new Uint8Array(buf)).map(function(b){return b.toString(16).padStart(2,"0")}).join("");
+  return Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,"0")).join("");
 }
-
-async function checkPin() {
-  if (pinAttempts >= 5) {
-    document.getElementById("lock-error").textContent = "Demasiados intentos. Recarga la página.";
-    return;
-  }
+window.checkPin = async function() {
+  if (pinAttempts >= 5) { document.getElementById("lock-error").textContent = "Demasiados intentos. Recarga la página."; return; }
   var val = document.getElementById("pin-input").value.trim();
   if (!val) return;
   var hash = await sha256(val);
@@ -541,29 +237,340 @@ async function checkPin() {
     sessionStorage.setItem("cy_auth","1");
   } else {
     pinAttempts++;
-    document.getElementById("lock-error").textContent = "PIN incorrecto (" + (5 - pinAttempts) + " intentos restantes)";
+    document.getElementById("lock-error").textContent = "PIN incorrecto (" + (5-pinAttempts) + " intentos restantes)";
     document.getElementById("pin-input").value = "";
     document.getElementById("pin-input").focus();
   }
+};
+
+// ─── CSV LOADER ────────────────────────────────────────────────────────────
+function parseCSV(text) {
+  var rows = [], cur = [], field = "", inQ = false;
+  for (var i = 0; i < text.length; i++) {
+    var c = text[i];
+    if (inQ) { if (c==='"' && text[i+1]==='"'){field+='"';i++;} else if(c==='"'){inQ=false;} else {field+=c;} }
+    else if (c==='"'){inQ=true;}
+    else if (c===','){cur.push(field.trim());field="";}
+    else if (c==='\n'||c==='\r'){if(field||cur.length){cur.push(field.trim());rows.push(cur);}cur=[];field="";}
+    else {field+=c;}
+  }
+  if(field||cur.length){cur.push(field.trim());rows.push(cur);}
+  return rows;
 }
 
-document.addEventListener("DOMContentLoaded", function() {
-  if (sessionStorage.getItem("cy_auth") === "1") {
-    document.getElementById("lock-screen").style.display = "none";
+async function loadCSV() {
+  try {
+    var res = await fetch(CSV_URL + "&t=" + Date.now());
+    var text = await res.text();
+    var rows = parseCSV(text);
+    // rows[0] = headers, rows[1..] = data
+    var sheetData = {};
+    for (var i = 1; i < rows.length; i++) {
+      var r = rows[i];
+      if (!r[0]) continue;
+      var clave = r[0].trim();
+      sheetData[clave] = {
+        name: (r[1]||"").replace(/\n/g," ").trim(),
+        role: (r[2]||"").replace(/\n/g," ").trim(),
+        dept: (r[3]||"").trim()
+      };
+    }
+    return sheetData;
+  } catch(e) {
+    console.error("CSV load error", e);
+    return {};
   }
-  var input = document.getElementById("pin-input");
-  if (input) {
-    input.addEventListener("keydown", function(e) { if (e.key === "Enter") checkPin(); });
-    input.addEventListener("keyup", function(e) { if (e.key === "Enter" || e.keyCode === 13) checkPin(); });
+}
+
+function buildPeople(sheetData) {
+  var people = [];
+  Object.keys(META).forEach(function(clave) {
+    var meta = META[clave];
+    var sheet = sheetData[clave] || {};
+    // If meta has hardcoded name/role (vacantes, Tim, special), use those
+    var name  = meta.name  || sheet.name  || clave;
+    var role  = meta.role  || sheet.role  || "";
+    var dept  = meta.dept  || sheet.dept  || "Administración";
+    var short = meta.short || (meta.apodo ? meta.apodo + " " + name.split(" ")[1] : null) || firstLastName(name);
+    if (meta.apodo) short = meta.apodo + " " + name.split(" ").slice(-1)[0];
+    // Overrides for specific roles
+    if (clave === "CY001") { role = "Managing Director"; short = "Manuel Otazo"; }
+    if (clave === "CY064") { role = "General Manager";   short = "Jorge Guillén"; }
+    if (clave === "CY037") short = "Emiliano de la Tejera";
+    if (clave === "CY057") short = "Paola Anicacio";
+    if (clave === "CY020") short = "Sharon García";
+    if (clave === "CY027") short = "Gerardo Tereso";
+    people.push({
+      id: clave,
+      name: name,
+      short: short,
+      role: role,
+      dept: dept,
+      jefe: meta.jefe || null,
+      nick: meta.apodo || null,
+      vac: meta.vac || (name === "VACANTE") || false
+    });
+  });
+  return people;
+}
+
+function firstLastName(full) {
+  var p = full.trim().split(/\s+/);
+  return p[0] + (p[1] ? " " + p[1] : "");
+}
+
+// ─── PHOTOS ────────────────────────────────────────────────────────────────
+async function loadAllPhotos() {
+  try {
+    var photosRef = ref(storage, "fotos/");
+    var result = await listAll(photosRef);
+    var promises = result.items.map(async function(itemRef) {
+      var url = await getDownloadURL(itemRef);
+      var key = itemRef.name.replace(/\.(jpg|png|jpeg)$/i,"");
+      photoCache[key] = url;
+    });
+    await Promise.all(promises);
+    refreshAvatars();
+  } catch(e) { console.log("Photos:", e); }
+}
+
+function refreshAvatars() {
+  Object.keys(photoCache).forEach(function(key) {
+    var el = document.querySelector('.av[data-id="' + key + '"]');
+    if (el) { el.style.background="none"; el.innerHTML='<img src="'+photoCache[key]+'" alt="">'; }
+  });
+}
+
+// ─── RENDER ────────────────────────────────────────────────────────────────
+function initials(n) {
+  if (!n || n==="VACANTE") return "?";
+  var p = n.trim().split(/\s+/);
+  return (p[0][0]+(p[1]?p[1][0]:"")).toUpperCase();
+}
+
+function makeAv(p, size) {
+  size = size||50;
+  var cfg = DEPT_CFG[p.dept]||DEPT_CFG["Administración"];
+  var el = document.createElement("div");
+  el.className="av"; el.dataset.id=p.id;
+  el.style.width=size+"px"; el.style.height=size+"px";
+  if (photoCache[p.id] && !p.vac) {
+    el.style.background="none";
+    el.innerHTML='<img src="'+photoCache[p.id]+'" alt="'+p.short+'">';
+  } else {
+    el.style.background=p.vac?"#E8E6E0":cfg.light;
+    el.style.color=p.vac?"#999":cfg.text;
+    el.textContent=initials(p.name);
+  }
+  return el;
+}
+
+function makeNode(p) {
+  var el=document.createElement("div");
+  el.className="node"+(p.vac?" vac":"");
+  el.dataset.id=p.id; el.dataset.dept=p.dept;
+  el.dataset.q=(p.name+" "+p.role+(p.nick?" "+p.nick:"")).toLowerCase();
+  if(!p.vac) el.onclick=function(){openModal(p.id);};
+  el.appendChild(makeAv(p));
+  var nn=document.createElement("div");nn.className="nn";nn.textContent=p.short;el.appendChild(nn);
+  var nr=document.createElement("div");nr.className="nr";nr.textContent=p.role;el.appendChild(nr);
+  if(p.nick){var nk=document.createElement("div");nk.className="nk";nk.textContent='"'+p.nick+'"';el.appendChild(nk);}
+  return el;
+}
+
+function buildBranch(person, all) {
+  var children=all.filter(function(x){return x.jefe===person.id;});
+  var wrap=document.createElement("div");wrap.className="branch";
+  wrap.appendChild(makeNode(person));
+  if(!children.length) return wrap;
+  var stem=document.createElement("div");stem.className="vline";stem.style.height="20px";wrap.appendChild(stem);
+  var row=document.createElement("div");row.className="bchildren";
+  children.forEach(function(c){row.appendChild(buildBranch(c,all));});
+  wrap.appendChild(row);
+  return wrap;
+}
+
+function drawLines() {
+  document.querySelectorAll(".bchildren").forEach(function(row){
+    var branches=Array.from(row.children).filter(function(el){return el.classList.contains("branch");});
+    if(branches.length<2)return;
+    var rr=row.getBoundingClientRect();
+    var fn=branches[0].querySelector(".node");
+    var ln=branches[branches.length-1].querySelector(".node");
+    if(!fn||!ln)return;
+    var fr=fn.getBoundingClientRect(),lr=ln.getBoundingClientRect();
+    var left=fr.left+fr.width/2-rr.left,right=lr.left+lr.width/2-rr.left;
+    var hbar=row.querySelector(":scope>.hline");
+    if(!hbar){hbar=document.createElement("div");hbar.className="hline";row.insertBefore(hbar,row.firstChild);}
+    hbar.style.left=left+"px";hbar.style.width=(right-left)+"px";
+    branches.forEach(function(b){
+      var nd=b.querySelector(".node");if(!nd)return;
+      var nr=nd.getBoundingClientRect(),cx=nr.left+nr.width/2-rr.left;
+      var tick=b.querySelector(":scope>.tick");
+      if(!tick){tick=document.createElement("div");tick.className="tick";b.insertBefore(tick,b.firstChild);}
+      tick.style.left=cx+"px";tick.style.height="18px";tick.style.transform="translateX(-50%)";
+    });
+  });
+}
+
+function renderDept(dept) {
+  var people=P.filter(function(p){return p.dept===dept;});
+  var cfg=DEPT_CFG[dept];
+  var sec=document.createElement("div");sec.className="dsec";sec.dataset.dept=dept;
+  var lbl=document.createElement("div");lbl.className="dlabel";lbl.style.color=cfg.color;
+  var dot=document.createElement("span");dot.className="ddot";dot.style.background=cfg.color;
+  lbl.appendChild(dot);lbl.appendChild(document.createTextNode(cfg.label));
+  sec.appendChild(lbl);
+  var roots=people.filter(function(p){return !p.jefe||!people.find(function(x){return x.id===p.jefe;});});
+  // Special: Tim and Manuel side by side
+  var tim=roots.find(function(r){return r.id==="TIM";});
+  var manuel=roots.find(function(r){return r.id==="CY001";});
+  if(tim&&manuel){
+    var topRow=document.createElement("div");
+    topRow.style.cssText="display:flex;gap:12px;justify-content:flex-start;align-items:flex-start;margin-bottom:0";
+    topRow.appendChild(makeNode(tim));
+    topRow.appendChild(buildBranch(manuel,people));
+    sec.appendChild(topRow);
+    var others=roots.filter(function(r){return r.id!=="TIM"&&r.id!=="CY001";});
+    if(others.length){var rw=document.createElement("div");rw.className="droots";others.forEach(function(r){rw.appendChild(buildBranch(r,people));});sec.appendChild(rw);}
+  } else {
+    var rw=document.createElement("div");rw.className="droots";
+    roots.forEach(function(r){rw.appendChild(buildBranch(r,people));});
+    sec.appendChild(rw);
+  }
+  return sec;
+}
+
+function renderAll() {
+  var tree=document.getElementById("tree");tree.innerHTML="";
+  DEPTS.forEach(function(d){tree.appendChild(renderDept(d));});
+  requestAnimationFrame(function(){requestAnimationFrame(drawLines);});
+}
+
+function renderStats() {
+  var deptLabels={"Administración":"Administración","F&B":"Alimentos & Bebidas","Mantenimiento":"Mantenimiento","Ama de llaves":"Housekeeping","Recepción":"Recepción"};
+  var a=P.filter(function(p){return!p.vac;}).length;
+  var v=P.filter(function(p){return p.vac;}).length;
+  var html='<div class="stat"><div class="stat-n">'+a+'</div><div class="stat-l">Total colaboradores</div></div>'+
+           '<div class="stat"><div class="stat-n">'+v+'</div><div class="stat-l">Vacantes abiertas</div></div>';
+  DEPTS.forEach(function(d){
+    var n=P.filter(function(p){return p.dept===d&&!p.vac;}).length;
+    html+='<div class="stat"><div class="stat-n">'+n+'</div><div class="stat-l">'+deptLabels[d]+'</div></div>';
+  });
+  document.getElementById("stats").innerHTML=html;
+}
+
+function renderFilters() {
+  var labels={"Administración":"Administración","F&B":"Alimentos & Bebidas","Mantenimiento":"Mantenimiento","Ama de llaves":"Housekeeping","Recepción":"Recepción"};
+  var html='<button class="fbtn active" data-dept="all">Todos</button>';
+  DEPTS.forEach(function(d){html+='<button class="fbtn" data-dept="'+d+'">'+labels[d]+'</button>';});
+  document.getElementById("filters").innerHTML=html;
+  document.querySelectorAll(".fbtn").forEach(function(btn){
+    btn.onclick=function(){
+      document.querySelectorAll(".fbtn").forEach(function(b){b.classList.remove("active");});
+      btn.classList.add("active");
+      var dept=btn.dataset.dept;
+      document.querySelectorAll(".dsec").forEach(function(s){s.classList.toggle("hidden",dept!=="all"&&s.dataset.dept!==dept);});
+    };
+  });
+}
+
+// ─── MODAL ─────────────────────────────────────────────────────────────────
+function openModal(id) {
+  var p=P.find(function(x){return x.id===id;});if(!p||p.vac)return;
+  currentModalId=id;
+  var cfg=DEPT_CFG[p.dept]||DEPT_CFG["Administración"];
+  var jefe=p.jefe?P.find(function(x){return x.id===p.jefe;}):null;
+  var ph=photoCache[id];
+  var avHTML=ph
+    ?'<div class="mav" onclick="window.triggerUpload()"><img src="'+ph+'" alt=""><div class="mav-ov"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg></div></div>'
+    :'<div class="mav" style="background:'+cfg.light+';color:'+cfg.text+'" onclick="window.triggerUpload()">'+initials(p.name)+'<div class="mav-ov"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg></div></div>';
+  var rows="";
+  if(jefe) rows+="<tr><td>Reporta a</td><td>"+jefe.short+"</td></tr>";
+  document.getElementById("mbody").innerHTML=
+    '<div style="display:flex;align-items:center;gap:14px;margin-bottom:12px">'+avHTML+
+    '<div><div class="mname">'+p.name+(p.nick?' <span style="font-weight:400;color:#999">"'+p.nick+'"</span>':'')+'</div>'+
+    '<div class="mrole">'+p.role+' &middot; '+(DEPT_CFG[p.dept]||{label:p.dept}).label+'</div></div></div>'+
+    '<table class="mtable"><tbody>'+rows+'</tbody></table>'+
+    '<button class="upload-btn" type="button" onclick="window.triggerUpload()">'+
+    '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>Subir mi foto</button>'+
+    '<div class="upload-status" id="upload-status"></div>';
+  document.getElementById("overlay").classList.add("open");
+}
+
+window.triggerUpload=function(){document.getElementById("file-input").click();};
+
+async function compressImage(file,maxSize){
+  return new Promise(function(resolve){
+    var reader=new FileReader();
+    reader.onload=function(e){
+      var img=new Image();
+      img.onload=function(){
+        var canvas=document.createElement("canvas");
+        var ratio=Math.min(maxSize/img.width,maxSize/img.height,1);
+        canvas.width=img.width*ratio;canvas.height=img.height*ratio;
+        canvas.getContext("2d").drawImage(img,0,0,canvas.width,canvas.height);
+        canvas.toBlob(function(blob){resolve(blob);},"image/jpeg",0.85);
+      };img.src=e.target.result;
+    };reader.readAsDataURL(file);
+  });
+}
+
+document.getElementById("file-input").addEventListener("change",async function(e){
+  var file=e.target.files[0];if(!file||!currentModalId)return;
+  var btn=document.querySelector(".upload-btn"),status=document.getElementById("upload-status");
+  if(!btn||!status)return;
+  btn.textContent="Subiendo…";btn.disabled=true;
+  try{
+    var compressed=await compressImage(file,400);
+    var storageRef=ref(storage,"fotos/"+currentModalId+".jpg");
+    await uploadBytes(storageRef,compressed);
+    var url=await getDownloadURL(storageRef);
+    photoCache[currentModalId]=url;
+    var mavEl=document.querySelector(".mav");
+    if(mavEl){mavEl.style.background="none";mavEl.innerHTML='<img src="'+url+'" alt=""><div class="mav-ov"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg></div>';}
+    var nodeAv=document.querySelector('.av[data-id="'+currentModalId+'"]');
+    if(nodeAv){nodeAv.style.background="none";nodeAv.innerHTML='<img src="'+url+'" alt="">';}
+    btn.textContent="✓ Foto actualizada";status.textContent="Visible para todo el equipo";
+  }catch(err){btn.textContent="Subir mi foto";status.textContent="Error al subir. Intenta de nuevo.";console.error(err);}
+  btn.disabled=false;e.target.value="";
+});
+
+document.getElementById("search").addEventListener("input",function(){
+  var q=this.value.toLowerCase().trim();
+  document.querySelectorAll(".node").forEach(function(n){
+    var m=!q||n.dataset.q.includes(q);
+    n.classList.toggle("dim",!m&&!!q);n.classList.toggle("hl",m&&!!q);
+  });
+});
+
+document.getElementById("overlay").onclick=function(e){if(e.target===this){this.classList.remove("open");currentModalId=null;}};
+document.getElementById("mclose").onclick=function(){document.getElementById("overlay").classList.remove("open");currentModalId=null;};
+window.addEventListener("resize",function(){requestAnimationFrame(drawLines);});
+
+// ─── INIT ──────────────────────────────────────────────────────────────────
+document.addEventListener("DOMContentLoaded",function(){
+  if(sessionStorage.getItem("cy_auth")==="1"){
+    document.getElementById("lock-screen").style.display="none";
+  }
+  var input=document.getElementById("pin-input");
+  if(input){
+    input.addEventListener("keydown",function(e){if(e.key==="Enter")window.checkPin();});
+    input.addEventListener("keyup",function(e){if(e.key==="Enter"||e.keyCode===13)window.checkPin();});
     input.focus();
   }
 });
 
-// Init
-renderStats();
-renderFilters();
-renderAll();
-loadAllPhotos();
+// Load CSV then render
+(async function(){
+  var sheetData = await loadCSV();
+  P = buildPeople(sheetData);
+  renderStats();
+  renderFilters();
+  renderAll();
+  loadAllPhotos();
+})();
+
 </script>
 </body>
 </html>
