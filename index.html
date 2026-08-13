@@ -217,6 +217,51 @@ const DEPT_CFG = {
 };
 const DEPTS = ["Administración","F&B","Mantenimiento","Ama de llaves","Recepción"];
 
+var PHOTO_ID = {
+  "TIM":   "57",
+  "CY001": "1",
+  "CY064": "58",
+  "CY060": "4",
+  "CY005": "5",
+  "CY006": "6",
+  "CY007": "7",
+  "CY009": "9",
+  "CY011": "10",
+  "CY012": "11",
+  "CY065": "13",
+  "CY066": "55",
+  "CY068": "52",
+  "CY016": "15",
+  "CY063": "56",
+  "CY062": "50",
+  "CY018": "19",
+  "CY019": "20",
+  "CY020": "21",
+  "CY021": "23",
+  "CY022": "24",
+  "CY069": "69",
+  "CY023": "25",
+  "CY044": "26",
+  "CY45":  "27",
+  "CY025": "28",
+  "CY027": "30",
+  "CY040": "44",
+  "CY067": "29",
+  "CY029": "32",
+  "CY031": "34",
+  "CY030": "33",
+  "CY033": "36",
+  "CY046": "37",
+  "CY058": "38",
+  "CY035": "39",
+  "CY037": "40",
+  "CY038": "41",
+  "CY057": "42",
+  "CY039": "43",
+  "CY041": "45",
+  "CY050": "46",
+  "CY051": "47"
+};
 var P = [];
 var photoCache = {};
 var currentModalId = null;
@@ -354,9 +399,9 @@ function makeAv(p, size) {
   var el = document.createElement("div");
   el.className="av"; el.dataset.id=p.id;
   el.style.width=size+"px"; el.style.height=size+"px";
-  if (photoCache[p.id] && !p.vac) {
+  if (photoCache[PHOTO_ID[p.id]||p.id] && !p.vac) {
     el.style.background="none";
-    el.innerHTML='<img src="'+photoCache[p.id]+'" alt="'+p.short+'">';
+    el.innerHTML='<img src="'+photoCache[PHOTO_ID[p.id]||p.id]+'" alt="'+p.short+'">';
   } else {
     el.style.background=p.vac?"#E8E6E0":cfg.light;
     el.style.color=p.vac?"#999":cfg.text;
@@ -481,7 +526,7 @@ function openModal(id) {
   currentModalId=id;
   var cfg=DEPT_CFG[p.dept]||DEPT_CFG["Administración"];
   var jefe=p.jefe?P.find(function(x){return x.id===p.jefe;}):null;
-  var ph=photoCache[id];
+  var ph=photoCache[PHOTO_ID[id]||id];
   var avHTML=ph
     ?'<div class="mav" onclick="window.triggerUpload()"><img src="'+ph+'" alt=""><div class="mav-ov"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg></div></div>'
     :'<div class="mav" style="background:'+cfg.light+';color:'+cfg.text+'" onclick="window.triggerUpload()">'+initials(p.name)+'<div class="mav-ov"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg></div></div>';
@@ -523,13 +568,15 @@ document.getElementById("file-input").addEventListener("change",async function(e
   btn.textContent="Subiendo…";btn.disabled=true;
   try{
     var compressed=await compressImage(file,400);
-    var storageRef=ref(storage,"fotos/"+currentModalId+".jpg");
+    var numId=PHOTO_ID[currentModalId]||currentModalId;
+var storageRef=ref(storage,"fotos/"+numId+".jpg");
     await uploadBytes(storageRef,compressed);
     var url=await getDownloadURL(storageRef);
-    photoCache[currentModalId]=url;
+    photoCache[PHOTO_ID[currentModalId]||currentModalId]=url;
     var mavEl=document.querySelector(".mav");
     if(mavEl){mavEl.style.background="none";mavEl.innerHTML='<img src="'+url+'" alt=""><div class="mav-ov"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg></div>';}
     var nodeAv=document.querySelector('.av[data-id="'+currentModalId+'"]');
+var numId2=PHOTO_ID[currentModalId]||currentModalId;
     if(nodeAv){nodeAv.style.background="none";nodeAv.innerHTML='<img src="'+url+'" alt="">';}
     btn.textContent="✓ Foto actualizada";status.textContent="Visible para todo el equipo";
   }catch(err){btn.textContent="Subir mi foto";status.textContent="Error al subir. Intenta de nuevo.";console.error(err);}
