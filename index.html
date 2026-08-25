@@ -7,17 +7,8 @@
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-:root{
-  --bg:#FAF9F6;--surface:#FFF;--surface2:#F4F2EE;
-  --border:rgba(0,0,0,0.09);--border-strong:rgba(0,0,0,0.2);
-  --text:#1A1916;--text2:#6B6860;--text3:#A09D96;
-  --green:#3B5A3A;--green-light:#C8D8A2;
-  --line:rgba(0,0,0,0.13);
-}
+:root{--bg:#FAF9F6;--surface:#FFF;--surface2:#F4F2EE;--border:rgba(0,0,0,0.09);--border-strong:rgba(0,0,0,0.2);--text:#1A1916;--text2:#6B6860;--text3:#A09D96;--green:#3B5A3A;--green-light:#C8D8A2;--line:rgba(0,0,0,0.13)}
 body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
-
-
-/* HEADER */
 header{background:var(--surface);border-bottom:0.5px solid var(--border);padding:16px 28px;display:flex;align-items:center;gap:14px;position:sticky;top:0;z-index:50}
 .logo{width:36px;height:36px;background:var(--green);border-radius:8px;display:flex;align-items:center;justify-content:center}
 .logo svg{width:20px;height:20px;fill:none;stroke:var(--green-light);stroke-width:1.5}
@@ -26,7 +17,6 @@ header{background:var(--surface);border-bottom:0.5px solid var(--border);padding
 .search{margin-left:auto;font-family:'DM Sans',sans-serif;font-size:13px;padding:6px 14px;border-radius:20px;border:0.5px solid var(--border-strong);background:var(--bg);color:var(--text);outline:none;width:220px}
 .search:focus{border-color:var(--green)}
 .search::placeholder{color:var(--text3)}
-
 main{padding:24px 28px;overflow-x:auto}
 .stats{display:flex;gap:10px;margin-bottom:22px;flex-wrap:wrap}
 .stat{background:var(--surface);border:0.5px solid var(--border);border-radius:8px;padding:10px 16px;min-width:130px}
@@ -58,13 +48,11 @@ main{padding:24px 28px;overflow-x:auto}
 .vline{width:1px;background:var(--line);margin:0 auto}
 .hline{height:1px;background:var(--line);position:absolute;top:0;pointer-events:none}
 .tick{width:1px;background:var(--line);position:absolute;top:0;pointer-events:none}
-
-/* MODAL */
 .overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.28);z-index:200;align-items:center;justify-content:center;padding:20px}
 .overlay.open{display:flex}
 .modal{background:var(--surface);border:0.5px solid var(--border);border-radius:12px;padding:20px;width:300px;max-width:100%;position:relative}
 .mx{position:absolute;top:12px;right:12px;background:none;border:none;cursor:pointer;color:var(--text2);font-size:20px;line-height:1}
-.mav{width:72px;height:72px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:500;margin-bottom:10px;overflow:hidden;flex-shrink:0;cursor:pointer;position:relative}
+.mav{width:72px;height:72px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:500;margin-bottom:10px;overflow:hidden;cursor:pointer;position:relative}
 .mav:hover .mav-ov{opacity:1}
 .mav-ov{position:absolute;inset:0;background:rgba(0,0,0,.45);display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .2s;border-radius:50%}
 .mav-ov svg{width:22px;height:22px;fill:none;stroke:#fff;stroke-width:1.8}
@@ -78,28 +66,11 @@ main{padding:24px 28px;overflow-x:auto}
 .upload-btn{margin-top:14px;width:100%;font-family:'DM Sans',sans-serif;font-size:12px;padding:8px;border-radius:8px;border:0.5px solid var(--border-strong);background:transparent;color:var(--text2);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px}
 .upload-btn:hover{background:var(--surface2)}
 .upload-status{font-size:11px;color:var(--text3);text-align:center;margin-top:8px;min-height:16px}
-.loading-bar{text-align:center;padding:40px;color:var(--text3);font-size:13px}
+.loading-msg{text-align:center;padding:60px;color:var(--text3);font-size:13px}
 .hidden{display:none!important}
 </style>
 </head>
 <body>
-
-    <div class="lock-title">Casa Yuma</div>
-    <div class="lock-sub">Organigrama de Personal</div>
-    <input class="lock-input" type="password" id="pin-input" maxlength="10" placeholder="••••" autocomplete="off" inputmode="numeric" pattern="[0-9]*"/>
-    <button class="lock-btn" type="button" >Ingresar</button>
-    <div class="lock-error" id="lock-error"></div>
-  </div>
-</div>
-
-
-    <div class="lock-title">Casa Yuma</div>
-    <div class="lock-sub">Organigrama de Personal</div>
-    <input class="lock-input" type="password" id="pin-input" maxlength="10" placeholder="••••" autocomplete="off" inputmode="numeric" onkeydown="if(event.key==='Enter')checkPin()"/>
-    <button class="lock-btn" onclick="checkPin()">Ingresar</button>
-    <div class="lock-error" id="lock-error"></div>
-  </div>
-</div>
 <header>
   <div class="logo"><svg viewBox="0 0 20 20"><path d="M10 2L18 8V18H2V8Z" stroke-linejoin="round"/><rect x="7" y="12" width="6" height="6"/></svg></div>
   <div class="hdr-text"><div class="title">Casa Yuma</div><div class="sub">Organigrama de Personal</div></div>
@@ -108,9 +79,8 @@ main{padding:24px 28px;overflow-x:auto}
 <main>
   <div class="stats" id="stats"></div>
   <div class="filters" id="filters"></div>
-  <div id="tree"><div class="loading-bar">Cargando organigrama…</div></div>
+  <div id="tree"><div class="loading-msg">Cargando organigrama…</div></div>
 </main>
-
 <div class="overlay" id="overlay">
   <div class="modal">
     <button class="mx" id="mclose">&#x2715;</button>
@@ -121,156 +91,109 @@ main{padding:24px 28px;overflow-x:auto}
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getStorage, ref, uploadBytes, getDownloadURL, listAll } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-storage.js";
+import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-storage.js";
 
-const firebaseConfig = {
-  apiKey: "AIzaSyBYITr8j5dNbo7gbx86WpFhGnskX-YdVlw",
-  authDomain: "orgama-5228d.firebaseapp.com",
-  projectId: "orgama-5228d",
-  storageBucket: "orgama-5228d.firebasestorage.app",
-  messagingSenderId: "1002857058465",
-  appId: "1:1002857058465:web:eb3502204d71ae9bf0e0e0"
-};
-const app = initializeApp(firebaseConfig);
+const app = initializeApp({
+  apiKey:"AIzaSyBYITr8j5dNbo7gbx86WpFhGnskX-YdVlw",
+  authDomain:"orgama-5228d.firebaseapp.com",
+  projectId:"orgama-5228d",
+  storageBucket:"orgama-5228d.firebasestorage.app",
+  messagingSenderId:"1002857058465",
+  appId:"1:1002857058465:web:eb3502204d71ae9bf0e0e0"
+});
 const storage = getStorage(app);
 
-// ─── CONFIG ────────────────────────────────────────────────────────────────
 const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQZGDlaAd5PdWgA45TIMjkMXtPNRC3Bo2Eip_ZleIxiTtcabUB1liz8FAZzS0PDAojrqduPDRMPRCF-/pub?gid=2092789761&single=true&output=csv";
 
-// ─── HIERARCHY (hardcoded, jefe = clave del superior) ──────────────────────
-// clave -> { jefe, dept, apodo, short }
-const META = {
-  "TIM":   { jefe: null, dept: "Administración", apodo: "", short: "Tim de Belloy",    name: "Tim de Belloy",    role: "Fundador" },
-  "CY001": { jefe: null, dept: "Administración", apodo: "", short: "Manuel Otazo",     role: "Managing Director" },
-  "CY064": { jefe: "CY001", dept: "Administración", apodo: "", short: "Jorge Guillén",  role: "General Manager" },
-  "CY060": { jefe: "CY064", dept: "Administración", apodo: "Rainer" },
-  "CY005": { jefe: "CY064", dept: "Administración" },
-  // F&B
-  "CY071": { jefe: "CY064", dept: "F&B" },
-  "CY070": { jefe: "CY064", dept: "Administración" },
-  "CY007": { jefe: "CY071", dept: "F&B" },
-  // Salón
-  "CY065": { jefe: "CY007", dept: "F&B" },
-  "CY011": { jefe: "CY065", dept: "F&B" },
-  "VMES":  { jefe: "CY065", dept: "F&B", name: "VACANTE", role: "Mesero", short: "Vacante", vac: true },
-  "CY066": { jefe: "CY007", dept: "F&B" },
-  "CY012": { jefe: "CY066", dept: "F&B" },
-  "VMES2": { jefe: "CY066", dept: "F&B", name: "VACANTE", role: "Mesero", short: "Vacante", vac: true },
-  // Barra
-  "CY068": { jefe: "CY007", dept: "F&B", name: "Mario Angel Sauruz", short: "Mario Angel", role: "Jefe de Barra" },
-  "CY063": { jefe: "CY068", dept: "F&B" },
-  "VBAR":  { jefe: "CY068", dept: "F&B", name: "VACANTE", role: "Bartender", short: "Vacante", vac: true },
-  "VPOOL": { jefe: "CY071", dept: "F&B", name: "VACANTE", role: "Pool Concierge", short: "Vacante", vac: true },
-  // Cocina
-  "CY062": { jefe: "CY071", dept: "F&B" },
-  "CY019": { jefe: "CY062", dept: "F&B" },
-  "CY018": { jefe: "CY019", dept: "F&B", apodo: "Maurilio" },
-  "CY020": { jefe: "CY018", dept: "F&B", apodo: "Sharon" },
-  "CY021": { jefe: "CY018", dept: "F&B" },
-  "CY022": { jefe: "CY018", dept: "F&B" },
-  "CY069": { jefe: "CY018", dept: "F&B" },
-  "CY023": { jefe: "CY018", dept: "F&B" },
-  "CY044": { jefe: "CY018", dept: "F&B" },
-  "CY45":  { jefe: "CY018", dept: "F&B" },
-  // Mantenimiento
-  "CY025": { jefe: "CY064", dept: "Mantenimiento" },
-  "CY027": { jefe: "CY025", dept: "Mantenimiento", apodo: "Pichi" },
-  "CY040": { jefe: "CY025", dept: "Mantenimiento" },
-  "CY067": { jefe: "CY025", dept: "Mantenimiento" },
-  "VMANT1":{ jefe: "CY025", dept: "Mantenimiento", name: "VACANTE", role: "Aux. de Mantenimiento", short: "Vacante", vac: true },
-  "VMANT2":{ jefe: "CY025", dept: "Mantenimiento", name: "VACANTE", role: "Aux. de Mantenimiento", short: "Vacante", vac: true },
-  "VJARD": { jefe: "CY025", dept: "Mantenimiento", name: "VACANTE", role: "Jardinero", short: "Vacante", vac: true },
-  // Ama de llaves
-  "CY029": { jefe: "CY064", dept: "Ama de llaves" },
-  "CY031": { jefe: "CY029", dept: "Ama de llaves" },
-  "CY030": { jefe: "CY031", dept: "Ama de llaves" },
-  "VCAM":  { jefe: "CY031", dept: "Ama de llaves", name: "VACANTE", role: "Camarista", short: "Vacante", vac: true },
-  "CY033": { jefe: "CY031", dept: "Ama de llaves" },
-  "CY046": { jefe: "CY031", dept: "Ama de llaves" },
-  "CY058": { jefe: "CY031", dept: "Ama de llaves" },
-  // Recepción
-  "CY035": { jefe: "CY064", dept: "Recepción" },
-  "CY037": { jefe: "CY035", dept: "Recepción", apodo: "Emiliano" },
-  "CY038": { jefe: "CY035", dept: "Recepción" },
-  "CY057": { jefe: "CY035", dept: "Recepción", apodo: "Paola" },
-  "CY039": { jefe: "CY035", dept: "Recepción" },
-  "CY041": { jefe: "CY035", dept: "Recepción" },
-  "CY050": { jefe: "CY035", dept: "Recepción" },
-  "CY051": { jefe: "CY035", dept: "Recepción", name: "Emma Søndergård", short: "Emma Søndergård", role: "Practicante" },
+// Photo map: clave -> numeric filename in Firebase
+const PHOTO_ID = {
+  "CY001":"1","CY002":"3","CY060":"4","CY005":"5","CY007":"7",
+  "CY011":"10","CY018":"19","CY019":"20","CY020":"21","CY021":"23",
+  "CY022":"24","CY023":"25","CY044":"26","CY025":"28","CY067":"29",
+  "CY027":"30","CY029":"32","CY030":"33","CY031":"34","CY033":"36",
+  "CY046":"37","CY035":"39","CY037":"40","CY038":"41","CY057":"42",
+  "CY039":"43","CY040":"44","CY041":"45","CY050":"46","CY062":"50",
+  "CY066":"55","CY063":"56","TIM":"57","CY064":"58","CY058":"38",
+  "CY071":"71","CY070":"70"
+};
+
+// Hierarchy: who reports to whom
+const JEFE = {
+  "TIM":null,"CY001":null,
+  "CY064":"CY001",
+  "CY070":"CY064","CY060":"CY064","CY005":"CY064",
+  "CY071":"CY064",
+  "CY007":"CY071",
+  "CY065":"CY007","CY066":"CY007","CY068":"CY007","VPOOL":"CY007",
+  "CY011":"CY065","VMES1":"CY065",
+  "CY012":"CY066","VMES2":"CY066",
+  "CY063":"CY068","CY072":"CY068","VBAR":"CY068",
+  "CY062":"CY071",
+  "CY019":"CY062",
+  "CY018":"CY019",
+  "CY020":"CY018","CY021":"CY018","CY022":"CY018","CY069":"CY018","CY023":"CY018","CY044":"CY018","VLV":"CY018",
+  "CY025":"CY064",
+  "CY027":"CY025","CY040":"CY025","CY067":"CY025","VMANT1":"CY025","VMANT2":"CY025","VJARD":"CY025",
+  "CY029":"CY064",
+  "CY031":"CY029",
+  "CY030":"CY031","VCAM":"CY031","CY033":"CY031","CY046":"CY031","CY058":"CY031",
+  "CY035":"CY064",
+  "CY037":"CY035","CY038":"CY035","CY057":"CY035","CY039":"CY035","CY041":"CY035","CY050":"CY035","CY051":"CY035"
+};
+
+// Static overrides (vacantes, Tim, apodos)
+const STATIC = {
+  "TIM":  {name:"Tim de Belloy",  short:"Tim de Belloy",  role:"Fundador",           dept:"Administración"},
+  "CY001":{role:"Managing Director", short:"Manuel Otazo"},
+  "CY064":{role:"General Manager",   short:"Jorge Guillén"},
+  "CY020":{short:"Sharon García",    nick:"Sharon"},
+  "CY027":{short:"Gerardo Tereso",   nick:"Pichi"},
+  "CY037":{short:"Emiliano de la Tejera"},
+  "CY057":{short:"Paola Anicacio"},
+  "VPOOL":{name:"VACANTE",short:"Vacante",role:"Pool Concierge",dept:"F&B",vac:true},
+  "VMES1":{name:"VACANTE",short:"Vacante",role:"Mesero",dept:"F&B",vac:true},
+  "VMES2":{name:"VACANTE",short:"Vacante",role:"Mesero",dept:"F&B",vac:true},
+  "VBAR": {name:"VACANTE",short:"Vacante",role:"Bartender",dept:"F&B",vac:true},
+  "VLV":  {name:"VACANTE",short:"Vacante",role:"Lavaloza",dept:"Cocina",vac:true},
+  "VMANT1":{name:"VACANTE",short:"Vacante",role:"Aux. de Mantenimiento",dept:"Mantenimiento",vac:true},
+  "VMANT2":{name:"VACANTE",short:"Vacante",role:"Aux. de Mantenimiento",dept:"Mantenimiento",vac:true},
+  "VJARD":{name:"VACANTE",short:"Vacante",role:"Jardinero",dept:"Mantenimiento",vac:true},
+  "VCAM": {name:"VACANTE",short:"Vacante",role:"Camarista",dept:"Ama de llaves",vac:true},
+  "CY051":{name:"Emma Søndergård",short:"Emma Søndergård",role:"Practicante",dept:"Recepción"}
 };
 
 const DEPT_CFG = {
-  "Administración": {color:"#1D9E75",light:"#E1F5EE",text:"#085041",label:"Administración"},
-  "F&B":            {color:"#BA7517",light:"#FAEEDA",text:"#412402",label:"Alimentos & Bebidas"},
-  "Mantenimiento":  {color:"#185FA5",light:"#E6F1FB",text:"#042C53",label:"Mantenimiento & Seguridad"},
-  "Ama de llaves":  {color:"#993556",light:"#FBEAF0",text:"#4B1528",label:"Housekeeping / Ama de Llaves"},
-  "Recepción":      {color:"#534AB7",light:"#EEEDFE",text:"#26215C",label:"Recepción & Servicios"},
+  "Administración":{color:"#1D9E75",light:"#E1F5EE",text:"#085041",label:"Administración"},
+  "F&B":           {color:"#BA7517",light:"#FAEEDA",text:"#412402",label:"Alimentos & Bebidas"},
+  "Restaurante":   {color:"#BA7517",light:"#FAEEDA",text:"#412402",label:"Alimentos & Bebidas"},
+  "Cocina":        {color:"#BA7517",light:"#FAEEDA",text:"#412402",label:"Alimentos & Bebidas"},
+  "Mantenimiento": {color:"#185FA5",light:"#E6F1FB",text:"#042C53",label:"Mantenimiento & Seguridad"},
+  "Ama de llaves": {color:"#993556",light:"#FBEAF0",text:"#4B1528",label:"Housekeeping / Ama de Llaves"},
+  "Ama de Llaves": {color:"#993556",light:"#FBEAF0",text:"#4B1528",label:"Housekeeping / Ama de Llaves"},
+  "Recepción":     {color:"#534AB7",light:"#EEEDFE",text:"#26215C",label:"Recepción & Servicios"}
 };
-const DEPTS = ["Administración","F&B","Mantenimiento","Ama de llaves","Recepción"];
+const DEPT_DISPLAY = ["Administración","F&B","Mantenimiento","Ama de llaves","Recepción"];
+const DEPT_NORMALIZE = (d) => {
+  if (!d) return "Administración";
+  if (d === "Restaurante" || d === "Cocina") return "F&B";
+  if (d === "Ama de Llaves") return "Ama de llaves";
+  return d;
+};
 
-var PHOTO_ID = {
-  "CY001": "1",
-  "CY002": "3",
-  "CY060": "4",
-  "CY005": "5",
-  "CY007": "7",
-  "CY011": "10",
-  "CY018": "19",
-  "CY019": "20",
-  "CY020": "21",
-  "CY021": "23",
-  "CY022": "24",
-  "CY023": "25",
-  "CY044": "26",
-  "CY025": "28",
-  "CY067": "29",
-  "CY027": "30",
-  "CY029": "32",
-  "CY030": "33",
-  "CY031": "34",
-  "CY033": "36",
-  "CY046": "37",
-  "CY035": "39",
-  "CY037": "40",
-  "CY038": "41",
-  "CY057": "42",
-  "CY039": "43",
-  "CY040": "44",
-  "CY041": "45",
-  "CY050": "46",
-  "CY062": "50",
-  "CY066": "55",
-  "CY063": "56",
-  "TIM":   "57",
-  "CY064": "58",
-  "CY071": "71",
-  "CY070": "70",
-  "TIM":   "57",
-  "CY058": "38"
-};
 var P = [];
 var photoCache = {};
 var currentModalId = null;
 
-    btn.addEventListener("touchend", function(e) { e.preventDefault(); window.checkPin(); });
-  }
-  var input = document.getElementById("pin-input");
-  if (input) {
-    input.addEventListener("keydown", function(e) { if (e.key === "Enter") window.checkPin(); });
-    input.focus();
-  }
-});
-
-// ─── CSV LOADER ────────────────────────────────────────────────────────────
+// Parse CSV
 function parseCSV(text) {
-  var rows = [], cur = [], field = "", inQ = false;
-  for (var i = 0; i < text.length; i++) {
-    var c = text[i];
-    if (inQ) { if (c==='"' && text[i+1]==='"'){field+='"';i++;} else if(c==='"'){inQ=false;} else {field+=c;} }
-    else if (c==='"'){inQ=true;}
-    else if (c===','){cur.push(field.trim());field="";}
-    else if (c==='\n'||c==='\r'){if(field||cur.length){cur.push(field.trim());rows.push(cur);}cur=[];field="";}
-    else {field+=c;}
+  var rows=[], cur=[], field="", inQ=false;
+  for (var i=0;i<text.length;i++) {
+    var c=text[i];
+    if (inQ){if(c==='"'&&text[i+1]==='"'){field+='"';i++;}else if(c==='"'){inQ=false;}else{field+=c;}}
+    else if(c==='"'){inQ=true;}
+    else if(c===','){cur.push(field.trim());field="";}
+    else if(c==='\n'||c==='\r'){if(field||cur.length){cur.push(field.trim());rows.push(cur);}cur=[];field="";}
+    else{field+=c;}
   }
   if(field||cur.length){cur.push(field.trim());rows.push(cur);}
   return rows;
@@ -278,119 +201,65 @@ function parseCSV(text) {
 
 async function loadCSV() {
   try {
-    var res = await fetch(CSV_URL + "&t=" + Date.now());
+    var res = await fetch(CSV_URL+"&t="+Date.now());
     var text = await res.text();
     var rows = parseCSV(text);
-    // rows[0] = headers, rows[1..] = data
-    var sheetData = {};
-    for (var i = 1; i < rows.length; i++) {
-      var r = rows[i];
-      if (!r[0]) continue;
-      var clave = r[0].replace(/\n|\r/g,"").trim();
-      sheetData[clave] = {
-        name:  (r[1]||"").replace(/\n/g," ").trim(),
-        role:  (r[2]||"").replace(/\n/g," ").trim(),
-        dept:  (r[3]||"").trim(),
-        email: (r[4]||"").trim(),
-        bday:  (r[5]||"").trim()
-      };
+    var data = {};
+    for (var i=1;i<rows.length;i++) {
+      var r=rows[i];
+      var clave=r[0]?r[0].replace(/[\n\r]/g,"").trim():"";
+      if (!clave) continue;
+      data[clave]={name:(r[1]||"").replace(/\n/g," ").trim(),role:(r[2]||"").replace(/\n/g," ").trim(),dept:DEPT_NORMALIZE((r[3]||"").trim()),email:(r[4]||"").trim(),bday:(r[5]||"").trim()};
     }
-    return sheetData;
-  } catch(e) {
-    console.error("CSV load error", e);
-    return {};
-  }
+    return data;
+  } catch(e){console.error("CSV error",e);return {};}
 }
 
 function buildPeople(sheetData) {
-  var people = [];
-  Object.keys(META).forEach(function(clave) {
-    var meta = META[clave];
-    var sheet = sheetData[clave] || {};
-    var name  = meta.name  || sheet.name  || clave;
-    var role  = meta.role  || sheet.role  || "";
-    var dept  = meta.dept  || sheet.dept  || "Administración";
-    var email = sheet.email || "";
-    var bday  = sheet.bday  || "";
-    var short = meta.short || firstLastName(name);
-    if (meta.apodo) short = meta.apodo + " " + name.split(" ").slice(-1)[0];
-    // Role overrides
-    if (clave === "CY001") { role = "Managing Director"; short = "Manuel Otazo"; }
-    if (clave === "CY064") { role = "General Manager";   short = "Jorge Guillén"; }
-    // Short name overrides
-    if (clave === "CY037") short = "Emiliano de la Tejera";
-    if (clave === "CY057") short = "Paola Anicacio";
-    if (clave === "CY020") short = "Sharon García";
-    if (clave === "CY027") short = "Gerardo Tereso";
-    people.push({
-      id: clave,
-      name: name,
-      short: short,
-      role: role,
-      dept: dept,
-      email: email,
-      bday: bday,
-      jefe: meta.jefe || null,
-      nick: meta.apodo || null,
-      vac: meta.vac || (name === "VACANTE") || false
-    });
+  var people=[];
+  Object.keys(JEFE).forEach(function(clave){
+    var st=STATIC[clave]||{};
+    var sh=sheetData[clave]||{};
+    if (st.vac) {
+      people.push({id:clave,name:st.name,short:st.short,role:st.role,dept:st.dept,jefe:JEFE[clave],nick:null,vac:true,email:"",bday:""});
+      return;
+    }
+    var name  = st.name  || sh.name  || clave;
+    var role  = st.role  || sh.role  || "";
+    var dept  = st.dept  || sh.dept  || "Administración";
+    var email = sh.email || "";
+    var bday  = sh.bday  || "";
+    var short = st.short || firstTwo(name);
+    var nick  = st.nick  || null;
+    people.push({id:clave,name:name,short:short,role:role,dept:dept,jefe:JEFE[clave],nick:nick,vac:false,email:email,bday:bday});
   });
   return people;
 }
 
-function firstLastName(full) {
-  var p = full.trim().split(/\s+/);
-  return p[0] + (p[1] ? " " + p[1] : "");
-}
+function firstTwo(n){var p=n.trim().split(/\s+/);return p[0]+(p[1]?" "+p[1]:"");}
+function initials(n){if(!n||n==="VACANTE")return"?";var p=n.trim().split(/\s+/);return(p[0][0]+(p[1]?p[1][0]:"")).toUpperCase();}
 
-// ─── PHOTOS ────────────────────────────────────────────────────────────────
-async function loadAllPhotos() {
-  // Load each photo directly by numeric ID — no listAll needed
-  var numericIds = Object.values(PHOTO_ID);
-  var promises = numericIds.map(async function(numId) {
-    try {
-      var photoRef = ref(storage, "fotos/" + numId + ".jpg");
-      var url = await getDownloadURL(photoRef);
-      photoCache[numId] = url;
-    } catch(e) {
-      // Photo doesn't exist yet, skip silently
-    }
+async function loadPhotos() {
+  var promises=Object.keys(PHOTO_ID).map(async function(clave){
+    try{
+      var url=await getDownloadURL(ref(storage,"fotos/"+PHOTO_ID[clave]+".jpg"));
+      photoCache[clave]=url;
+    }catch(e){}
   });
   await Promise.all(promises);
-  refreshAvatars();
 }
 
-function refreshAvatars() {
-  // photoCache is keyed by numericId; av elements have data-id=clave
-  // Build reverse map: numericId -> clave
-  var reverseMap = {};
-  Object.keys(PHOTO_ID).forEach(function(clave) {
-    reverseMap[PHOTO_ID[clave]] = clave;
-  });
-  Object.keys(photoCache).forEach(function(numId) {
-    var clave = reverseMap[numId] || numId;
-    var el = document.querySelector('.av[data-id="' + clave + '"]');
-    if (el) { el.style.background="none"; el.innerHTML='<img src="'+photoCache[numId]+'" alt="">'; }
-  });
-}
+function getCfg(dept){return DEPT_CFG[dept]||DEPT_CFG["Administración"];}
 
-// ─── RENDER ────────────────────────────────────────────────────────────────
-function initials(n) {
-  if (!n || n==="VACANTE") return "?";
-  var p = n.trim().split(/\s+/);
-  return (p[0][0]+(p[1]?p[1][0]:"")).toUpperCase();
-}
-
-function makeAv(p, size) {
-  size = size||50;
-  var cfg = DEPT_CFG[p.dept]||DEPT_CFG["Administración"];
-  var el = document.createElement("div");
-  el.className="av"; el.dataset.id=p.id;
-  el.style.width=size+"px"; el.style.height=size+"px";
-  var numId = PHOTO_ID[p.id] || p.id;
-  if (photoCache[numId] && !p.vac) {
+function makeAv(p,size){
+  size=size||50;
+  var cfg=getCfg(p.dept);
+  var el=document.createElement("div");
+  el.className="av";el.dataset.id=p.id;
+  el.style.width=size+"px";el.style.height=size+"px";
+  if(photoCache[p.id]&&!p.vac){
     el.style.background="none";
-    el.innerHTML='<img src="'+photoCache[numId]+'" alt="'+p.short+'">';
+    el.innerHTML='<img src="'+photoCache[p.id]+'" alt="'+p.short+'">';
   } else {
     el.style.background=p.vac?"#E8E6E0":cfg.light;
     el.style.color=p.vac?"#999":cfg.text;
@@ -399,12 +268,12 @@ function makeAv(p, size) {
   return el;
 }
 
-function makeNode(p) {
+function makeNode(p){
   var el=document.createElement("div");
   el.className="node"+(p.vac?" vac":"");
-  el.dataset.id=p.id; el.dataset.dept=p.dept;
+  el.dataset.id=p.id;el.dataset.dept=p.dept;
   el.dataset.q=(p.name+" "+p.role+(p.nick?" "+p.nick:"")).toLowerCase();
-  if(!p.vac) el.onclick=function(){openModal(p.id);};
+  if(!p.vac)el.onclick=function(){openModal(p.id);};
   el.appendChild(makeAv(p));
   var nn=document.createElement("div");nn.className="nn";nn.textContent=p.short;el.appendChild(nn);
   var nr=document.createElement("div");nr.className="nr";nr.textContent=p.role;el.appendChild(nr);
@@ -412,11 +281,11 @@ function makeNode(p) {
   return el;
 }
 
-function buildBranch(person, all) {
+function buildBranch(person,all){
   var children=all.filter(function(x){return x.jefe===person.id;});
   var wrap=document.createElement("div");wrap.className="branch";
   wrap.appendChild(makeNode(person));
-  if(!children.length) return wrap;
+  if(!children.length)return wrap;
   var stem=document.createElement("div");stem.className="vline";stem.style.height="20px";wrap.appendChild(stem);
   var row=document.createElement("div");row.className="bchildren";
   children.forEach(function(c){row.appendChild(buildBranch(c,all));});
@@ -424,20 +293,19 @@ function buildBranch(person, all) {
   return wrap;
 }
 
-function drawLines() {
+function drawLines(){
   document.querySelectorAll(".bchildren").forEach(function(row){
-    var branches=Array.from(row.children).filter(function(el){return el.classList.contains("branch");});
-    if(branches.length<2)return;
+    var br=Array.from(row.children).filter(function(el){return el.classList.contains("branch");});
+    if(br.length<2)return;
     var rr=row.getBoundingClientRect();
-    var fn=branches[0].querySelector(".node");
-    var ln=branches[branches.length-1].querySelector(".node");
-    if(!fn||!ln)return;
-    var fr=fn.getBoundingClientRect(),lr=ln.getBoundingClientRect();
+    var f=br[0].querySelector(".node"),l=br[br.length-1].querySelector(".node");
+    if(!f||!l)return;
+    var fr=f.getBoundingClientRect(),lr=l.getBoundingClientRect();
     var left=fr.left+fr.width/2-rr.left,right=lr.left+lr.width/2-rr.left;
     var hbar=row.querySelector(":scope>.hline");
     if(!hbar){hbar=document.createElement("div");hbar.className="hline";row.insertBefore(hbar,row.firstChild);}
     hbar.style.left=left+"px";hbar.style.width=(right-left)+"px";
-    branches.forEach(function(b){
+    br.forEach(function(b){
       var nd=b.querySelector(".node");if(!nd)return;
       var nr=nd.getBoundingClientRect(),cx=nr.left+nr.width/2-rr.left;
       var tick=b.querySelector(":scope>.tick");
@@ -447,26 +315,33 @@ function drawLines() {
   });
 }
 
-function renderDept(dept) {
-  var people=P.filter(function(p){return p.dept===dept;});
+function normDept(dept){
+  if(dept==="Restaurante"||dept==="Cocina")return"F&B";
+  if(dept==="Ama de Llaves")return"Ama de llaves";
+  return dept;
+}
+
+function renderDept(dept){
+  var people=P.filter(function(p){return normDept(p.dept)===dept;});
   var cfg=DEPT_CFG[dept];
   var sec=document.createElement("div");sec.className="dsec";sec.dataset.dept=dept;
   var lbl=document.createElement("div");lbl.className="dlabel";lbl.style.color=cfg.color;
   var dot=document.createElement("span");dot.className="ddot";dot.style.background=cfg.color;
   lbl.appendChild(dot);lbl.appendChild(document.createTextNode(cfg.label));
   sec.appendChild(lbl);
-  var roots=people.filter(function(p){return !p.jefe||!people.find(function(x){return x.id===p.jefe;});});
-  // Special: Tim and Manuel side by side
+  var roots=people.filter(function(p){return!p.jefe||!people.find(function(x){return x.id===p.jefe;});});
+  // Tim and Manuel side by side
   var tim=roots.find(function(r){return r.id==="TIM";});
   var manuel=roots.find(function(r){return r.id==="CY001";});
   if(tim&&manuel){
     var topRow=document.createElement("div");
-    topRow.style.cssText="display:flex;gap:12px;justify-content:flex-start;align-items:flex-start;margin-bottom:0";
+    topRow.style.cssText="display:flex;gap:12px;align-items:flex-start;flex-wrap:wrap";
     topRow.appendChild(makeNode(tim));
     topRow.appendChild(buildBranch(manuel,people));
     sec.appendChild(topRow);
-    var others=roots.filter(function(r){return r.id!=="TIM"&&r.id!=="CY001";});
-    if(others.length){var rw=document.createElement("div");rw.className="droots";others.forEach(function(r){rw.appendChild(buildBranch(r,people));});sec.appendChild(rw);}
+    roots.filter(function(r){return r.id!=="TIM"&&r.id!=="CY001";}).forEach(function(r){
+      var rw=document.createElement("div");rw.className="droots";rw.appendChild(buildBranch(r,people));sec.appendChild(rw);
+    });
   } else {
     var rw=document.createElement("div");rw.className="droots";
     roots.forEach(function(r){rw.appendChild(buildBranch(r,people));});
@@ -475,29 +350,29 @@ function renderDept(dept) {
   return sec;
 }
 
-function renderAll() {
+function renderAll(){
   var tree=document.getElementById("tree");tree.innerHTML="";
-  DEPTS.forEach(function(d){tree.appendChild(renderDept(d));});
+  DEPT_DISPLAY.forEach(function(d){tree.appendChild(renderDept(d));});
   requestAnimationFrame(function(){requestAnimationFrame(drawLines);});
 }
 
-function renderStats() {
-  var deptLabels={"Administración":"Administración","F&B":"Alimentos & Bebidas","Mantenimiento":"Mantenimiento","Ama de llaves":"Housekeeping","Recepción":"Recepción"};
+function renderStats(){
   var a=P.filter(function(p){return!p.vac;}).length;
   var v=P.filter(function(p){return p.vac;}).length;
   var html='<div class="stat"><div class="stat-n">'+a+'</div><div class="stat-l">Total colaboradores</div></div>'+
            '<div class="stat"><div class="stat-n">'+v+'</div><div class="stat-l">Vacantes abiertas</div></div>';
-  DEPTS.forEach(function(d){
-    var n=P.filter(function(p){return p.dept===d&&!p.vac;}).length;
-    html+='<div class="stat"><div class="stat-n">'+n+'</div><div class="stat-l">'+deptLabels[d]+'</div></div>';
+  var labels={"Administración":"Administración","F&B":"A&B","Mantenimiento":"Mantenimiento","Ama de llaves":"Housekeeping","Recepción":"Recepción"};
+  DEPT_DISPLAY.forEach(function(d){
+    var n=P.filter(function(p){return normDept(p.dept)===d&&!p.vac;}).length;
+    html+='<div class="stat"><div class="stat-n">'+n+'</div><div class="stat-l">'+labels[d]+'</div></div>';
   });
   document.getElementById("stats").innerHTML=html;
 }
 
-function renderFilters() {
+function renderFilters(){
   var labels={"Administración":"Administración","F&B":"Alimentos & Bebidas","Mantenimiento":"Mantenimiento","Ama de llaves":"Housekeeping","Recepción":"Recepción"};
   var html='<button class="fbtn active" data-dept="all">Todos</button>';
-  DEPTS.forEach(function(d){html+='<button class="fbtn" data-dept="'+d+'">'+labels[d]+'</button>';});
+  DEPT_DISPLAY.forEach(function(d){html+='<button class="fbtn" data-dept="'+d+'">'+labels[d]+'</button>';});
   document.getElementById("filters").innerHTML=html;
   document.querySelectorAll(".fbtn").forEach(function(btn){
     btn.onclick=function(){
@@ -509,68 +384,63 @@ function renderFilters() {
   });
 }
 
-// ─── MODAL ─────────────────────────────────────────────────────────────────
-function openModal(id) {
+function openModal(id){
   var p=P.find(function(x){return x.id===id;});if(!p||p.vac)return;
   currentModalId=id;
-  var cfg=DEPT_CFG[p.dept]||DEPT_CFG["Administración"];
+  var cfg=getCfg(p.dept);
   var jefe=p.jefe?P.find(function(x){return x.id===p.jefe;}):null;
-  var ph=photoCache[PHOTO_ID[id]||id]; // numericId lookup
+  var ph=photoCache[id];
   var avHTML=ph
-    ?'<div class="mav" onclick="window.triggerUpload()"><img src="'+ph+'" alt=""><div class="mav-ov"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg></div></div>'
-    :'<div class="mav" style="background:'+cfg.light+';color:'+cfg.text+'" onclick="window.triggerUpload()">'+initials(p.name)+'<div class="mav-ov"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg></div></div>';
+    ?'<div class="mav" onclick="window.__triggerUpload()"><img src="'+ph+'" alt=""><div class="mav-ov"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg></div></div>'
+    :'<div class="mav" style="background:'+cfg.light+';color:'+cfg.text+'" onclick="window.__triggerUpload()">'+initials(p.name)+'<div class="mav-ov"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg></div></div>';
   var rows="";
-  if(p.email) rows+="<tr><td>Email</td><td>"+p.email+"</td></tr>";
-  if(p.bday)  rows+="<tr><td>Cumpleaños</td><td>"+p.bday+"</td></tr>";
-  if(jefe)    rows+="<tr><td>Reporta a</td><td>"+jefe.short+"</td></tr>";
+  if(p.email)rows+="<tr><td>Email</td><td>"+p.email+"</td></tr>";
+  if(p.bday)rows+="<tr><td>Cumpleaños</td><td>"+p.bday+"</td></tr>";
+  if(jefe)rows+="<tr><td>Reporta a</td><td>"+jefe.short+"</td></tr>";
   document.getElementById("mbody").innerHTML=
     '<div style="display:flex;align-items:center;gap:14px;margin-bottom:12px">'+avHTML+
     '<div><div class="mname">'+p.name+(p.nick?' <span style="font-weight:400;color:#999">"'+p.nick+'"</span>':'')+'</div>'+
-    '<div class="mrole">'+p.role+' &middot; '+(DEPT_CFG[p.dept]||{label:p.dept}).label+'</div></div></div>'+
+    '<div class="mrole">'+p.role+' &middot; '+cfg.label+'</div></div></div>'+
     '<table class="mtable"><tbody>'+rows+'</tbody></table>'+
-    '<button class="upload-btn" type="button" onclick="window.triggerUpload()">'+
-    '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>Subir mi foto</button>'+
+    '<button class="upload-btn" onclick="window.__triggerUpload()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>Subir mi foto</button>'+
     '<div class="upload-status" id="upload-status"></div>';
   document.getElementById("overlay").classList.add("open");
 }
 
-window.triggerUpload=function(){document.getElementById("file-input").click();};
+window.__triggerUpload=function(){document.getElementById("file-input").click();};
 
-async function compressImage(file,maxSize){
-  return new Promise(function(resolve){
-    var reader=new FileReader();
-    reader.onload=function(e){
+async function compressImg(file,max){
+  return new Promise(function(res){
+    var rd=new FileReader();
+    rd.onload=function(e){
       var img=new Image();
       img.onload=function(){
-        var canvas=document.createElement("canvas");
-        var ratio=Math.min(maxSize/img.width,maxSize/img.height,1);
-        canvas.width=img.width*ratio;canvas.height=img.height*ratio;
-        canvas.getContext("2d").drawImage(img,0,0,canvas.width,canvas.height);
-        canvas.toBlob(function(blob){resolve(blob);},"image/jpeg",0.85);
+        var c=document.createElement("canvas");
+        var r=Math.min(max/img.width,max/img.height,1);
+        c.width=img.width*r;c.height=img.height*r;
+        c.getContext("2d").drawImage(img,0,0,c.width,c.height);
+        c.toBlob(function(b){res(b);},"image/jpeg",0.85);
       };img.src=e.target.result;
-    };reader.readAsDataURL(file);
+    };rd.readAsDataURL(file);
   });
 }
 
 document.getElementById("file-input").addEventListener("change",async function(e){
   var file=e.target.files[0];if(!file||!currentModalId)return;
   var btn=document.querySelector(".upload-btn"),status=document.getElementById("upload-status");
-  if(!btn||!status)return;
   btn.textContent="Subiendo…";btn.disabled=true;
   try{
-    var compressed=await compressImage(file,400);
+    var blob=await compressImg(file,400);
     var numId=PHOTO_ID[currentModalId]||currentModalId;
-var storageRef=ref(storage,"fotos/"+numId+".jpg");
-    await uploadBytes(storageRef,compressed);
-    var url=await getDownloadURL(storageRef);
-    photoCache[PHOTO_ID[currentModalId]||currentModalId]=url;
-    var mavEl=document.querySelector(".mav");
-    if(mavEl){mavEl.style.background="none";mavEl.innerHTML='<img src="'+url+'" alt=""><div class="mav-ov"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg></div>';}
+    await uploadBytes(ref(storage,"fotos/"+numId+".jpg"),blob);
+    var url=await getDownloadURL(ref(storage,"fotos/"+numId+".jpg"));
+    photoCache[currentModalId]=url;
+    var mav=document.querySelector(".mav");
+    if(mav){mav.style.background="none";mav.innerHTML='<img src="'+url+'" alt=""><div class="mav-ov"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg></div>';}
     var nodeAv=document.querySelector('.av[data-id="'+currentModalId+'"]');
-var numId2=PHOTO_ID[currentModalId]||currentModalId;
     if(nodeAv){nodeAv.style.background="none";nodeAv.innerHTML='<img src="'+url+'" alt="">';}
     btn.textContent="✓ Foto actualizada";status.textContent="Visible para todo el equipo";
-  }catch(err){btn.textContent="Subir mi foto";status.textContent="Error al subir. Intenta de nuevo.";console.error(err);}
+  }catch(err){btn.textContent="Subir mi foto";status.textContent="Error al subir.";console.error(err);}
   btn.disabled=false;e.target.value="";
 });
 
@@ -586,23 +456,21 @@ document.getElementById("overlay").onclick=function(e){if(e.target===this){this.
 document.getElementById("mclose").onclick=function(){document.getElementById("overlay").classList.remove("open");currentModalId=null;};
 window.addEventListener("resize",function(){requestAnimationFrame(drawLines);});
 
-// ─── INIT ──────────────────────────────────────────────────────────────────
-
-    input.addEventListener("keyup",function(e){if(false)});
-    input.focus();
-  }
-});
-
-// Load CSV then render
 (async function(){
-  var sheetData = await loadCSV();
-  P = buildPeople(sheetData);
+  var sheetData=await loadCSV();
+  P=buildPeople(sheetData);
   renderStats();
   renderFilters();
   renderAll();
-  loadAllPhotos();
+  await loadPhotos();
+  // Refresh avatars after photos load
+  P.forEach(function(p){
+    if(photoCache[p.id]){
+      var el=document.querySelector('.av[data-id="'+p.id+'"]');
+      if(el){el.style.background="none";el.innerHTML='<img src="'+photoCache[p.id]+'" alt="'+p.short+'">';}
+    }
+  });
 })();
-
 </script>
 </body>
 </html>
