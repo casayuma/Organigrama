@@ -142,7 +142,7 @@ const app = initializeApp(firebaseConfig);
 const storage = getStorage(app);
 
 // ─── CONFIG ────────────────────────────────────────────────────────────────
-const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQZGDlaAd5PdWgA45TIMjkMXtPNRC3Bo2Eip_ZleIxiTtcabUB1liz8FAZzS0PDAojrqduPDRMPRCF-/pub?output=csv";
+const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQZGDlaAd5PdWgA45TIMjkMXtPNRC3Bo2Eip_ZleIxiTtcabUB1liz8FAZzS0PDAojrqduPDRMPRCF-/pub?gid=2092789761&single=true&output=csv";
 const PIN_HASH = "db3e138c0d569a2285ca15a2cb42322ecfaf81831a972cff071fb40c62a7ffa0";
 
 // ─── HIERARCHY (hardcoded, jefe = clave del superior) ──────────────────────
@@ -154,8 +154,9 @@ const META = {
   "CY060": { jefe: "CY064", dept: "Administración", apodo: "Rainer" },
   "CY005": { jefe: "CY064", dept: "Administración" },
   // F&B
-  "CY006": { jefe: "CY064", dept: "F&B" },
-  "CY007": { jefe: "CY006", dept: "F&B" },
+  "CY071": { jefe: "CY064", dept: "F&B" },
+  "CY070": { jefe: "CY064", dept: "Administración" },
+  "CY007": { jefe: "CY071", dept: "F&B" },
   // Salón
   "CY009": { jefe: "CY007", dept: "F&B", name: "VACANTE", role: "Capitán", short: "Vacante", vac: true },
   "CY011": { jefe: "CY009", dept: "F&B" },
@@ -169,9 +170,9 @@ const META = {
   "CY016": { jefe: "CY068", dept: "F&B" },
   "CY063": { jefe: "CY068", dept: "F&B" },
   "VBAR":  { jefe: "CY068", dept: "F&B", name: "VACANTE", role: "Bartender", short: "Vacante", vac: true },
-  "VPOOL": { jefe: "CY007", dept: "F&B", name: "VACANTE", role: "Pool Concierge", short: "Vacante", vac: true },
+  "VPOOL": { jefe: "CY071", dept: "F&B", name: "VACANTE", role: "Pool Concierge", short: "Vacante", vac: true },
   // Cocina
-  "CY062": { jefe: "CY006", dept: "F&B" },
+  "CY062": { jefe: "CY071", dept: "F&B" },
   "CY019": { jefe: "CY062", dept: "F&B" },
   "CY018": { jefe: "CY019", dept: "F&B", apodo: "Maurilio" },
   "CY020": { jefe: "CY018", dept: "F&B", apodo: "Sharon" },
@@ -261,7 +262,9 @@ var PHOTO_ID = {
   "CY041": "45",
   "CY050": "46",
   "CY051": "47",
-  "CY002": "3"
+  "CY002": "3",
+  "CY071": "71",
+  "CY070": "70"
 };
 var P = [];
 var photoCache = {};
@@ -367,17 +370,19 @@ function firstLastName(full) {
 
 // ─── PHOTOS ────────────────────────────────────────────────────────────────
 async function loadAllPhotos() {
-  try {
-    var photosRef = ref(storage, "fotos/");
-    var result = await listAll(photosRef);
-    var promises = result.items.map(async function(itemRef) {
-      var url = await getDownloadURL(itemRef);
-      var key = itemRef.name.replace(/\.(jpg|png|jpeg)$/i,"");
-      photoCache[key] = url;
-    });
-    await Promise.all(promises);
-    refreshAvatars();
-  } catch(e) { console.log("Photos:", e); }
+  // Load each photo directly by numeric ID — no listAll needed
+  var numericIds = Object.values(PHOTO_ID);
+  var promises = numericIds.map(async function(numId) {
+    try {
+      var photoRef = ref(storage, "fotos/" + numId + ".jpg");
+      var url = await getDownloadURL(photoRef);
+      photoCache[numId] = url;
+    } catch(e) {
+      // Photo doesn't exist yet, skip silently
+    }
+  });
+  await Promise.all(promises);
+  refreshAvatars();
 }
 
 function refreshAvatars() {
