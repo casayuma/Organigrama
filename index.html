@@ -109,8 +109,8 @@ main{padding:24px 28px;overflow-x:auto}
     <div class="lock-logo"><svg viewBox="0 0 20 20"><path d="M10 2L18 8V18H2V8Z" stroke-linejoin="round"/><rect x="7" y="12" width="6" height="6"/></svg></div>
     <div class="lock-title">Casa Yuma</div>
     <div class="lock-sub">Organigrama de Personal</div>
-    <input class="lock-input" type="password" id="pin-input" maxlength="10" placeholder="••••" autocomplete="off" inputmode="numeric"/>
-    <button class="lock-btn" id="lock-btn">Ingresar</button>
+    <input class="lock-input" type="password" id="pin-input" maxlength="10" placeholder="••••" autocomplete="off" inputmode="numeric" onkeydown="if(event.key==='Enter')checkPin()"/>
+    <button class="lock-btn" onclick="checkPin()">Ingresar</button>
     <div class="lock-error" id="lock-error"></div>
   </div>
 </div>
@@ -137,40 +137,34 @@ main{padding:24px 28px;overflow-x:auto}
 var PIN_HASH = "db3e138c0d569a2285ca15a2cb42322ecfaf81831a972cff071fb40c62a7ffa0";
 var pinAttempts = 0;
 
-async function sha256(str) {
-  var buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(str));
-  return Array.from(new Uint8Array(buf)).map(function(b){return b.toString(16).padStart(2,"0")}).join("");
-}
-
-async function checkPin() {
+function checkPin() {
   if (pinAttempts >= 5) {
     document.getElementById("lock-error").textContent = "Demasiados intentos.";
     return;
   }
   var val = document.getElementById("pin-input").value.trim();
   if (!val) return;
-  var hash = await sha256(val);
-  if (hash === PIN_HASH) {
-    document.getElementById("lock-screen").style.display = "none";
-    sessionStorage.setItem("cy_auth","1");
-  } else {
-    pinAttempts++;
-    document.getElementById("lock-error").textContent = "PIN incorrecto (" + (5-pinAttempts) + " intentos restantes)";
-    document.getElementById("pin-input").value = "";
-    document.getElementById("pin-input").focus();
-  }
+  // Use SubtleCrypto async but handle it inline
+  crypto.subtle.digest("SHA-256", new TextEncoder().encode(val)).then(function(buf) {
+    var hash = Array.from(new Uint8Array(buf)).map(function(b){return b.toString(16).padStart(2,"0")}).join("");
+    if (hash === PIN_HASH) {
+      document.getElementById("lock-screen").style.display = "none";
+      sessionStorage.setItem("cy_auth","1");
+    } else {
+      pinAttempts++;
+      document.getElementById("lock-error").textContent = "PIN incorrecto (" + (5-pinAttempts) + " intentos restantes)";
+      document.getElementById("pin-input").value = "";
+      document.getElementById("pin-input").focus();
+    }
+  });
 }
 
-window.addEventListener("DOMContentLoaded", function() {
-  if (sessionStorage.getItem("cy_auth") === "1") {
-    document.getElementById("lock-screen").style.display = "none";
-    return;
-  }
-  document.getElementById("lock-btn").addEventListener("click", checkPin);
-  document.getElementById("lock-btn").addEventListener("touchend", function(e) { e.preventDefault(); checkPin(); });
-  document.getElementById("pin-input").addEventListener("keydown", function(e) { if (e.key === "Enter") checkPin(); });
-  document.getElementById("pin-input").focus();
-});
+if (sessionStorage.getItem("cy_auth") === "1") {
+  document.addEventListener("DOMContentLoaded", function() {
+    var ls = document.getElementById("lock-screen");
+    if (ls) ls.style.display = "none";
+  });
+}
 </script>
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
