@@ -111,7 +111,7 @@ main{padding:24px 28px;overflow-x:auto}
     <div class="lock-title">Casa Yuma</div>
     <div class="lock-sub">Organigrama de Personal</div>
     <input class="lock-input" type="password" id="pin-input" maxlength="10" placeholder="••••" autocomplete="off" inputmode="numeric" pattern="[0-9]*"/>
-    <button class="lock-btn" type="button" onclick="checkPin()" ontouchend="event.preventDefault();checkPin()">Ingresar</button>
+    <button class="lock-btn" type="button" id="lock-btn">Ingresar</button>
     <div class="lock-error" id="lock-error"></div>
   </div>
 </div>
@@ -295,6 +295,11 @@ window.checkPin = async function() {
 document.addEventListener("DOMContentLoaded", function() {
   if (sessionStorage.getItem("cy_auth") === "1") {
     document.getElementById("lock-screen").style.display = "none";
+  }
+  var btn = document.getElementById("lock-btn");
+  if (btn) {
+    btn.addEventListener("click", function() { window.checkPin(); });
+    btn.addEventListener("touchend", function(e) { e.preventDefault(); window.checkPin(); });
   }
   var input = document.getElementById("pin-input");
   if (input) {
