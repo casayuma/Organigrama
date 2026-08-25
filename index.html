@@ -319,9 +319,11 @@ async function loadCSV() {
       if (!r[0]) continue;
       var clave = r[0].trim();
       sheetData[clave] = {
-        name: (r[1]||"").replace(/\n/g," ").trim(),
-        role: (r[2]||"").replace(/\n/g," ").trim(),
-        dept: (r[3]||"").trim()
+        name:  (r[1]||"").replace(/\n/g," ").trim(),
+        role:  (r[2]||"").replace(/\n/g," ").trim(),
+        dept:  (r[3]||"").trim(),
+        email: (r[4]||"").trim(),
+        bday:  (r[5]||"").trim()
       };
     }
     return sheetData;
@@ -336,15 +338,17 @@ function buildPeople(sheetData) {
   Object.keys(META).forEach(function(clave) {
     var meta = META[clave];
     var sheet = sheetData[clave] || {};
-    // If meta has hardcoded name/role (vacantes, Tim, special), use those
     var name  = meta.name  || sheet.name  || clave;
     var role  = meta.role  || sheet.role  || "";
     var dept  = meta.dept  || sheet.dept  || "Administración";
-    var short = meta.short || (meta.apodo ? meta.apodo + " " + name.split(" ")[1] : null) || firstLastName(name);
+    var email = sheet.email || "";
+    var bday  = sheet.bday  || "";
+    var short = meta.short || firstLastName(name);
     if (meta.apodo) short = meta.apodo + " " + name.split(" ").slice(-1)[0];
-    // Overrides for specific roles
+    // Role overrides
     if (clave === "CY001") { role = "Managing Director"; short = "Manuel Otazo"; }
     if (clave === "CY064") { role = "General Manager";   short = "Jorge Guillén"; }
+    // Short name overrides
     if (clave === "CY037") short = "Emiliano de la Tejera";
     if (clave === "CY057") short = "Paola Anicacio";
     if (clave === "CY020") short = "Sharon García";
@@ -355,6 +359,8 @@ function buildPeople(sheetData) {
       short: short,
       role: role,
       dept: dept,
+      email: email,
+      bday: bday,
       jefe: meta.jefe || null,
       nick: meta.apodo || null,
       vac: meta.vac || (name === "VACANTE") || false
@@ -537,7 +543,9 @@ function openModal(id) {
     ?'<div class="mav" onclick="window.triggerUpload()"><img src="'+ph+'" alt=""><div class="mav-ov"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg></div></div>'
     :'<div class="mav" style="background:'+cfg.light+';color:'+cfg.text+'" onclick="window.triggerUpload()">'+initials(p.name)+'<div class="mav-ov"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg></div></div>';
   var rows="";
-  if(jefe) rows+="<tr><td>Reporta a</td><td>"+jefe.short+"</td></tr>";
+  if(p.email) rows+="<tr><td>Email</td><td>"+p.email+"</td></tr>";
+  if(p.bday)  rows+="<tr><td>Cumpleaños</td><td>"+p.bday+"</td></tr>";
+  if(jefe)    rows+="<tr><td>Reporta a</td><td>"+jefe.short+"</td></tr>";
   document.getElementById("mbody").innerHTML=
     '<div style="display:flex;align-items:center;gap:14px;margin-bottom:12px">'+avHTML+
     '<div><div class="mname">'+p.name+(p.nick?' <span style="font-weight:400;color:#999">"'+p.nick+'"</span>':'')+'</div>'+
