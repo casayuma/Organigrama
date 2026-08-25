@@ -317,7 +317,7 @@ async function loadCSV() {
     for (var i = 1; i < rows.length; i++) {
       var r = rows[i];
       if (!r[0]) continue;
-      var clave = r[0].trim();
+      var clave = r[0].replace(/\n|\r/g,"").trim();
       sheetData[clave] = {
         name:  (r[1]||"").replace(/\n/g," ").trim(),
         role:  (r[2]||"").replace(/\n/g," ").trim(),
@@ -392,9 +392,16 @@ async function loadAllPhotos() {
 }
 
 function refreshAvatars() {
-  Object.keys(photoCache).forEach(function(key) {
-    var el = document.querySelector('.av[data-id="' + key + '"]');
-    if (el) { el.style.background="none"; el.innerHTML='<img src="'+photoCache[key]+'" alt="">'; }
+  // photoCache is keyed by numericId; av elements have data-id=clave
+  // Build reverse map: numericId -> clave
+  var reverseMap = {};
+  Object.keys(PHOTO_ID).forEach(function(clave) {
+    reverseMap[PHOTO_ID[clave]] = clave;
+  });
+  Object.keys(photoCache).forEach(function(numId) {
+    var clave = reverseMap[numId] || numId;
+    var el = document.querySelector('.av[data-id="' + clave + '"]');
+    if (el) { el.style.background="none"; el.innerHTML='<img src="'+photoCache[numId]+'" alt="">'; }
   });
 }
 
@@ -411,9 +418,10 @@ function makeAv(p, size) {
   var el = document.createElement("div");
   el.className="av"; el.dataset.id=p.id;
   el.style.width=size+"px"; el.style.height=size+"px";
-  if (photoCache[PHOTO_ID[p.id]||p.id] && !p.vac) {
+  var numId = PHOTO_ID[p.id] || p.id;
+  if (photoCache[numId] && !p.vac) {
     el.style.background="none";
-    el.innerHTML='<img src="'+photoCache[PHOTO_ID[p.id]||p.id]+'" alt="'+p.short+'">';
+    el.innerHTML='<img src="'+photoCache[numId]+'" alt="'+p.short+'">';
   } else {
     el.style.background=p.vac?"#E8E6E0":cfg.light;
     el.style.color=p.vac?"#999":cfg.text;
@@ -538,7 +546,7 @@ function openModal(id) {
   currentModalId=id;
   var cfg=DEPT_CFG[p.dept]||DEPT_CFG["Administración"];
   var jefe=p.jefe?P.find(function(x){return x.id===p.jefe;}):null;
-  var ph=photoCache[PHOTO_ID[id]||id];
+  var ph=photoCache[PHOTO_ID[id]||id]; // numericId lookup
   var avHTML=ph
     ?'<div class="mav" onclick="window.triggerUpload()"><img src="'+ph+'" alt=""><div class="mav-ov"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg></div></div>'
     :'<div class="mav" style="background:'+cfg.light+';color:'+cfg.text+'" onclick="window.triggerUpload()">'+initials(p.name)+'<div class="mav-ov"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg></div></div>';
